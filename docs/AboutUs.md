@@ -52,8 +52,7 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 
 <img src="images/ephtale.png" width="200px">
 
-[[github](http://github.com/johndoe)]
-[[portfolio](team/johndoe.md)]
+[[github](http://github.com/ephtale)]
 
 * Role: Developer
 * Responsibilities: Testing, In charge of `Logic`
