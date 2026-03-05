@@ -34,25 +34,6 @@ We are a team based in the [School of Computing, National University of Singapor
 * Role: Developer
 * Responsibilities: Documentation + Integration
 
-
-### Johnny Doe
-
-<img src="images/johndoe.png" width="200px">
-
-[[github](http://github.com/johndoe)]
-
-* Role: Developer
-* Responsibilities: Data
-
-### Jean Doe
-
-<img src="images/johndoe.png" width="200px">
-
-[[github](http://github.com/johndoe)]
-
-* Role: Developer
-* Responsibilities: Dev Ops + Threading
-
 ### Nguyen Hoang Nam
 
 <img src="images/ephtale.png" width="200px">
