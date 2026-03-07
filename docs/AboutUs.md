@@ -40,6 +40,9 @@ We are a team based in the [School of Computing, National University of Singapor
 
 [[github](http://github.com/ephtale)]
 
+* Role: Developer
+* Responsibilities: QA, CI
+
 ### Rajeshprabu Sidharth
 
 <img src="images/thesputnikspacecraft.png" width="200px">
