@@ -7,6 +7,15 @@ We are a team based in the [School of Computing, National University of Singapor
 
 ## Project team
 
+### Adib Shifas
+
+<img src="images/adibshifas.png" width="200px">
+
+[[github](https://github.com/AdibShifas)]
+[[portfolio](team/adibshifas.md)]
+
+* Role: Developer
+
 ### Manish Choudhary
 
 <img src="images/notdotmanish.png" width="200px">
@@ -16,38 +25,27 @@ We are a team based in the [School of Computing, National University of Singapor
 * Role: Developer
 * Responsibilities: Documentation + Integration
 
-### Jane Doe
+### Prithvi Phanish Bhardwaj
 
-<img src="images/johndoe.png" width="200px">
+<img src="images/prithvibhardwaj.png" width="200px">
 
-[[github](http://github.com/johndoe)]
-
-* Role: Team Lead
-* Responsibilities: UI
-
-### Johnny Doe
-
-<img src="images/johndoe.png" width="200px">
-
-[[github](http://github.com/johndoe)]
+[[github](https://github.com/prithvibhardwaj)]
 
 * Role: Developer
-* Responsibilities: Data
-
-### Jean Doe
-
-<img src="images/johndoe.png" width="200px">
-
-[[github](http://github.com/johndoe)]
-
-* Role: Developer
-* Responsibilities: Dev Ops + Threading
+* Responsibilities: Documentation + Integration
 
 ### Nguyen Hoang Nam
 
 <img src="images/ephtale.png" width="200px">
 
 [[github](http://github.com/ephtale)]
+
+### Rajeshprabu Sidharth
+
+<img src="images/thesputnikspacecraft.png" width="200px">
+
+[[github](https://github.com/TheSputnikSpacecraft)]
+[[portfolio](https://voluble-tulumba-eca9f6.netlify.app/)]
 
 * Role: Developer
 * Responsibilities: Testing, In charge of `Logic`
