@@ -32,6 +32,8 @@ class JsonAdaptedPerson {
     private final String email;
     private final String trainerPhone;
     private final String trainerName;
+    private final int calorieTarget;
+    private final int calorieIntake;
     private final List<JsonAdaptedTag> tags = new ArrayList<>();
 
     /**
@@ -41,6 +43,8 @@ class JsonAdaptedPerson {
     public JsonAdaptedPerson(@JsonProperty("type") String type, @JsonProperty("name") String name,
             @JsonProperty("phone") String phone, @JsonProperty("email") String email,
             @JsonProperty("trainerPhone") String trainerPhone, @JsonProperty("trainerName") String trainerName,
+            @JsonProperty("calorieTarget") int calorieTarget,
+            @JsonProperty("calorieIntake") int calorieIntake,
             @JsonProperty("tags") List<JsonAdaptedTag> tags) {
         this.type = type;
         this.name = name;
@@ -48,6 +52,8 @@ class JsonAdaptedPerson {
         this.email = email;
         this.trainerPhone = trainerPhone;
         this.trainerName = trainerName;
+        this.calorieTarget = calorieTarget;
+        this.calorieIntake = calorieIntake;
         if (tags != null) {
             this.tags.addAll(tags);
         }
@@ -64,16 +70,23 @@ class JsonAdaptedPerson {
             email = ((Trainer) source).getEmail().value;
             trainerPhone = null;
             trainerName = null;
+            calorieTarget = 0;
+            calorieIntake = 0;
         } else if (source instanceof Client) {
+            Client client = (Client) source;
             type = "client";
             email = null;
-            trainerPhone = ((Client) source).getTrainerPhone().value;
-            trainerName = ((Client) source).getTrainerName().fullName;
+            trainerPhone = client.getTrainerPhone().value;
+            trainerName = client.getTrainerName().fullName;
+            calorieTarget = client.getCalorieTarget();
+            calorieIntake = client.getCalorieIntake();
         } else {
             type = "unknown";
             email = null;
             trainerPhone = null;
             trainerName = null;
+            calorieTarget = 0;
+            calorieIntake = 0;
         }
 
         tags.addAll(source.getTags().stream()
@@ -137,7 +150,8 @@ class JsonAdaptedPerson {
             }
             final Name modelTrainerName = new Name(trainerName);
 
-            return new Client(modelName, modelPhone, modelTrainerPhone, modelTrainerName, modelTags);
+            return new Client(modelName, modelPhone, modelTrainerPhone, modelTrainerName, modelTags,
+                    calorieTarget, calorieIntake);
         } else {
             throw new IllegalValueException(INVALID_TYPE_MESSAGE_FORMAT);
         }

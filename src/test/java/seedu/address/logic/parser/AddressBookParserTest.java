@@ -22,6 +22,8 @@ import seedu.address.logic.commands.ExitCommand;
 import seedu.address.logic.commands.FindCommand;
 import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.commands.ListCommand;
+import seedu.address.logic.commands.LogCalorieIntakeCommand;
+import seedu.address.logic.commands.SetCalorieTargetCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.person.NameContainsKeywordsPredicate;
 import seedu.address.model.person.Trainer;
@@ -66,6 +68,22 @@ public class AddressBookParserTest {
         assertEquals(new DeleteTrainerCommand(INDEX_FIRST_PERSON), command);
     }
 
+
+    @Test
+    public void parseCommand_setCalorieTarget() throws Exception {
+        SetCalorieTargetCommand command = (SetCalorieTargetCommand) parser.parseCommand(
+                SetCalorieTargetCommand.COMMAND_WORD + " "
+                        + INDEX_FIRST_PERSON.getOneBased() + " cal/2000");
+        assertEquals(new SetCalorieTargetCommand(INDEX_FIRST_PERSON, 2000), command);
+    }
+
+    @Test
+    public void parseCommand_logCalorieIntake() throws Exception {
+        LogCalorieIntakeCommand command = (LogCalorieIntakeCommand) parser.parseCommand(
+                LogCalorieIntakeCommand.COMMAND_WORD + " "
+                        + INDEX_FIRST_PERSON.getOneBased() + " cal/500");
+        assertEquals(new LogCalorieIntakeCommand(INDEX_FIRST_PERSON, 500), command);
+    }
 
     @Test
     public void parseCommand_exit() throws Exception {

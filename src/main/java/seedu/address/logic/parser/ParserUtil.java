@@ -95,6 +95,21 @@ public class ParserUtil {
     }
 
     /**
+     * Parses a {@code String calories} into a positive {@code int} calorie amount.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @throws ParseException if the given {@code calories} is not a positive integer.
+     */
+    public static int parseCalories(String calories) throws ParseException {
+        requireNonNull(calories);
+        String trimmedCalories = calories.trim();
+        if (!StringUtil.isNonZeroUnsignedInteger(trimmedCalories)) {
+            throw new ParseException("Calories must be a positive integer.");
+        }
+        return Integer.parseInt(trimmedCalories);
+    }
+
+    /**
      * Parses {@code Collection<String> tags} into a {@code Set<Tag>}.
      */
     public static Set<Tag> parseTags(Collection<String> tags) throws ParseException {

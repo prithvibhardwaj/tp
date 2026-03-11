@@ -43,10 +43,12 @@ public class PersonCard extends UiPart<Region> {
     @FXML
     private Label assignedTrainer;
     @FXML
+    private Label calorieInfo;
+    @FXML
     private FlowPane tags;
 
     /**
-     * Creates a {@code PersonCode} with the given {@code Person} and index to display.
+     * Creates a {@code PersonCard} with the given {@code Person} and index to display.
      */
     public PersonCard(Person person, int displayedIndex) {
         super(FXML);
@@ -66,6 +68,8 @@ public class PersonCard extends UiPart<Region> {
             email.setVisible(true);
             assignedTrainer.setManaged(false);
             assignedTrainer.setVisible(false);
+            calorieInfo.setManaged(false);
+            calorieInfo.setVisible(false);
         } else if (person instanceof Client) {
             Client client = (Client) person;
             role.setText("Role: Client");
@@ -74,6 +78,35 @@ public class PersonCard extends UiPart<Region> {
             assignedTrainer.setVisible(true);
             email.setManaged(false);
             email.setVisible(false);
+            setCalorieInfoLabel(client);
+        }
+    }
+
+    /**
+     * Sets the calorie info label text and visibility based on the client's calorie data.
+     * Shows intake vs target if a target is set, or just the intake if only intake is logged.
+     * Hides the label if no calorie data has been recorded.
+     */
+    private void setCalorieInfoLabel(Client client) {
+        int target = client.getCalorieTarget();
+        int intake = client.getCalorieIntake();
+
+        if (target > 0) {
+            int remaining = target - intake;
+            String calorieStatus = remaining >= 0
+                    ? remaining + " kcal remaining"
+                    : "exceeded by " + (-remaining) + " kcal";
+            calorieInfo.setText(String.format("Calories: %d / %d kcal (%s)",
+                    intake, target, calorieStatus));
+            calorieInfo.setManaged(true);
+            calorieInfo.setVisible(true);
+        } else if (intake > 0) {
+            calorieInfo.setText(String.format("Calories consumed: %d kcal", intake));
+            calorieInfo.setManaged(true);
+            calorieInfo.setVisible(true);
+        } else {
+            calorieInfo.setManaged(false);
+            calorieInfo.setVisible(false);
         }
     }
 }

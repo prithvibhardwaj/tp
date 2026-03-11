@@ -19,6 +19,8 @@ import seedu.address.logic.commands.ExitCommand;
 import seedu.address.logic.commands.FindCommand;
 import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.commands.ListCommand;
+import seedu.address.logic.commands.LogCalorieIntakeCommand;
+import seedu.address.logic.commands.SetCalorieTargetCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 
 /**
@@ -69,6 +71,12 @@ public class AddressBookParser {
 
         case DeleteTrainerCommand.COMMAND_WORD:
             return new DeleteTrainerCommandParser().parse(arguments);
+
+        case SetCalorieTargetCommand.COMMAND_WORD:
+            return new SetCalorieTargetCommandParser().parse(arguments);
+
+        case LogCalorieIntakeCommand.COMMAND_WORD:
+            return new LogCalorieIntakeCommandParser().parse(arguments);
 
         case ClearCommand.COMMAND_WORD:
             return new ClearCommand();
