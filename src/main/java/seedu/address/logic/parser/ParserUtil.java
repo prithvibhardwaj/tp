@@ -12,6 +12,8 @@ import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Phone;
+import seedu.address.model.person.Remark;
+import seedu.address.model.person.WorkoutFocus;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -120,4 +122,35 @@ public class ParserUtil {
         }
         return tagSet;
     }
+
+    /**
+     * Parses a {@code String workoutFocus} into a {@code WorkoutFocus}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @throws ParseException if the given {@code workoutFocus} is invalid.
+     */
+    public static WorkoutFocus parseWorkoutFocus(String workoutFocus) throws ParseException {
+        requireNonNull(workoutFocus);
+        String trimmedFocus = workoutFocus.trim();
+        if (!WorkoutFocus.isValidWorkoutFocus(trimmedFocus)) {
+            throw new ParseException(WorkoutFocus.MESSAGE_CONSTRAINTS);
+        }
+        return new WorkoutFocus(trimmedFocus);
+    }
+
+    /**
+     * Parses a {@code String remark} into a {@code Remark}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @throws ParseException if the given {@code remark} is invalid.
+     */
+    public static Remark parseRemark(String remark) throws ParseException {
+        requireNonNull(remark);
+        String trimmedRemark = remark.trim();
+        if (!Remark.isValidRemark(trimmedRemark)) {
+            throw new ParseException(Remark.MESSAGE_CONSTRAINTS);
+        }
+        return new Remark(trimmedRemark);
+    }
 }
+

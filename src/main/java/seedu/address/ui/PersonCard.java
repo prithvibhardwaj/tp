@@ -45,6 +45,10 @@ public class PersonCard extends UiPart<Region> {
     @FXML
     private Label calorieInfo;
     @FXML
+    private Label workoutFocus;
+    @FXML
+    private Label remark;
+    @FXML
     private FlowPane tags;
 
     /**
@@ -70,6 +74,10 @@ public class PersonCard extends UiPart<Region> {
             assignedTrainer.setVisible(false);
             calorieInfo.setManaged(false);
             calorieInfo.setVisible(false);
+            workoutFocus.setManaged(false);
+            workoutFocus.setVisible(false);
+            remark.setManaged(false);
+            remark.setVisible(false);
         } else if (person instanceof Client) {
             Client client = (Client) person;
             role.setText("Role: Client");
@@ -79,6 +87,30 @@ public class PersonCard extends UiPart<Region> {
             email.setManaged(false);
             email.setVisible(false);
             setCalorieInfoLabel(client);
+            setWorkoutFocusLabel(client);
+            setRemarkLabel(client);
+        }
+    }
+
+    private void setWorkoutFocusLabel(Client client) {
+        if (client.getWorkoutFocus().isPresent()) {
+            workoutFocus.setText("Workout focus: " + client.getWorkoutFocus().get().value);
+            workoutFocus.setManaged(true);
+            workoutFocus.setVisible(true);
+        } else {
+            workoutFocus.setManaged(false);
+            workoutFocus.setVisible(false);
+        }
+    }
+
+    private void setRemarkLabel(Client client) {
+        if (client.getRemark().isPresent()) {
+            remark.setText("Remark: " + client.getRemark().get().value);
+            remark.setManaged(true);
+            remark.setVisible(true);
+        } else {
+            remark.setManaged(false);
+            remark.setVisible(false);
         }
     }
 
@@ -110,3 +142,4 @@ public class PersonCard extends UiPart<Region> {
         }
     }
 }
+

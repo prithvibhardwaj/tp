@@ -71,7 +71,9 @@ public class SetCalorieTargetCommand extends Command {
                 clientToEdit.getTrainerName(),
                 clientToEdit.getTags(),
                 calorieTarget,
-                clientToEdit.getCalorieIntake()
+                clientToEdit.getCalorieIntake(),
+                clientToEdit.getWorkoutFocus(),
+                clientToEdit.getRemark()
         );
 
         model.setPerson(clientToEdit, updatedClient);

@@ -3,6 +3,7 @@ package seedu.address.model.person;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 
 import seedu.address.commons.util.ToStringBuilder;
@@ -20,6 +21,8 @@ public class Client extends Person {
     private final Name trainerName;
     private final int calorieTarget;
     private final int calorieIntake;
+    private final Optional<WorkoutFocus> workoutFocus;
+    private final Optional<Remark> remark;
 
     /**
      * Constructs a {@code Client} with all fields including calorie tracking data.
@@ -35,12 +38,24 @@ public class Client extends Person {
      */
     public Client(Name name, Phone phone, Phone trainerPhone, Name trainerName, Set<Tag> tags,
                   int calorieTarget, int calorieIntake) {
+        this(name, phone, trainerPhone, trainerName, tags, calorieTarget, calorieIntake, Optional.empty(),
+                Optional.empty());
+    }
+
+    /**
+     * Constructs a {@code Client} with all fields including calorie tracking data and optional client-only fields.
+     */
+    public Client(Name name, Phone phone, Phone trainerPhone, Name trainerName, Set<Tag> tags,
+                  int calorieTarget, int calorieIntake,
+                  Optional<WorkoutFocus> workoutFocus, Optional<Remark> remark) {
         super(name, phone, tags);
         requireAllNonNull(trainerPhone, trainerName);
         this.trainerPhone = trainerPhone;
         this.trainerName = trainerName;
         this.calorieTarget = calorieTarget;
         this.calorieIntake = calorieIntake;
+        this.workoutFocus = workoutFocus == null ? Optional.empty() : workoutFocus;
+        this.remark = remark == null ? Optional.empty() : remark;
     }
 
     /**
@@ -55,6 +70,20 @@ public class Client extends Person {
      */
     public Client(Name name, Phone phone, Phone trainerPhone, Name trainerName, Set<Tag> tags) {
         this(name, phone, trainerPhone, trainerName, tags, 0, 0);
+    }
+
+    /**
+     * Returns the client's workout focus if one has been set.
+     */
+    public Optional<WorkoutFocus> getWorkoutFocus() {
+        return workoutFocus;
+    }
+
+    /**
+     * Returns the client's remark if one has been set.
+     */
+    public Optional<Remark> getRemark() {
+        return remark;
     }
 
     /**
@@ -102,12 +131,15 @@ public class Client extends Person {
                 && trainerName.equals(otherClient.trainerName)
                 && tags.equals(otherClient.tags)
                 && calorieTarget == otherClient.calorieTarget
-                && calorieIntake == otherClient.calorieIntake;
+            && calorieIntake == otherClient.calorieIntake
+            && workoutFocus.equals(otherClient.workoutFocus)
+            && remark.equals(otherClient.remark);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, phone, trainerPhone, trainerName, tags, calorieTarget, calorieIntake);
+        return Objects.hash(name, phone, trainerPhone, trainerName, tags, calorieTarget, calorieIntake,
+                workoutFocus, remark);
     }
 
     @Override
@@ -120,6 +152,9 @@ public class Client extends Person {
                 .add("tags", tags)
                 .add("calorieTarget", calorieTarget)
                 .add("calorieIntake", calorieIntake)
+                .add("workoutFocus", workoutFocus)
+                .add("remark", remark)
                 .toString();
     }
 }
+

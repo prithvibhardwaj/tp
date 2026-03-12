@@ -31,4 +31,10 @@ public class FindCommandParserTest {
         assertParseSuccess(parser, " \n Alice \n \t Bob  \t", expectedFindCommand);
     }
 
+    @Test
+    public void parse_invalidKeyword_throwsParseException() {
+        assertParseFailure(parser, "Alice B@b", "Keywords must be alphanumeric.");
+    }
+
 }
+

@@ -8,7 +8,9 @@ import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
+import seedu.address.model.person.Remark;
 import seedu.address.model.person.Trainer;
+import seedu.address.model.person.WorkoutFocus;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.util.SampleDataUtil;
 
@@ -28,6 +30,8 @@ public class PersonBuilder {
     private Email email;
     private Name trainerName;
     private Phone trainerPhone;
+    private WorkoutFocus workoutFocus;
+    private Remark remark;
     private Set<Tag> tags;
 
     /**
@@ -52,6 +56,8 @@ public class PersonBuilder {
         } else if (personToCopy instanceof Client) {
             trainerPhone = ((Client) personToCopy).getTrainerPhone();
             trainerName = ((Client) personToCopy).getTrainerName();
+            workoutFocus = ((Client) personToCopy).getWorkoutFocus().orElse(null);
+            remark = ((Client) personToCopy).getRemark().orElse(null);
         }
     }
 
@@ -108,7 +114,9 @@ public class PersonBuilder {
      */
     public Person build() {
         if (trainerPhone != null && trainerName != null) {
-            return new Client(name, phone, trainerPhone, trainerName, tags);
+            return new Client(name, phone, trainerPhone, trainerName, tags, 0, 0,
+                    java.util.Optional.ofNullable(workoutFocus),
+                    java.util.Optional.ofNullable(remark));
         }
         return new Trainer(name, phone, email, tags);
     }

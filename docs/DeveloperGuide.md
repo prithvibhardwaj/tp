@@ -9,7 +9,7 @@ title: Developer Guide
 
 ## **Acknowledgements**
 
-* {list here sources of all reused/adapted ideas, code, documentation, and third-party libraries -- include links to the original source as well}
+* This project is based on AddressBook-Level3 by the [SE-EDU initiative](https://se-education.org).
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -155,6 +155,34 @@ Classes used by multiple components are in the `seedu.address.commons` package.
 
 This section describes some noteworthy details on how certain features are implemented.
 
+### Client workout focus and remarks
+
+GymOps tracks two client-only fields:
+
+* **Workout focus**: a short, letters-only string (e.g., `Chest`), stored as a `WorkoutFocus` value object.
+* **Remark**: free-text operational notes (must be non-empty after trimming), stored as a `Remark` value object.
+
+These values are stored in the `Client` model as optional fields and are persisted through `JsonAdaptedPerson`.
+
+**Command flow**:
+
+* `set-focus` is handled by `SetFocusCommandParser` and `SetFocusCommand`.
+* `remark` is handled by `RemarkCommandParser` and `RemarkCommand`.
+* Both commands resolve the target client using the index from the current `Model#getFilteredPersonList()`.
+
+**UI**:
+
+* `PersonCard` displays workout focus and remark labels for clients when present.
+
+### Find keyword validation
+
+`find` is parsed by `FindCommandParser`, which:
+
+* rejects empty input (no keywords), and
+* rejects any keyword that is not alphanumeric (letters and/or digits only).
+
+The resulting `FindCommand` filters the displayed list using `NameContainsKeywordsPredicate`.
+
 ### \[Proposed\] Undo/redo feature
 
 #### Proposed Implementation
@@ -275,6 +303,8 @@ _{Explain here how the data archiving feature will be implemented}_
 
 Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unlikely to have) - `*`
 
+Some user stories describe planned/proposed features that may not be implemented in the current version.
+
 | Priority | As a …​                                    | I want to …​                     | So that I can…​                                                        |
 | -------- | ------------------------------------------ | ------------------------------ | ---------------------------------------------------------------------- |
 | `* * *`  | new supervisor user                        | see usage instructions         | refer to instructions when I forget how to use GymOps                  |
@@ -335,7 +365,9 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
       Use case resumes at step 2.
 
 
-**Use case: Reassign a client to another trainer**
+**Use case: \[Proposed\] Reassign a client to another trainer**
+
+_This is a proposed feature and is not implemented in the current version._
 
 **MSS**
 
@@ -438,7 +470,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 1.  Should work on any _mainstream OS_ (Windows, Linux, macOS) as long as it has Java `17` or above installed.
 2.  Should be optimized for a CLI-centric workflow (i.e., common operations are achievable with a small number of commands and without requiring mouse input).
-3.  For a dataset of up to 100 trainers and 1000 clients, typical commands (list, find, reassign, set-cal, log-cal, view-progress) should complete within 1 second on a typical laptop.
+3.  For a dataset of up to 100 trainers and 1000 clients, typical commands (list, find, add-trainer, add-client, delete, set-calorie-target, log-calorie, set-focus, remark) should complete within 1 second on a typical laptop.
 4.  Data should be persisted locally and remain intact after restarting the application.
 5.  The system should not require an internet connection for normal operation.
 6.  The system is single-user (supervisor-only) and does not require multiple logins or role-based access control.
@@ -503,6 +535,49 @@ testers are expected to do more *exploratory* testing.
       Expected: Similar to previous.
 
 1. _{ more test cases …​ }_
+
+### Finding persons
+
+1. Finding persons by name
+
+   1. Prerequisites: List all persons using the `list` command.
+
+   1. Test case: `find alex david`<br>
+      Expected: Only persons whose names contain `alex` or `david` are shown.
+
+   1. Test case: `find Bob@`<br>
+      Expected: Error shown: `Keywords must be alphanumeric.`
+
+1. Returning to full list
+
+   1. Prerequisites: Run any successful `find` command.
+
+   1. Test case: `list`<br>
+      Expected: All persons are shown again.
+
+### Setting workout focus
+
+1. Setting workout focus for a client
+
+   1. Prerequisites: Ensure the displayed list contains at least one client.
+
+   1. Test case: `set-focus c/1 f/Chest`<br>
+      Expected: The client at index 1 shows workout focus `Chest`.
+
+   1. Test case: `set-focus c/1 f/Chest1`<br>
+      Expected: Error shown: `Focus string must only contain letters.`
+
+### Adding remarks
+
+1. Adding a remark to a client
+
+   1. Prerequisites: Ensure the displayed list contains at least one client.
+
+   1. Test case: `remark 1 r/Recovering from ACL surgery`<br>
+      Expected: The client at index 1 shows the remark.
+
+   1. Test case: `remark 1 r/`<br>
+      Expected: Error shown: `Remark cannot be empty.`
 
 ### Saving data
 

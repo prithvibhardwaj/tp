@@ -23,10 +23,14 @@ import seedu.address.logic.commands.FindCommand;
 import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.commands.ListCommand;
 import seedu.address.logic.commands.LogCalorieIntakeCommand;
+import seedu.address.logic.commands.RemarkCommand;
 import seedu.address.logic.commands.SetCalorieTargetCommand;
+import seedu.address.logic.commands.SetFocusCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.person.NameContainsKeywordsPredicate;
+import seedu.address.model.person.Remark;
 import seedu.address.model.person.Trainer;
+import seedu.address.model.person.WorkoutFocus;
 import seedu.address.testutil.PersonBuilder;
 import seedu.address.testutil.PersonUtil;
 
@@ -83,6 +87,20 @@ public class AddressBookParserTest {
                 LogCalorieIntakeCommand.COMMAND_WORD + " "
                         + INDEX_FIRST_PERSON.getOneBased() + " cal/500");
         assertEquals(new LogCalorieIntakeCommand(INDEX_FIRST_PERSON, 500), command);
+    }
+
+    @Test
+    public void parseCommand_setFocus() throws Exception {
+        SetFocusCommand command = (SetFocusCommand) parser.parseCommand(
+                SetFocusCommand.COMMAND_WORD + " c/" + INDEX_FIRST_PERSON.getOneBased() + " f/Chest");
+        assertEquals(new SetFocusCommand(INDEX_FIRST_PERSON, new WorkoutFocus("Chest")), command);
+    }
+
+    @Test
+    public void parseCommand_remark() throws Exception {
+        RemarkCommand command = (RemarkCommand) parser.parseCommand(
+                RemarkCommand.COMMAND_WORD + " " + INDEX_FIRST_PERSON.getOneBased() + " r/Needs follow-up");
+        assertEquals(new RemarkCommand(INDEX_FIRST_PERSON, new Remark("Needs follow-up")), command);
     }
 
     @Test
