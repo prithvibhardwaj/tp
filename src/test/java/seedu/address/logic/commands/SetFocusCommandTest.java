@@ -1,14 +1,17 @@
 package seedu.address.logic.commands;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
+import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
+import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
+import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
+
 import java.util.HashSet;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
 import seedu.address.commons.core.index.Index;
-import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
-import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
@@ -19,8 +22,6 @@ import seedu.address.model.person.Name;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.Trainer;
 import seedu.address.model.person.WorkoutFocus;
-import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
-import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
 
 public class SetFocusCommandTest {
 
@@ -43,7 +44,8 @@ public class SetFocusCommandTest {
                 client.getCalorieTarget(), client.getCalorieIntake(),
                 Optional.of(focus), client.getRemark());
 
-        String expectedMessage = String.format(SetFocusCommand.MESSAGE_SUCCESS, updatedClient.getName(), focus.value);
+        String expectedMessage = String.format(SetFocusCommand.MESSAGE_SUCCESS,
+                updatedClient.getName(), focus.value);
 
         AddressBook expectedAb = new AddressBook();
         expectedAb.addPerson(trainer);
@@ -73,7 +75,8 @@ public class SetFocusCommandTest {
                 client.getTrainerPhone(), client.getTrainerName(), client.getTags(),
                 client.getCalorieTarget(), client.getCalorieIntake(),
                 Optional.of(newFocus), client.getRemark());
-        String expectedMessage = String.format(SetFocusCommand.MESSAGE_SUCCESS, updatedClient.getName(), newFocus.value);
+        String expectedMessage = String.format(SetFocusCommand.MESSAGE_SUCCESS,
+                updatedClient.getName(), newFocus.value);
 
         AddressBook expectedAb = new AddressBook();
         expectedAb.addPerson(trainer);
@@ -91,7 +94,8 @@ public class SetFocusCommandTest {
         ab.addPerson(trainer);
         Model model = new ModelManager(ab, new UserPrefs());
 
-        SetFocusCommand command = new SetFocusCommand(INDEX_FIRST_PERSON, new WorkoutFocus("Chest"));
+        SetFocusCommand command = new SetFocusCommand(INDEX_FIRST_PERSON,
+                new WorkoutFocus("Chest"));
         assertCommandFailure(command, model, SetFocusCommand.MESSAGE_INVALID_CLIENT_INDEX);
     }
 

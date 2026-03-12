@@ -1,14 +1,15 @@
 package seedu.address.logic.commands;
 
+import static java.util.Objects.requireNonNull;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_CLIENT;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_FOCUS;
+
 import java.util.List;
 import java.util.Objects;
-import static java.util.Objects.requireNonNull;
 
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.commands.exceptions.CommandException;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_CLIENT;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_FOCUS;
 import seedu.address.model.Model;
 import seedu.address.model.person.Client;
 import seedu.address.model.person.Person;
@@ -34,6 +35,12 @@ public class SetFocusCommand extends Command {
     private final Index clientIndex;
     private final WorkoutFocus workoutFocus;
 
+    /**
+     * Creates a {@code SetFocusCommand}.
+     *
+     * @param clientIndex The index of the client in the currently displayed list.
+     * @param workoutFocus The workout focus to set.
+     */
     public SetFocusCommand(Index clientIndex, WorkoutFocus workoutFocus) {
         requireNonNull(clientIndex);
         requireNonNull(workoutFocus);

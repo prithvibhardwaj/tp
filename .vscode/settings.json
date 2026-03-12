@@ -6,6 +6,10 @@
     "java.format.settings.url": "${workspaceFolder}/eclipse-formatter.xml",
     "java.format.settings.profile": "VSCode",
 
+    "editor.codeActionsOnSave": {
+        "source.organizeImports": false
+    },
+
     // Import order: static imports come first automatically; then the groups below.
     "java.completion.importOrder": [
         "java",
@@ -22,7 +26,10 @@
     "[java]": {
         "editor.formatOnSave": true,
         "editor.codeActionsOnSave": {
-            "source.organizeImports": "explicit"
+            "source.organizeImports": false
         }
-    }
+    },
+
+    // Some Java tooling still uses this setting for organizing imports on save.
+    "java.saveActions.organizeImports": false
 }

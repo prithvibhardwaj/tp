@@ -1,14 +1,17 @@
 package seedu.address.logic.commands;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
+import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
+import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
+import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
+
 import java.util.HashSet;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
 import seedu.address.commons.core.index.Index;
-import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
-import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
@@ -19,8 +22,6 @@ import seedu.address.model.person.Name;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.Remark;
 import seedu.address.model.person.Trainer;
-import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
-import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
 
 public class RemarkCommandTest {
 
@@ -43,7 +44,8 @@ public class RemarkCommandTest {
                 client.getCalorieTarget(), client.getCalorieIntake(),
                 client.getWorkoutFocus(), Optional.of(remark));
 
-        String expectedMessage = String.format(RemarkCommand.MESSAGE_SUCCESS, updatedClient.getName(), remark.value);
+        String expectedMessage = String.format(RemarkCommand.MESSAGE_SUCCESS,
+                updatedClient.getName(), remark.value);
 
         AddressBook expectedAb = new AddressBook();
         expectedAb.addPerson(trainer);
@@ -73,7 +75,8 @@ public class RemarkCommandTest {
                 client.getTrainerPhone(), client.getTrainerName(), client.getTags(),
                 client.getCalorieTarget(), client.getCalorieIntake(),
                 client.getWorkoutFocus(), Optional.of(newRemark));
-        String expectedMessage = String.format(RemarkCommand.MESSAGE_SUCCESS, updatedClient.getName(), newRemark.value);
+        String expectedMessage = String.format(RemarkCommand.MESSAGE_SUCCESS,
+                updatedClient.getName(), newRemark.value);
 
         AddressBook expectedAb = new AddressBook();
         expectedAb.addPerson(trainer);

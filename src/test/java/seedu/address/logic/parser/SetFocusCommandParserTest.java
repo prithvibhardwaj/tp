@@ -1,11 +1,12 @@
 package seedu.address.logic.parser;
 
-import org.junit.jupiter.api.Test;
-
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import seedu.address.logic.commands.SetFocusCommand;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
+
+import org.junit.jupiter.api.Test;
+
+import seedu.address.logic.commands.SetFocusCommand;
 import seedu.address.model.person.WorkoutFocus;
 import seedu.address.testutil.TypicalIndexes;
 
@@ -16,8 +17,10 @@ public class SetFocusCommandParserTest {
     @Test
     public void parse_missingParts_throwsParseException() {
         assertParseFailure(parser, "", String.format(MESSAGE_INVALID_COMMAND_FORMAT, SetFocusCommand.MESSAGE_USAGE));
-        assertParseFailure(parser, " c/1", String.format(MESSAGE_INVALID_COMMAND_FORMAT, SetFocusCommand.MESSAGE_USAGE));
-        assertParseFailure(parser, " f/Chest", String.format(MESSAGE_INVALID_COMMAND_FORMAT, SetFocusCommand.MESSAGE_USAGE));
+        assertParseFailure(parser, " c/1",
+            String.format(MESSAGE_INVALID_COMMAND_FORMAT, SetFocusCommand.MESSAGE_USAGE));
+        assertParseFailure(parser, " f/Chest",
+            String.format(MESSAGE_INVALID_COMMAND_FORMAT, SetFocusCommand.MESSAGE_USAGE));
     }
 
     @Test
