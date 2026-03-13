@@ -7,22 +7,30 @@ import static seedu.address.testutil.TypicalPersons.BENSON;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
 
 import seedu.address.commons.exceptions.IllegalValueException;
+import seedu.address.model.person.Client;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
+import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
+import seedu.address.model.person.Remark;
 import seedu.address.model.person.Trainer;
+import seedu.address.model.person.WorkoutFocus;
+import seedu.address.model.tag.Tag;
 
 public class JsonAdaptedPersonTest {
     private static final String INVALID_NAME = "R@chel";
     private static final String INVALID_PHONE = "+651234";
-    private static final String INVALID_ADDRESS = " ";
     private static final String INVALID_EMAIL = "example.com";
     private static final String INVALID_TAG = "#friend";
+    private static final String INVALID_WORKOUT_FOCUS = "Chest!";
+    private static final String INVALID_REMARK = " ";
 
     private static final String VALID_NAME = BENSON.getName().toString();
     private static final String VALID_PHONE = BENSON.getPhone().toString();
@@ -31,10 +39,51 @@ public class JsonAdaptedPersonTest {
             .map(JsonAdaptedTag::new)
             .collect(Collectors.toList());
 
+    private static final String VALID_CLIENT_NAME = "Alice";
+    private static final String VALID_CLIENT_PHONE = "81234567";
+    private static final String VALID_TRAINER_PHONE = "91234567";
+    private static final String VALID_TRAINER_NAME = "John";
+
     @Test
     public void toModelType_validPersonDetails_returnsPerson() throws Exception {
         JsonAdaptedPerson person = new JsonAdaptedPerson(BENSON);
         assertEquals(BENSON, person.toModelType());
+    }
+
+    @Test
+    public void toModelType_validClientDetails_returnsClient() throws Exception {
+        JsonAdaptedPerson person = new JsonAdaptedPerson("client", VALID_CLIENT_NAME, VALID_CLIENT_PHONE, null,
+                VALID_TRAINER_PHONE, VALID_TRAINER_NAME, 2000, 500, "Chest", "Recovering", VALID_TAGS);
+
+        Client expected = new Client(new Name(VALID_CLIENT_NAME), new Phone(VALID_CLIENT_PHONE),
+                new Phone(VALID_TRAINER_PHONE), new Name(VALID_TRAINER_NAME),
+                BENSON.getTags(), 2000, 500,
+                Optional.of(new WorkoutFocus("Chest")),
+                Optional.of(new Remark("Recovering")));
+
+        assertEquals(expected, person.toModelType());
+    }
+
+    @Test
+    public void constructor_fromClientRoundTrip_returnsClient() throws Exception {
+        Trainer trainer = new Trainer(new Name("Trainer"), new Phone("90000001"),
+                new Email("trainer@example.com"), Set.of());
+
+        Client client = new Client(new Name("Client"), new Phone("80000001"),
+                trainer.getPhone(), trainer.getName(), BENSON.getTags(),
+                2000, 500,
+            Optional.of(new WorkoutFocus("Chest")),
+            Optional.of(new Remark("Recovering")));
+
+        JsonAdaptedPerson adapted = new JsonAdaptedPerson(client);
+        assertEquals(client, adapted.toModelType());
+    }
+
+    @Test
+    public void constructor_fromUnknownTypeToModelType_throwsIllegalValueException() {
+        Person unknown = new UnknownPerson(new Name("Unknown"), new Phone("81234567"), Set.of());
+        JsonAdaptedPerson adapted = new JsonAdaptedPerson(unknown);
+        assertThrows(IllegalValueException.class, JsonAdaptedPerson.INVALID_TYPE_MESSAGE_FORMAT, adapted::toModelType);
     }
 
     @Test
@@ -98,4 +147,79 @@ public class JsonAdaptedPersonTest {
         assertThrows(IllegalValueException.class, person::toModelType);
     }
 
+    @Test
+    public void toModelType_nullTypeWithEmail_fallsBackToTrainer() throws Exception {
+        JsonAdaptedPerson person = new JsonAdaptedPerson(null, VALID_NAME, VALID_PHONE, VALID_EMAIL,
+                null, null, 0, 0, null, null, VALID_TAGS);
+        assertEquals(BENSON, person.toModelType());
+    }
+
+    @Test
+    public void toModelType_nullTypeWithTrainerPhone_fallsBackToClient() throws Exception {
+        JsonAdaptedPerson person = new JsonAdaptedPerson(null, VALID_CLIENT_NAME, VALID_CLIENT_PHONE, null,
+                VALID_TRAINER_PHONE, VALID_TRAINER_NAME, 0, 0, null, null, VALID_TAGS);
+
+        Client expected = new Client(new Name(VALID_CLIENT_NAME), new Phone(VALID_CLIENT_PHONE),
+                new Phone(VALID_TRAINER_PHONE), new Name(VALID_TRAINER_NAME),
+                BENSON.getTags(), 0, 0, Optional.empty(), Optional.empty());
+
+        assertEquals(expected, person.toModelType());
+    }
+
+    @Test
+    public void toModelType_invalidTrainerPhone_throwsIllegalValueException() {
+        JsonAdaptedPerson person = new JsonAdaptedPerson("client", VALID_CLIENT_NAME, VALID_CLIENT_PHONE, null,
+                INVALID_PHONE, VALID_TRAINER_NAME, 0, 0, null, null, VALID_TAGS);
+        assertThrows(IllegalValueException.class, Phone.MESSAGE_CONSTRAINTS, person::toModelType);
+    }
+
+    @Test
+    public void toModelType_nullTrainerPhone_throwsIllegalValueException() {
+        JsonAdaptedPerson person = new JsonAdaptedPerson("client", VALID_CLIENT_NAME, VALID_CLIENT_PHONE, null,
+                null, VALID_TRAINER_NAME, 0, 0, null, null, VALID_TAGS);
+        assertThrows(IllegalValueException.class,
+                String.format(MISSING_FIELD_MESSAGE_FORMAT, "trainerPhone"), person::toModelType);
+    }
+
+    @Test
+    public void toModelType_invalidTrainerName_throwsIllegalValueException() {
+        JsonAdaptedPerson person = new JsonAdaptedPerson("client", VALID_CLIENT_NAME, VALID_CLIENT_PHONE, null,
+                VALID_TRAINER_PHONE, INVALID_NAME, 0, 0, null, null, VALID_TAGS);
+        assertThrows(IllegalValueException.class, Name.MESSAGE_CONSTRAINTS, person::toModelType);
+    }
+
+    @Test
+    public void toModelType_nullTrainerName_throwsIllegalValueException() {
+        JsonAdaptedPerson person = new JsonAdaptedPerson("client", VALID_CLIENT_NAME, VALID_CLIENT_PHONE, null,
+                VALID_TRAINER_PHONE, null, 0, 0, null, null, VALID_TAGS);
+        assertThrows(IllegalValueException.class,
+                String.format(MISSING_FIELD_MESSAGE_FORMAT, "trainerName"), person::toModelType);
+    }
+
+    @Test
+    public void toModelType_invalidWorkoutFocus_throwsIllegalValueException() {
+        JsonAdaptedPerson person = new JsonAdaptedPerson("client", VALID_CLIENT_NAME, VALID_CLIENT_PHONE, null,
+                VALID_TRAINER_PHONE, VALID_TRAINER_NAME, 0, 0, INVALID_WORKOUT_FOCUS, null, VALID_TAGS);
+        assertThrows(IllegalValueException.class, WorkoutFocus.MESSAGE_CONSTRAINTS, person::toModelType);
+    }
+
+    @Test
+    public void toModelType_invalidRemark_throwsIllegalValueException() {
+        JsonAdaptedPerson person = new JsonAdaptedPerson("client", VALID_CLIENT_NAME, VALID_CLIENT_PHONE, null,
+                VALID_TRAINER_PHONE, VALID_TRAINER_NAME, 0, 0, null, INVALID_REMARK, VALID_TAGS);
+        assertThrows(IllegalValueException.class, Remark.MESSAGE_CONSTRAINTS, person::toModelType);
+    }
+
+    @Test
+    public void toModelType_invalidType_throwsIllegalValueException() {
+        JsonAdaptedPerson person = new JsonAdaptedPerson("unknown", VALID_NAME, VALID_PHONE, null,
+                null, null, 0, 0, null, null, VALID_TAGS);
+        assertThrows(IllegalValueException.class, JsonAdaptedPerson.INVALID_TYPE_MESSAGE_FORMAT, person::toModelType);
+    }
+
+    private static class UnknownPerson extends Person {
+        UnknownPerson(Name name, Phone phone, Set<Tag> tags) {
+            super(name, phone, tags);
+        }
+    }
 }

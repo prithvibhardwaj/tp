@@ -13,15 +13,20 @@ import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
 
+import seedu.address.logic.commands.AddClientCommand;
 import seedu.address.logic.commands.AddTrainerCommand;
 import seedu.address.logic.commands.ClearCommand;
 import seedu.address.logic.commands.DeleteClientCommand;
 import seedu.address.logic.commands.DeleteCommand;
 import seedu.address.logic.commands.DeleteTrainerCommand;
 import seedu.address.logic.commands.ExitCommand;
+import seedu.address.logic.commands.FindClientsCommand;
 import seedu.address.logic.commands.FindCommand;
+import seedu.address.logic.commands.FindTrainersCommand;
 import seedu.address.logic.commands.HelpCommand;
+import seedu.address.logic.commands.ListClientsCommand;
 import seedu.address.logic.commands.ListCommand;
+import seedu.address.logic.commands.ListTrainersCommand;
 import seedu.address.logic.commands.LogCalorieIntakeCommand;
 import seedu.address.logic.commands.RemarkCommand;
 import seedu.address.logic.commands.SetCalorieTargetCommand;
@@ -46,6 +51,14 @@ public class AddressBookParserTest {
     }
 
     @Test
+    public void parseCommand_addClient() throws Exception {
+        AddClientCommand command = (AddClientCommand) parser.parseCommand(
+                AddClientCommand.COMMAND_WORD + " n/Alice p/81234567 t/1");
+        assertEquals(new AddClientCommand(new seedu.address.model.person.Name("Alice"),
+                new seedu.address.model.person.Phone("81234567"), INDEX_FIRST_PERSON), command);
+    }
+
+    @Test
     public void parseCommand_clear() throws Exception {
         assertTrue(parser.parseCommand(ClearCommand.COMMAND_WORD) instanceof ClearCommand);
         assertTrue(parser.parseCommand(ClearCommand.COMMAND_WORD + " 3") instanceof ClearCommand);
@@ -54,8 +67,8 @@ public class AddressBookParserTest {
     @Test
     public void parseCommand_delete() throws Exception {
         DeleteCommand command = (DeleteCommand) parser.parseCommand(
-                DeleteCommand.COMMAND_WORD + " " + INDEX_FIRST_PERSON.getOneBased());
-        assertEquals(new DeleteCommand(INDEX_FIRST_PERSON), command);
+                DeleteCommand.COMMAND_WORD + " t/" + INDEX_FIRST_PERSON.getOneBased());
+        assertEquals(new DeleteCommand(DeleteCommand.TargetType.TRAINER, INDEX_FIRST_PERSON), command);
     }
 
     @Test
@@ -118,6 +131,22 @@ public class AddressBookParserTest {
     }
 
     @Test
+    public void parseCommand_findTrainers() throws Exception {
+        List<String> keywords = Arrays.asList("foo", "bar", "baz");
+        FindTrainersCommand command = (FindTrainersCommand) parser.parseCommand(
+                FindTrainersCommand.COMMAND_WORD + " " + keywords.stream().collect(Collectors.joining(" ")));
+        assertEquals(new FindTrainersCommand(new NameContainsKeywordsPredicate(keywords)), command);
+    }
+
+    @Test
+    public void parseCommand_findClients() throws Exception {
+        List<String> keywords = Arrays.asList("foo", "bar", "baz");
+        FindClientsCommand command = (FindClientsCommand) parser.parseCommand(
+                FindClientsCommand.COMMAND_WORD + " " + keywords.stream().collect(Collectors.joining(" ")));
+        assertEquals(new FindClientsCommand(new NameContainsKeywordsPredicate(keywords)), command);
+    }
+
+    @Test
     public void parseCommand_help() throws Exception {
         assertTrue(parser.parseCommand(HelpCommand.COMMAND_WORD) instanceof HelpCommand);
         assertTrue(parser.parseCommand(HelpCommand.COMMAND_WORD + " 3") instanceof HelpCommand);
@@ -127,6 +156,16 @@ public class AddressBookParserTest {
     public void parseCommand_list() throws Exception {
         assertTrue(parser.parseCommand(ListCommand.COMMAND_WORD) instanceof ListCommand);
         assertTrue(parser.parseCommand(ListCommand.COMMAND_WORD + " 3") instanceof ListCommand);
+    }
+
+    @Test
+    public void parseCommand_listTrainers() throws Exception {
+        assertTrue(parser.parseCommand(ListTrainersCommand.COMMAND_WORD) instanceof ListTrainersCommand);
+    }
+
+    @Test
+    public void parseCommand_listClients() throws Exception {
+        assertTrue(parser.parseCommand(ListClientsCommand.COMMAND_WORD) instanceof ListClientsCommand);
     }
 
     @Test
