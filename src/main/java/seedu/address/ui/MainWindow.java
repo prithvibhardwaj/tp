@@ -194,6 +194,15 @@ public class MainWindow extends UiPart<Stage> {
         updateClientFilterLinkText();
     }
 
+    @FXML
+    private void handleListAllTrainers() {
+        try {
+            executeCommand("list-trainers");
+        } catch (CommandException | ParseException e) {
+            logger.info("Failed to list all trainers: " + e.getMessage());
+        }
+    }
+
     private void handleSelectedTrainerChanged(Person selectedPerson) {
         if (selectedPerson instanceof Trainer) {
             logic.setSelectedTrainer((Trainer) selectedPerson);
@@ -208,15 +217,6 @@ public class MainWindow extends UiPart<Stage> {
                 .map(trainer -> "Showing: " + trainer.getName().fullName)
                 .orElse("Showing All");
         clientFilterLink.setText(linkText);
-    }
-
-    @FXML
-    private void handleListAllTrainers() {
-        try {
-            executeCommand("list-trainers");
-        } catch (CommandException | ParseException e) {
-            logger.info("Failed to list all trainers: " + e.getMessage());
-        }
     }
 
     private void updateTrainerFilterLinkState() {
@@ -235,6 +235,10 @@ public class MainWindow extends UiPart<Stage> {
             CommandResult commandResult = logic.execute(commandText);
             logger.info("Result: " + commandResult.getFeedbackToUser());
             resultDisplay.setFeedbackToUser(commandResult.getFeedbackToUser());
+
+            if (commandResult.isClearTrainer()) {
+                trainerListPanel.clearSelection();
+            }
 
             updateClientFilterLinkText();
             updateTrainerFilterLinkState();
