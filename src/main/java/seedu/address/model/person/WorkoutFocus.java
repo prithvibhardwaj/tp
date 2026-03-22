@@ -5,15 +5,15 @@ import static java.util.Objects.requireNonNull;
 import seedu.address.commons.util.AppUtil;
 
 /**
- * Represents a Client's workout focus (primary muscle group focus).
- * Guarantees: immutable; is valid as declared in {@link #isValidWorkoutFocus(String)}.
+ * Represents a Client's workout focus (primary muscle group focus). Guarantees:
+ * immutable; is valid as declared in {@link #isValidWorkoutFocus(String)}.
  */
 public class WorkoutFocus {
 
     public static final String MESSAGE_CONSTRAINTS = "Focus string must only contain letters.";
     private static final String VALIDATION_REGEX = "[A-Za-z]+";
 
-    public final String value;
+    private final String value;
 
     /**
      * Constructs a {@code WorkoutFocus}.
@@ -24,6 +24,10 @@ public class WorkoutFocus {
         requireNonNull(workoutFocus);
         AppUtil.checkArgument(isValidWorkoutFocus(workoutFocus), MESSAGE_CONSTRAINTS);
         this.value = workoutFocus;
+    }
+
+    public String getValue() {
+        return value;
     }
 
     /**

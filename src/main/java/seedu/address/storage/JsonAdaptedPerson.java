@@ -3,6 +3,7 @@ package seedu.address.storage;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -15,7 +16,9 @@ import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
+import seedu.address.model.person.Remark;
 import seedu.address.model.person.Trainer;
+import seedu.address.model.person.WorkoutFocus;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -69,11 +72,11 @@ class JsonAdaptedPerson {
      * Converts a given {@code Person} into this class for Jackson use.
      */
     public JsonAdaptedPerson(Person source) {
-        name = source.getName().fullName;
-        phone = source.getPhone().value;
+        name = source.getName().getFullName();
+        phone = source.getPhone().getValue();
         if (source instanceof Trainer) {
             type = "trainer";
-            email = ((Trainer) source).getEmail().value;
+            email = ((Trainer) source).getEmail().getValue();
             trainerPhone = null;
             trainerName = null;
             calorieTarget = 0;
@@ -84,12 +87,16 @@ class JsonAdaptedPerson {
             Client client = (Client) source;
             type = "client";
             email = null;
-            trainerPhone = client.getTrainerPhone().value;
-            trainerName = client.getTrainerName().fullName;
+            trainerPhone = client.getTrainerPhone().getValue();
+            trainerName = client.getTrainerName().getFullName();
             calorieTarget = client.getCalorieTarget();
             calorieIntake = client.getCalorieIntake();
-            workoutFocus = client.getWorkoutFocus().map(focus -> focus.value).orElse(null);
-            remark = client.getRemark().map(r -> r.value).orElse(null);
+            workoutFocus = client.getWorkoutFocus()
+                    .map(WorkoutFocus::getValue)
+                    .orElse(null);
+            remark = client.getRemark()
+                    .map(Remark::getValue)
+                    .orElse(null);
         } else {
             type = "unknown";
             email = null;
@@ -107,83 +114,126 @@ class JsonAdaptedPerson {
     }
 
     /**
-     * Converts this Jackson-friendly adapted person object into the model's {@code Person} object.
+     * Converts this Jackson-friendly adapted person object into the model's
+     * {@code Person} object.
      *
-     * @throws IllegalValueException if there were any data constraints violated in the adapted person.
+     * @throws IllegalValueException if there were any data constraints violated
+     *     in the adapted person.
      */
     public Person toModelType() throws IllegalValueException {
-        final List<Tag> personTags = new ArrayList<>();
+        Name modelName = toModelName();
+        Phone modelPhone = toModelPhone();
+        Set<Tag> modelTags = toModelTags();
+
+        if (isTrainerType()) {
+            return toModelTrainer(modelName, modelPhone, modelTags);
+        }
+
+        if (isClientType()) {
+            return toModelClient(modelName, modelPhone, modelTags);
+        }
+
+        throw new IllegalValueException(INVALID_TYPE_MESSAGE_FORMAT);
+    }
+
+    private boolean isTrainerType() {
+        // fallback for existing records without type
+        return "trainer".equals(type) || type == null && email != null;
+    }
+
+    private boolean isClientType() {
+        // fallback for existing records without type
+        return "client".equals(type) || type == null && trainerPhone != null;
+    }
+
+    private Set<Tag> toModelTags() throws IllegalValueException {
+        List<Tag> personTags = new ArrayList<>();
         for (JsonAdaptedTag tag : tags) {
             personTags.add(tag.toModelType());
         }
+        return new HashSet<>(personTags);
+    }
 
+    private Name toModelName() throws IllegalValueException {
         if (name == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Name.class.getSimpleName()));
         }
         if (!Name.isValidName(name)) {
             throw new IllegalValueException(Name.MESSAGE_CONSTRAINTS);
         }
-        final Name modelName = new Name(name);
+        return new Name(name);
+    }
 
+    private Phone toModelPhone() throws IllegalValueException {
         if (phone == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Phone.class.getSimpleName()));
         }
         if (!Phone.isValidPhone(phone)) {
             throw new IllegalValueException(Phone.MESSAGE_CONSTRAINTS);
         }
-        final Phone modelPhone = new Phone(phone);
+        return new Phone(phone);
+    }
 
-        final Set<Tag> modelTags = new HashSet<>(personTags);
-
-        if ("trainer".equals(type) || type == null && email != null) { // fallback for existing records without type
-            if (email == null) {
-                throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
-                        Email.class.getSimpleName()));
-            }
-            if (!Email.isValidEmail(email)) {
-                throw new IllegalValueException(Email.MESSAGE_CONSTRAINTS);
-            }
-            final Email modelEmail = new Email(email);
-            return new Trainer(modelName, modelPhone, modelEmail, modelTags);
-        } else if ("client".equals(type) || type == null && trainerPhone != null) {
-            if (trainerPhone == null) {
-                throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "trainerPhone"));
-            }
-            if (!Phone.isValidPhone(trainerPhone)) {
-                throw new IllegalValueException(Phone.MESSAGE_CONSTRAINTS);
-            }
-            final Phone modelTrainerPhone = new Phone(trainerPhone);
-
-            if (trainerName == null) {
-                throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "trainerName"));
-            }
-            if (!Name.isValidName(trainerName)) {
-                throw new IllegalValueException(Name.MESSAGE_CONSTRAINTS);
-            }
-            final Name modelTrainerName = new Name(trainerName);
-
-            java.util.Optional<seedu.address.model.person.WorkoutFocus> modelFocus = java.util.Optional.empty();
-            if (workoutFocus != null) {
-                if (!seedu.address.model.person.WorkoutFocus.isValidWorkoutFocus(workoutFocus)) {
-                    throw new IllegalValueException(seedu.address.model.person.WorkoutFocus.MESSAGE_CONSTRAINTS);
-                }
-                modelFocus = java.util.Optional.of(new seedu.address.model.person.WorkoutFocus(workoutFocus));
-            }
-
-            java.util.Optional<seedu.address.model.person.Remark> modelRemark = java.util.Optional.empty();
-            if (remark != null) {
-                if (!seedu.address.model.person.Remark.isValidRemark(remark)) {
-                    throw new IllegalValueException(seedu.address.model.person.Remark.MESSAGE_CONSTRAINTS);
-                }
-                modelRemark = java.util.Optional.of(new seedu.address.model.person.Remark(remark));
-            }
-
-            return new Client(modelName, modelPhone, modelTrainerPhone, modelTrainerName, modelTags,
-                    calorieTarget, calorieIntake, modelFocus, modelRemark);
-        } else {
-            throw new IllegalValueException(INVALID_TYPE_MESSAGE_FORMAT);
+    private Trainer toModelTrainer(Name modelName, Phone modelPhone, Set<Tag> modelTags) throws IllegalValueException {
+        if (email == null) {
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Email.class.getSimpleName()));
         }
+        if (!Email.isValidEmail(email)) {
+            throw new IllegalValueException(Email.MESSAGE_CONSTRAINTS);
+        }
+
+        Email modelEmail = new Email(email);
+        return new Trainer(modelName, modelPhone, modelEmail, modelTags);
+    }
+
+    private Client toModelClient(Name modelName, Phone modelPhone, Set<Tag> modelTags) throws IllegalValueException {
+        Phone modelTrainerPhone = toModelTrainerPhone();
+        Name modelTrainerName = toModelTrainerName();
+        Optional<WorkoutFocus> modelFocus = toModelWorkoutFocus();
+        Optional<Remark> modelRemark = toModelRemark();
+
+        return new Client(modelName, modelPhone, modelTrainerPhone, modelTrainerName, modelTags,
+                calorieTarget, calorieIntake, modelFocus, modelRemark);
+    }
+
+    private Phone toModelTrainerPhone() throws IllegalValueException {
+        if (trainerPhone == null) {
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "trainerPhone"));
+        }
+        if (!Phone.isValidPhone(trainerPhone)) {
+            throw new IllegalValueException(Phone.MESSAGE_CONSTRAINTS);
+        }
+        return new Phone(trainerPhone);
+    }
+
+    private Name toModelTrainerName() throws IllegalValueException {
+        if (trainerName == null) {
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "trainerName"));
+        }
+        if (!Name.isValidName(trainerName)) {
+            throw new IllegalValueException(Name.MESSAGE_CONSTRAINTS);
+        }
+        return new Name(trainerName);
+    }
+
+    private Optional<WorkoutFocus> toModelWorkoutFocus() throws IllegalValueException {
+        if (workoutFocus == null) {
+            return Optional.empty();
+        }
+        if (!WorkoutFocus.isValidWorkoutFocus(workoutFocus)) {
+            throw new IllegalValueException(WorkoutFocus.MESSAGE_CONSTRAINTS);
+        }
+        return Optional.of(new WorkoutFocus(workoutFocus));
+    }
+
+    private Optional<Remark> toModelRemark() throws IllegalValueException {
+        if (remark == null) {
+            return Optional.empty();
+        }
+        if (!Remark.isValidRemark(remark)) {
+            throw new IllegalValueException(Remark.MESSAGE_CONSTRAINTS);
+        }
+        return Optional.of(new Remark(remark));
     }
 
 }
-

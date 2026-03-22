@@ -44,7 +44,8 @@ public class AddClientCommand extends Command {
     private final Index trainerIndex;
 
     /**
-     * Creates an AddClientCommand to add a client assigned to the specified trainer index.
+     * Creates an AddClientCommand to add a client assigned to the specified
+     * trainer index.
      */
     public AddClientCommand(Name name, Phone phone, Index trainerIndex) {
         requireNonNull(name);
@@ -72,7 +73,12 @@ public class AddClientCommand extends Command {
 
         Trainer assignedTrainer = (Trainer) targetPerson;
 
-        Client toAdd = new Client(name, phone, assignedTrainer.getPhone(), assignedTrainer.getName(), new HashSet<>());
+        Client toAdd = new Client(
+                name,
+                phone,
+                assignedTrainer.getPhone(),
+                assignedTrainer.getName(),
+                new HashSet<>());
 
         if (model.hasPerson(toAdd)) {
             throw new CommandException(MESSAGE_DUPLICATE_CLIENT);

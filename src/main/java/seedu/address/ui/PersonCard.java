@@ -10,6 +10,7 @@ import javafx.scene.layout.Region;
 import seedu.address.model.person.Client;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Trainer;
+import seedu.address.model.tag.Tag;
 
 /**
  * An UI component that displays information of a {@code Person}.
@@ -19,14 +20,15 @@ public class PersonCard extends UiPart<Region> {
     private static final String FXML = "PersonListCard.fxml";
 
     /**
-     * Note: Certain keywords such as "location" and "resources" are reserved keywords in JavaFX.
-     * As a consequence, UI elements' variable names cannot be set to such keywords
-     * or an exception will be thrown by JavaFX during runtime.
+     * Note: Certain keywords such as "location" and "resources" are reserved
+     * keywords in JavaFX. As a consequence, UI elements' variable names cannot
+     * be set to such keywords or an exception will be thrown by JavaFX during
+     * runtime.
      *
-     * @see <a href="https://github.com/se-edu/addressbook-level4/issues/336">The issue on AddressBook level 4</a>
+        * @see <a href="https://github.com/se-edu/addressbook-level4/issues/336">The
+        *     issue on AddressBook level 4</a>
      */
-
-    public final Person person;
+    private final Person person;
 
     @FXML
     private HBox cardPane;
@@ -52,22 +54,23 @@ public class PersonCard extends UiPart<Region> {
     private FlowPane tags;
 
     /**
-     * Creates a {@code PersonCard} with the given {@code Person} and index to display.
+     * Creates a {@code PersonCard} with the given {@code Person} and index to
+     * display.
      */
     public PersonCard(Person person, int displayedIndex) {
         super(FXML);
         this.person = person;
         id.setText(displayedIndex + ". ");
-        name.setText(person.getName().fullName);
-        phone.setText(person.getPhone().value);
+        name.setText(person.getName().getFullName());
+        phone.setText(person.getPhone().getValue());
         person.getTags().stream()
-                .sorted(Comparator.comparing(tag -> tag.tagName))
-                .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));
+                .sorted(Comparator.comparing(Tag::getTagName))
+                .forEach(tag -> tags.getChildren().add(new Label(tag.getTagName())));
 
         if (person instanceof Trainer) {
             Trainer trainer = (Trainer) person;
             role.setText("Role: Trainer");
-            email.setText("Email: " + trainer.getEmail().value);
+            email.setText("Email: " + trainer.getEmail().getValue());
             email.setManaged(true);
             email.setVisible(true);
             assignedTrainer.setManaged(false);
@@ -81,7 +84,7 @@ public class PersonCard extends UiPart<Region> {
         } else if (person instanceof Client) {
             Client client = (Client) person;
             role.setText("Role: Client");
-            assignedTrainer.setText("Assigned to Trainer: " + client.getTrainerName().fullName);
+            assignedTrainer.setText("Assigned to Trainer: " + client.getTrainerName().getFullName());
             assignedTrainer.setManaged(true);
             assignedTrainer.setVisible(true);
             email.setManaged(false);
@@ -92,9 +95,13 @@ public class PersonCard extends UiPart<Region> {
         }
     }
 
+    public Person getPerson() {
+        return person;
+    }
+
     private void setWorkoutFocusLabel(Client client) {
         if (client.getWorkoutFocus().isPresent()) {
-            workoutFocus.setText("Workout focus: " + client.getWorkoutFocus().get().value);
+            workoutFocus.setText("Workout focus: " + client.getWorkoutFocus().get().getValue());
             workoutFocus.setManaged(true);
             workoutFocus.setVisible(true);
         } else {
@@ -105,7 +112,7 @@ public class PersonCard extends UiPart<Region> {
 
     private void setRemarkLabel(Client client) {
         if (client.getRemark().isPresent()) {
-            remark.setText("Remark: " + client.getRemark().get().value);
+            remark.setText("Remark: " + client.getRemark().get().getValue());
             remark.setManaged(true);
             remark.setVisible(true);
         } else {
@@ -115,9 +122,10 @@ public class PersonCard extends UiPart<Region> {
     }
 
     /**
-     * Sets the calorie info label text and visibility based on the client's calorie data.
-     * Shows intake vs target if a target is set, or just the intake if only intake is logged.
-     * Hides the label if no calorie data has been recorded.
+     * Sets the calorie info label text and visibility based on the client's
+     * calorie data. Shows intake vs target if a target is set, or just the
+     * intake if only intake is logged. Hides the label if no calorie data has
+     * been recorded.
      */
     private void setCalorieInfoLabel(Client client) {
         int target = client.getCalorieTarget();
@@ -142,4 +150,3 @@ public class PersonCard extends UiPart<Region> {
         }
     }
 }
-

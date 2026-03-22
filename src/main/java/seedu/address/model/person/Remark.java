@@ -5,14 +5,14 @@ import static java.util.Objects.requireNonNull;
 import seedu.address.commons.util.AppUtil;
 
 /**
- * Represents a remark attached to a Client.
- * Guarantees: immutable; is valid as declared in {@link #isValidRemark(String)}.
+ * Represents a remark attached to a Client. Guarantees: immutable; is valid as
+ * declared in {@link #isValidRemark(String)}.
  */
 public class Remark {
 
     public static final String MESSAGE_CONSTRAINTS = "Remark cannot be empty.";
 
-    public final String value;
+    private final String value;
 
     /**
      * Constructs a {@code Remark}.
@@ -23,6 +23,10 @@ public class Remark {
         requireNonNull(remark);
         AppUtil.checkArgument(isValidRemark(remark), MESSAGE_CONSTRAINTS);
         this.value = remark;
+    }
+
+    public String getValue() {
+        return value;
     }
 
     /**

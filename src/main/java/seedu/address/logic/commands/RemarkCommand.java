@@ -36,7 +36,8 @@ public class RemarkCommand extends Command {
     /**
      * Creates a {@code RemarkCommand}.
      *
-     * @param clientIndex The index of the client in the currently displayed list.
+     * @param clientIndex The index of the client in the currently displayed
+     *     list.
      * @param remark The remark to add.
      */
     public RemarkCommand(Index clientIndex, Remark remark) {
@@ -74,7 +75,7 @@ public class RemarkCommand extends Command {
         );
 
         model.setPerson(clientToEdit, updatedClient);
-        return new CommandResult(String.format(MESSAGE_SUCCESS, updatedClient.getName(), remark.value));
+        return new CommandResult(String.format(MESSAGE_SUCCESS, updatedClient.getName(), remark.getValue()));
     }
 
     @Override
@@ -105,4 +106,3 @@ public class RemarkCommand extends Command {
                 .toString();
     }
 }
-

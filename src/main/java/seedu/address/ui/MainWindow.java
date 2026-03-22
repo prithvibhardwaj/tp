@@ -21,8 +21,8 @@ import seedu.address.model.person.Person;
 import seedu.address.model.person.Trainer;
 
 /**
- * The Main Window. Provides the basic application layout containing
- * a menu bar and space where other JavaFX elements can be placed.
+ * The Main Window. Provides the basic application layout containing a menu bar
+ * and space where other JavaFX elements can be placed.
  */
 public class MainWindow extends UiPart<Stage> {
 
@@ -64,7 +64,8 @@ public class MainWindow extends UiPart<Stage> {
     private StackPane statusbarPlaceholder;
 
     /**
-     * Creates a {@code MainWindow} with the given {@code Stage} and {@code Logic}.
+     * Creates a {@code MainWindow} with the given {@code Stage} and
+     * {@code Logic}.
      */
     public MainWindow(Stage primaryStage, Logic logic) {
         super(FXML, primaryStage);
@@ -91,6 +92,7 @@ public class MainWindow extends UiPart<Stage> {
 
     /**
      * Sets the accelerator of a MenuItem.
+     *
      * @param keyCombination the KeyCombination value of the accelerator
      */
     private void setAccelerator(MenuItem menuItem, KeyCombination keyCombination) {
@@ -216,7 +218,7 @@ public class MainWindow extends UiPart<Stage> {
 
     private void updateClientFilterLinkText() {
         String linkText = logic.getSelectedTrainer()
-                .map(trainer -> "Showing: " + trainer.getName().fullName)
+                .map(trainer -> "Showing: " + trainer.getName().getFullName())
                 .orElse("Showing All");
         clientFilterLink.setText(linkText);
     }

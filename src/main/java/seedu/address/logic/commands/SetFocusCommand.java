@@ -38,7 +38,8 @@ public class SetFocusCommand extends Command {
     /**
      * Creates a {@code SetFocusCommand}.
      *
-     * @param clientIndex The index of the client in the currently displayed list.
+     * @param clientIndex The index of the client in the currently displayed
+     *     list.
      * @param workoutFocus The workout focus to set.
      */
     public SetFocusCommand(Index clientIndex, WorkoutFocus workoutFocus) {
@@ -76,7 +77,7 @@ public class SetFocusCommand extends Command {
         );
 
         model.setPerson(clientToEdit, updatedClient);
-        return new CommandResult(String.format(MESSAGE_SUCCESS, updatedClient.getName(), workoutFocus.value));
+        return new CommandResult(String.format(MESSAGE_SUCCESS, updatedClient.getName(), workoutFocus.getValue()));
     }
 
     @Override
@@ -107,4 +108,3 @@ public class SetFocusCommand extends Command {
                 .toString();
     }
 }
-

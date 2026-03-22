@@ -21,6 +21,7 @@ import seedu.address.model.person.Trainer;
  * Represents the in-memory model of the address book data.
  */
 public class ModelManager implements Model {
+
     private static final Logger logger = LogsCenter.getLogger(ModelManager.class);
 
     private final AddressBook addressBook;
@@ -59,7 +60,6 @@ public class ModelManager implements Model {
     }
 
     //=========== UserPrefs ==================================================================================
-
     @Override
     public void setUserPrefs(ReadOnlyUserPrefs userPrefs) {
         requireNonNull(userPrefs);
@@ -94,7 +94,6 @@ public class ModelManager implements Model {
     }
 
     //=========== AddressBook ================================================================================
-
     @Override
     public void setAddressBook(ReadOnlyAddressBook addressBook) {
         this.addressBook.resetData(addressBook);
@@ -154,10 +153,9 @@ public class ModelManager implements Model {
     }
 
     //=========== Filtered Person List Accessors =============================================================
-
     /**
-     * Returns an unmodifiable view of the list of {@code Person} backed by the internal list of
-     * {@code versionedAddressBook}
+     * Returns an unmodifiable view of the list of {@code Person} backed by the
+     * internal list of {@code versionedAddressBook}
      */
     @Override
     public ObservableList<Person> getFilteredPersonList() {
@@ -274,13 +272,13 @@ public class ModelManager implements Model {
         ModelManager otherModelManager = (ModelManager) other;
         return addressBook.equals(otherModelManager.addressBook)
                 && userPrefs.equals(otherModelManager.userPrefs)
-            && filteredPersons.equals(otherModelManager.filteredPersons)
-            && filteredTrainers.equals(otherModelManager.filteredTrainers)
-            && filteredClients.equals(otherModelManager.filteredClients)
-            && personListPredicate.equals(otherModelManager.personListPredicate)
-            && trainerListPredicate.equals(otherModelManager.trainerListPredicate)
-            && clientListPredicate.equals(otherModelManager.clientListPredicate)
-            && selectedTrainerPhone.equals(otherModelManager.selectedTrainerPhone);
+                && filteredPersons.equals(otherModelManager.filteredPersons)
+                && filteredTrainers.equals(otherModelManager.filteredTrainers)
+                && filteredClients.equals(otherModelManager.filteredClients)
+                && personListPredicate.equals(otherModelManager.personListPredicate)
+                && trainerListPredicate.equals(otherModelManager.trainerListPredicate)
+                && clientListPredicate.equals(otherModelManager.clientListPredicate)
+                && selectedTrainerPhone.equals(otherModelManager.selectedTrainerPhone);
     }
 
 }
