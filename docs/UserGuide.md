@@ -25,8 +25,36 @@ This guide is written for **gym managers and administrators** who want a fast, k
 - **Looking for a specific command?** Jump to [Features](#features) or the [Command Summary](#command-summary) at the end.
 - **Having trouble?** Check [Known Issues](#known-issues) or [FAQ](#faq).
 
-* Table of Contents
-{:toc}
+**Table of Contents**
+- [Introduction](#introduction)
+  - [Who this guide is for](#who-this-guide-is-for)
+  - [How to use this guide](#how-to-use-this-guide)
+- [Quick Start](#quick-start)
+- [Features](#features)
+  - [Viewing help](#viewing-help-help)
+  - [Adding a trainer](#adding-a-trainer-add-trainer)
+  - [Adding a client](#adding-a-client-add-client)
+  - [Listing all persons](#listing-all-persons-list)
+  - [Listing all trainers](#listing-all-trainers-list-trainers)
+  - [Listing all clients](#listing-all-clients-list-clients)
+  - [Viewing a trainer's clients](#viewing-a-trainers-clients)
+  - [Finding persons](#finding-persons-find)
+  - [Finding trainers](#finding-trainers-find-trainers)
+  - [Finding clients](#finding-clients-find-clients)
+  - [Setting a calorie target](#setting-a-calorie-target-set-calorie-target)
+  - [Logging calorie intake](#logging-calorie-intake-log-calorie)
+  - [Setting a workout focus](#setting-a-workout-focus-set-focus)
+  - [Adding a remark](#adding-a-remark-remark)
+  - [Deleting a person](#deleting-a-person-delete)
+  - [Deleting a client](#deleting-a-client-delete-client)
+  - [Deleting a trainer](#deleting-a-trainer-delete-trainer)
+  - [Clearing all data](#clearing-all-data-clear)
+  - [Exiting GymOps](#exiting-gymops-exit)
+  - [Saving data](#saving-data)
+  - [Editing the data file](#editing-the-data-file)
+- [FAQ](#faq)
+- [Known Issues](#known-issues)
+- [Command Summary](#command-summary)
 
 ---
 
