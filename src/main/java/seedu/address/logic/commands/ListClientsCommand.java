@@ -49,6 +49,13 @@ public class ListClientsCommand extends Command {
         this.trainerIndex = Optional.of(index);
     }
 
+    /**
+     * Executes the command. If no trainer index was provided, clears any trainer selection and
+     * shows all clients. If a trainer index was provided, filters the client list to show only
+     * that trainer's clients.
+     *
+     * @throws CommandException if the provided trainer index is out of bounds or does not refer to a trainer.
+     */
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);

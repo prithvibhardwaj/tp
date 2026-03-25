@@ -22,10 +22,16 @@ public class FindClientsCommand extends Command {
 
     private final NameContainsKeywordsPredicate predicate;
 
+    /**
+     * Creates a FindClientsCommand that filters the client list using the given {@code predicate}.
+     */
     public FindClientsCommand(NameContainsKeywordsPredicate predicate) {
         this.predicate = predicate;
     }
 
+    /**
+     * Executes the command and updates the filtered client list in the model.
+     */
     @Override
     public CommandResult execute(Model model) {
         requireNonNull(model);

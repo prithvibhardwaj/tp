@@ -55,6 +55,12 @@ public class AddClientCommand extends Command {
         this.trainerIndex = trainerIndex;
     }
 
+    /**
+     * Executes the command and adds the client to the model, assigned to the trainer at the specified index.
+     *
+     * @throws CommandException if the trainer index is out of bounds, does not refer to a trainer,
+     *     or a duplicate client already exists.
+     */
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);

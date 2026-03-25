@@ -29,10 +29,18 @@ public class DeleteClientCommand extends Command {
 
     private final Index targetIndex;
 
+    /**
+     * Creates a DeleteClientCommand to delete the client at the given {@code targetIndex}.
+     */
     public DeleteClientCommand(Index targetIndex) {
         this.targetIndex = targetIndex;
     }
 
+    /**
+     * Executes the command and deletes the client at the specified index from the model.
+     *
+     * @throws CommandException if the index is out of bounds or does not refer to a client.
+     */
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);

@@ -13,6 +13,12 @@ import seedu.address.model.person.NameContainsKeywordsPredicate;
  */
 public class FindClientsCommandParser implements Parser<FindClientsCommand> {
 
+    /**
+     * Parses the given {@code String} of arguments in the context of the FindClientsCommand
+     * and returns a FindClientsCommand object for execution.
+     *
+     * @throws ParseException if the user input is empty or contains non-alphanumeric keywords.
+     */
     @Override
     public FindClientsCommand parse(String args) throws ParseException {
         String trimmedArgs = args.trim();
