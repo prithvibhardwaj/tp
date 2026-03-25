@@ -385,7 +385,7 @@ GymOps saves data automatically after every command that modifies it. No manual 
 
 ### Editing the data file
 
-Data is saved as a JSON file at `[JAR file location]/data/addressbook.json`. Advanced users may edit this file directly.
+Data is saved as a JSON file at `[JAR file location]/data/GymOps.json`. Advanced users may edit this file directly.
 
 <div markdown="span" class="alert alert-warning">:exclamation: **Caution:** If the file format becomes invalid, GymOps will discard all data and start fresh on the next run. Back up the file before editing it. Certain edits may also cause GymOps to behave unexpectedly if values fall outside acceptable ranges.</div>
 
@@ -401,7 +401,7 @@ _Details coming soon._
 
 **Q: How do I transfer my data to another computer?**
 
-Install GymOps on the other computer and replace the empty data file it creates with your existing data file from `[JAR file location]/data/addressbook.json`.
+Install GymOps on the other computer and replace the empty data file it creates with your existing data file from `[JAR file location]/data/GymOps.json`.
 
 ---
 

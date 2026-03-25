@@ -1,6 +1,7 @@
 package seedu.address;
 
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Optional;
 import java.util.logging.Logger;
@@ -57,6 +58,7 @@ public class MainApp extends Application {
 
         UserPrefsStorage userPrefsStorage = new JsonUserPrefsStorage(config.getUserPrefsFilePath());
         UserPrefs userPrefs = initPrefs(userPrefsStorage);
+        migrateDataFile(userPrefs.getAddressBookFilePath());
         AddressBookStorage addressBookStorage = new JsonAddressBookStorage(userPrefs.getAddressBookFilePath());
         storage = new StorageManager(addressBookStorage, userPrefsStorage);
 
@@ -91,6 +93,21 @@ public class MainApp extends Application {
         }
 
         return new ModelManager(initialData, userPrefs);
+    }
+
+    /**
+     * Renames {@code addressbook.json} to {@code GymOps.json} if the latter does not yet exist.
+     */
+    private void migrateDataFile(Path gymOpsPath) {
+        Path legacyPath = gymOpsPath.resolveSibling("addressbook.json");
+        if (!Files.exists(gymOpsPath) && Files.exists(legacyPath)) {
+            try {
+                Files.move(legacyPath, gymOpsPath);
+                logger.info("Migrated data file from " + legacyPath + " to " + gymOpsPath);
+            } catch (IOException e) {
+                logger.warning("Failed to migrate data file: " + StringUtil.getDetails(e));
+            }
+        }
     }
 
     private void initLogging(Config config) {
