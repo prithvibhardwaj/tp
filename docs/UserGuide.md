@@ -49,6 +49,8 @@ This guide is written for **gym managers and administrators** who want a fast, k
   - [Deleting a person](#deleting-a-person-delete)
   - [Deleting a client](#deleting-a-client-delete-client)
   - [Deleting a trainer](#deleting-a-trainer-delete-trainer)
+  - [Exporting data](#exporting-data-export)
+  - [Importing data](#importing-data-import)
   - [Clearing all data](#clearing-all-data-clear)
   - [Exiting GymOps](#exiting-gymops-exit)
   - [Saving data](#saving-data)
@@ -359,6 +361,35 @@ Examples:
 
 ---
 
+### Exporting data: `export`
+
+Exports the current address book data to a JSON file at the specified location.
+
+Format: `export FILE_PATH`
+
+* `FILE_PATH` can be an absolute path (e.g., `C:/data/export.json` on Windows or `/Users/name/export.json` on macOS/Linux) or a relative path (e.g., `data/export.json` or `export.json`).
+* If a relative path is provided, it is resolved relative to the folder where GymOps is executed.
+
+Examples:
+* `export data/my_export.json` — exports the current data to a file named `my_export.json` inside the `data` folder.
+
+---
+
+### Importing data: `import`
+
+Imports address book data from a specified JSON file, replacing the current application data.
+
+Format: `import FILE_PATH`
+
+* `FILE_PATH` works exactly the same as in the `export` command (both absolute and relative paths are supported).
+
+<div markdown="span" class="alert alert-warning">:exclamation: **Caution:** This action overwrites your existing data. Unsaved changes to the current session will be lost, and any data existing in the specified file will take their place.</div>
+
+Examples:
+* `import data/my_export.json` — imports the data from `my_export.json` into the application.
+
+---
+
 ### Clearing all data: `clear`
 
 Deletes all trainers and clients from GymOps.
@@ -433,5 +464,7 @@ Install GymOps on the other computer and replace the empty data file it creates 
 | **Delete (typed)** | `delete t/TRAINER_INDEX` or `delete c/CLIENT_INDEX` | `delete t/2`, `delete c/1` |
 | **Delete client** | `delete-client INDEX` | `delete-client 1` |
 | **Delete trainer** | `delete-trainer INDEX` | `delete-trainer 1` |
+| **Export** | `export FILE_PATH` | `export data/export.json` |
+| **Import** | `import FILE_PATH` | `import data/import.json` |
 | **Clear** | `clear` | — |
 | **Exit** | `exit` | — |

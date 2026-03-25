@@ -27,6 +27,8 @@ public class HelpCommand extends Command {
             + "  set-focus     — Set a client's workout focus\n"
             + "  reassign-client — Reassign a client to a different trainer\n"
             + "  remark        — Add a remark to a client\n"
+            + "  export        — Export the address book to a JSON file\n"
+            + "  import        — Import the address book from a JSON file\n"
             + "  clear         — Clear all entries\n"
             + "  help          — Show this help message\n"
             + "  exit          — Exit the application";
