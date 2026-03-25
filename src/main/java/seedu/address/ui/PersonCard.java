@@ -38,6 +38,8 @@ public class PersonCard extends UiPart<Region> {
     @FXML
     private Label id;
     @FXML
+    private Label personIcon;
+    @FXML
     private Label phone;
     @FXML
     private Label role;
@@ -75,7 +77,9 @@ public class PersonCard extends UiPart<Region> {
 
         if (person instanceof Trainer) {
             Trainer trainer = (Trainer) person;
-            email.setText(trainer.getEmail().getValue());
+            personIcon.setText("💪");
+            personIcon.getStyleClass().add("trainer-icon");
+            email.setText("Email: " + trainer.getEmail().getValue());
             email.setManaged(true);
             email.setVisible(true);
 
@@ -91,6 +95,8 @@ public class PersonCard extends UiPart<Region> {
             remark.setVisible(false);
         } else if (person instanceof Client) {
             Client client = (Client) person;
+            personIcon.setText("👤");
+            personIcon.getStyleClass().add("client-icon");
             assignedTrainer.setText("Trainer: " + client.getTrainerName().getFullName());
             assignedTrainer.setManaged(true);
             assignedTrainer.setVisible(true);
