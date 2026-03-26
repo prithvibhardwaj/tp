@@ -119,7 +119,13 @@ This guide is written for **gym managers and administrators** who want a fast, k
 
 ### Viewing help: `help`
 
-Opens a link to the help page.
+Opens the **Help Window**.
+
+The Help Window contains:
+- a link to the online User Guide (with a button to copy the URL), and
+- a quick command summary.
+
+If the Help Window is already open, running `help` will focus the existing window.
 
 Format: `help`
 
@@ -175,7 +181,11 @@ Examples:
 
 ### Listing all persons: `list`
 
-Shows all trainers and all clients. Resets both lists and clears any active filters.
+Shows all trainers and all clients.
+
+This command resets both lists to show all entries by:
+- clearing any active `find` filters, and
+- clearing any trainer selection made via the GUI (i.e. if you clicked a trainer to filter clients).
 
 Format: `list`
 
@@ -415,11 +425,15 @@ Format: `clear`
 
 <div markdown="span" class="alert alert-warning">:exclamation: **Caution:** This action is irreversible. All data will be permanently deleted.</div>
 
+After clearing, GymOps will immediately save the empty data set to disk.
+
 ---
 
 ### Exiting GymOps: `exit`
 
 Exits the application.
+
+GymOps saves automatically, so you do not need to run any additional command before exiting.
 
 Format: `exit`
 
