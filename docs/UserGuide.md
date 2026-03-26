@@ -148,6 +148,7 @@ Format: `add-trainer n/NAME p/PHONE_NUMBER e/EMAIL`
 Examples:
 * `add-trainer n/John Doe p/98765432 e/johndoe@example.com`
 
+![add trainer](images/addTrainer.png)
 **Expected outcome:** The new trainer is added to the **Trainers** panel, and a success message is displayed.
 
 [⬆ Back to top](#table-of-contents)
@@ -171,6 +172,7 @@ Examples:
 * `add-client n/Alice Lim p/81234567 t/1` — adds Alice Lim and assigns her to the 1st trainer in the list.
 * `add-client n/Alice Lim p/81234567 t/1 v/2028-09-09` — adds Alice Lim, assigns her to the 1st trainer, and sets her membership validity to 2028-09-09.
 
+![add client](images/addClient.png)
 **Expected outcome:** The new client is assigned to the specified trainer, added to the **Clients** panel, and a success message is displayed.
 
 [⬆ Back to top](#table-of-contents)
@@ -191,6 +193,7 @@ Format: `reassign-client CLIENT_INDEX t/TRAINER_INDEX`
 Examples:
 * `reassign-client 2 t/1` — reassigns the 2nd client to the 1st trainer.
 
+![reassign client](images/reassignClient.png)
 **Expected outcome:** The client's assigned trainer is updated while preserving all other data. A success message is displayed.
 
 [⬆ Back to top](#table-of-contents)
@@ -207,6 +210,7 @@ This command resets both lists to show all entries by:
 
 Format: `list`
 
+![list](images/list.png)
 **Expected outcome:** Both the trainers and clients lists are refreshed to show all entries, and a success message is displayed.
 
 [⬆ Back to top](#table-of-contents)
@@ -219,6 +223,7 @@ Shows all trainers in GymOps. Clears any active trainer filter.
 
 Format: `list-trainers`
 
+![list trainers](images/listTrainers.png)
 **Expected outcome:** The trainers list is refreshed to show all trainers, and a success message is displayed.
 
 [⬆ Back to top](#table-of-contents)
@@ -234,6 +239,9 @@ Format: `list-clients [TRAINER_INDEX]`
 * If `TRAINER_INDEX` is omitted, shows all clients and clears any active trainer filter.
 * If `TRAINER_INDEX` is provided, shows only clients assigned to the trainer at that index in the **current trainer list**.
 
+
+![list clients](images/listClients.png)
+
 <div markdown="span" class="alert alert-info">:bulb: **Tip:** After filtering clients by trainer (via the GUI or by using an index), run `list-clients` without an index to return to the full client list.</div>
 
 Examples:
@@ -244,11 +252,12 @@ Examples:
 
 [⬆ Back to top](#table-of-contents)
 
+
 ---
 
 ### Viewing trainer statistics: `stats`
 
-Shows all trainers in GymOps, sorted by the number of clients they have in descending order. Trainers with the same number of clients will be sorted alphabetically by name. Clears any active trainer filter.
+Shows all trainers in GymOps, sorted by the number of clients they have in descending order. Trainers with the same number of clients will be sorted alphabetically by name.
 
 Format: `stats`
 
@@ -297,7 +306,7 @@ Examples:
 * `find John` — returns `john`, `John Doe`
 * `find alex david` — returns `Alex Yeoh`, `David Li`
 
-![result for 'find alex david'](images/findAlexDavidResult.png)
+![find](images/find.png)
 
 **Expected outcome:** Both lists are filtered to show only persons whose names contain the given keywords. A message showing the number of persons listed is displayed.
 
@@ -317,6 +326,7 @@ Format: `find-trainers KEYWORD [MORE_KEYWORDS]`
 Examples:
 * `find-trainers John` — returns all trainers with "John" in their name.
 
+![find trainers](images/findTrainers.png)
 **Expected outcome:** The trainers list is filtered to show only trainers whose names contain the given keywords. A message showing the number of trainers listed is displayed.
 
 [⬆ Back to top](#table-of-contents)
@@ -338,6 +348,7 @@ Examples:
 * `find-clients Alice` — returns all clients with "Alice" in their name.
 * `find-clients Alice Bob` — returns all clients with "Alice" or "Bob" in their name.
 
+![find clients](images/findClients.png)
 **Expected outcome:** The clients list is filtered to show only clients whose names contain the given keywords. A message showing the number of clients listed is displayed.
 
 [⬆ Back to top](#table-of-contents)
@@ -396,6 +407,7 @@ Format: `set-focus c/CLIENT_INDEX f/FOCUS`
 Examples:
 * `set-focus c/1 f/Chest` — sets the 1st client's workout focus to "Chest".
 
+![set focus](images/setFocus.png)
 **Expected outcome:** The client's workout focus is updated and displayed as a tag on their card. A success message is displayed.
 
 [⬆ Back to top](#table-of-contents)
@@ -414,6 +426,7 @@ Format: `remark INDEX r/REMARK`
 Examples:
 * `remark 1 r/Recovering from ACL surgery`
 
+![remark](images/remark.png)
 **Expected outcome:** The client's remark is updated and displayed on their card. A success message is displayed.
 
 [⬆ Back to top](#table-of-contents)
@@ -455,6 +468,7 @@ Examples:
 * `delete t/2` — deletes the 2nd trainer.
 * `delete c/1` — deletes the 1st client.
 
+![delete](images/delete.png)
 **Expected outcome:** The specified person is permanently removed from the application, and a success message is displayed.
 
 [⬆ Back to top](#table-of-contents)
@@ -474,6 +488,7 @@ Format: `delete-client INDEX`
 Examples:
 * `delete-client 1` — deletes the 1st client in the current list.
 
+![delete client](images/deleteClient.png)
 **Expected outcome:** The client is permanently removed from the application, their assigned trainer's client count is updated, and a success message is displayed.
 
 [⬆ Back to top](#table-of-contents)
@@ -493,6 +508,7 @@ Format: `delete-trainer INDEX`
 Examples:
 * `delete-trainer 1` — deletes the 1st trainer.
 
+![delete trainer](images/deleteTrainer.png)
 **Expected outcome:** The trainer is permanently removed from the application, and a success message is displayed.
 
 [⬆ Back to top](#table-of-contents)
@@ -547,6 +563,7 @@ Format: `clear`
 
 After clearing, GymOps will immediately save the empty data set to disk.
 
+![clear](images/clear.png)
 **Expected outcome:** All trainers and clients are removed from the application, the UI panels are cleared, and a success message is displayed.
 
 [⬆ Back to top](#table-of-contents)
