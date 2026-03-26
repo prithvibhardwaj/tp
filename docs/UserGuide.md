@@ -143,6 +143,8 @@ Format: `add-trainer n/NAME p/PHONE_NUMBER e/EMAIL`
 Examples:
 * `add-trainer n/John Doe p/98765432 e/johndoe@example.com`
 
+![add trainer](images/addTrainer.png)
+
 ---
 
 ### Adding a client: `add-client`
@@ -162,6 +164,8 @@ Examples:
 * `add-client n/Alice Lim p/81234567 t/1` — adds Alice Lim and assigns her to the 1st trainer in the list.
 * `add-client n/Alice Lim p/81234567 t/1 v/2028-09-09` — adds Alice Lim, assigns her to the 1st trainer, and sets her membership validity to 2028-09-09.
 
+![add client](images/addClient.png)
+
 ---
 
 ### Reassigning a client: `reassign-client`
@@ -178,6 +182,8 @@ Format: `reassign-client CLIENT_INDEX t/TRAINER_INDEX`
 Examples:
 * `reassign-client 2 t/1` — reassigns the 2nd client to the 1st trainer.
 
+![reassign client](images/reassignClient.png)
+
 ---
 
 ### Listing all persons: `list`
@@ -190,6 +196,8 @@ This command resets both lists to show all entries by:
 
 Format: `list`
 
+![list](images/list.png)
+
 ---
 
 ### Listing all trainers: `list-trainers`
@@ -197,6 +205,8 @@ Format: `list`
 Shows all trainers in GymOps. Clears any active trainer filter.
 
 Format: `list-trainers`
+
+![list trainers](images/listTrainers.png)
 
 ---
 
@@ -206,13 +216,15 @@ Shows all clients in GymOps. Clears any active client filter, including filters 
 
 Format: `list-clients`
 
+![list clients](images/listClients.png)
+
 <div markdown="span" class="alert alert-info">:bulb: **Tip:** After filtering clients by trainer (via the GUI), run `list-clients` to return to the full client list.</div>
 
 ---
 
 ### Viewing trainer statistics: `stats`
 
-Shows all trainers in GymOps, sorted by the number of clients they have in descending order. Trainers with the same number of clients will be sorted alphabetically by name. Clears any active trainer filter.
+Shows all trainers in GymOps, sorted by the number of clients they have in descending order. Trainers with the same number of clients will be sorted alphabetically by name.
 
 Format: `stats`
 
@@ -247,7 +259,7 @@ Examples:
 * `find John` — returns `john`, `John Doe`
 * `find alex david` — returns `Alex Yeoh`, `David Li`
 
-![result for 'find alex david'](images/findAlexDavidResult.png)
+![find](images/find.png)
 
 ---
 
@@ -262,6 +274,8 @@ Format: `find-trainers KEYWORD [MORE_KEYWORDS]`
 
 Examples:
 * `find-trainers John` — returns all trainers with "John" in their name.
+
+![find trainers](images/findTrainers.png)
 
 ---
 
@@ -279,6 +293,8 @@ Format: `find-clients KEYWORD [MORE_KEYWORDS]`
 Examples:
 * `find-clients Alice` — returns all clients with "Alice" in their name.
 * `find-clients Alice Bob` — returns all clients with "Alice" or "Bob" in their name.
+
+![find clients](images/findClients.png)
 
 ---
 
@@ -326,6 +342,8 @@ Format: `set-focus c/CLIENT_INDEX f/FOCUS`
 Examples:
 * `set-focus c/1 f/Chest` — sets the 1st client's workout focus to "Chest".
 
+![set focus](images/setFocus.png)
+
 ---
 
 ### Adding a remark: `remark`
@@ -339,6 +357,8 @@ Format: `remark INDEX r/REMARK`
 
 Examples:
 * `remark 1 r/Recovering from ACL surgery`
+
+![remark](images/remark.png)
 
 ---
 
@@ -373,6 +393,8 @@ Examples:
 * `delete t/2` — deletes the 2nd trainer.
 * `delete c/1` — deletes the 1st client.
 
+![delete](images/delete.png)
+
 ---
 
 ### Deleting a client: `delete-client`
@@ -388,6 +410,8 @@ Format: `delete-client INDEX`
 Examples:
 * `delete-client 1` — deletes the 1st client in the current list.
 
+![delete client](images/deleteClient.png)
+
 ---
 
 ### Deleting a trainer: `delete-trainer`
@@ -402,6 +426,8 @@ Format: `delete-trainer INDEX`
 
 Examples:
 * `delete-trainer 1` — deletes the 1st trainer.
+
+![delete trainer](images/deleteTrainer.png)
 
 ---
 
@@ -443,6 +469,8 @@ Format: `clear`
 <div markdown="span" class="alert alert-warning">:exclamation: **Caution:** This action is irreversible. All data will be permanently deleted.</div>
 
 After clearing, GymOps will immediately save the empty data set to disk.
+
+![clear](images/clear.png)
 
 ---
 
