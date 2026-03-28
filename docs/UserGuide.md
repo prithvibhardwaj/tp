@@ -423,6 +423,7 @@ Format: `set-validity INDEX v/VALIDITY`
 
 * `INDEX` must refer to a client in the **client list**.
 * `VALIDITY` must be a valid date in the format `YYYY-MM-DD`.
+* GymOps currently displays the validity date but does not automatically enforce expiry or visually highlight expired memberships.
 
 Examples:
 * `set-validity 1 v/2028-09-09` — sets the 1st client's membership validity to 09 Sep 2028.
