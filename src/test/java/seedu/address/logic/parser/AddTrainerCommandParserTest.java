@@ -6,10 +6,9 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.testutil.Assert.assertThrows;
 
-import seedu.address.logic.Messages;
-
 import org.junit.jupiter.api.Test;
 
+import seedu.address.logic.Messages;
 import seedu.address.logic.commands.AddTrainerCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 
@@ -39,12 +38,12 @@ public class AddTrainerCommandParserTest {
     @Test
     public void parse_duplicatePhonePrefix_throwsParseException() {
         String expectedMessage = Messages.getErrorMessageForDuplicatePrefixes(PREFIX_PHONE);
-        assertThrows(ParseException.class, expectedMessage, () -> parser.parse(" n/Alice p/91234567 p/98765432 e/a@b.com"));
+        assertThrows(ParseException.class, expectedMessage, () -> parser.parse(" n/Alice p/967 p/982 e/a@b.com"));
     }
 
     @Test
     public void parse_duplicateEmailPrefix_throwsParseException() {
         String expectedMessage = Messages.getErrorMessageForDuplicatePrefixes(PREFIX_EMAIL);
-        assertThrows(ParseException.class, expectedMessage, () -> parser.parse(" n/Alice p/91234567 e/a@b.com e/b@c.com"));
+        assertThrows(ParseException.class, expectedMessage, () -> parser.parse(" n/Alice p/67 e/a@b.com e/b@c.com"));
     }
 }
