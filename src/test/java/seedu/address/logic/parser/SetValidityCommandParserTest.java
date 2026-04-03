@@ -6,6 +6,8 @@ import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailur
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 
+import seedu.address.logic.Messages;
+
 import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.commands.SetValidityCommand;
@@ -37,5 +39,12 @@ public class SetValidityCommandParserTest {
     @Test
     public void parse_invalidValidity_throwsParseException() {
         assertParseFailure(parser, "1 " + PREFIX_VALIDITY + "invalid", Validity.MESSAGE_CONSTRAINTS);
+    }
+
+    @Test
+    public void parse_duplicateValidityPrefix_throwsParseException() {
+        assertParseFailure(parser,
+                "1 " + PREFIX_VALIDITY + "2026-12-31 " + PREFIX_VALIDITY + "2026-01-01",
+                Messages.getErrorMessageForDuplicatePrefixes(PREFIX_VALIDITY));
     }
 }
