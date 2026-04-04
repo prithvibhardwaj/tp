@@ -220,9 +220,9 @@ public class EditClientCommand extends Command {
         private WorkoutFocus workoutFocus;
         private Remark remark;
         private Validity validity;
-        private boolean clearWorkoutFocus = false;
-        private boolean clearRemark = false;
-        private boolean clearValidity = false;
+        private boolean isClearWorkoutFocus = false;
+        private boolean isClearRemark = false;
+        private boolean isClearValidity = false;
 
         public EditClientDescriptor() {
         }
@@ -238,9 +238,9 @@ public class EditClientCommand extends Command {
             setWorkoutFocus(toCopy.workoutFocus);
             setRemark(toCopy.remark);
             setValidity(toCopy.validity);
-            setClearWorkoutFocus(toCopy.clearWorkoutFocus);
-            setClearRemark(toCopy.clearRemark);
-            setClearValidity(toCopy.clearValidity);
+            setClearWorkoutFocus(toCopy.isClearWorkoutFocus);
+            setClearRemark(toCopy.isClearRemark);
+            setClearValidity(toCopy.isClearValidity);
         }
 
         /**
@@ -248,9 +248,9 @@ public class EditClientCommand extends Command {
          */
         public boolean isAnyFieldEdited() {
             return name != null || phone != null || trainerIndex != null
-                    || calorieTarget != null || workoutFocus != null || clearWorkoutFocus
-                    || remark != null || clearRemark
-                    || validity != null || clearValidity;
+                    || calorieTarget != null || workoutFocus != null || isClearWorkoutFocus
+                    || remark != null || isClearRemark
+                    || validity != null || isClearValidity;
         }
 
         public void setName(Name name) {
@@ -309,28 +309,28 @@ public class EditClientCommand extends Command {
             return Optional.ofNullable(validity);
         }
 
-        public void setClearWorkoutFocus(boolean clear) {
-            this.clearWorkoutFocus = clear;
+        public void setClearWorkoutFocus(boolean isClearWorkoutFocus) {
+            this.isClearWorkoutFocus = isClearWorkoutFocus;
         }
 
         public boolean isClearWorkoutFocus() {
-            return clearWorkoutFocus;
+            return isClearWorkoutFocus;
         }
 
-        public void setClearRemark(boolean clear) {
-            this.clearRemark = clear;
+        public void setClearRemark(boolean isClearRemark) {
+            this.isClearRemark = isClearRemark;
         }
 
         public boolean isClearRemark() {
-            return clearRemark;
+            return isClearRemark;
         }
 
-        public void setClearValidity(boolean clear) {
-            this.clearValidity = clear;
+        public void setClearValidity(boolean isClearValidity) {
+            this.isClearValidity = isClearValidity;
         }
 
         public boolean isClearValidity() {
-            return clearValidity;
+            return isClearValidity;
         }
 
         @Override
@@ -355,9 +355,9 @@ public class EditClientCommand extends Command {
                             otherDescriptor.workoutFocus)
                     && Objects.equals(remark, otherDescriptor.remark)
                     && Objects.equals(validity, otherDescriptor.validity)
-                    && clearWorkoutFocus == otherDescriptor.clearWorkoutFocus
-                    && clearRemark == otherDescriptor.clearRemark
-                    && clearValidity == otherDescriptor.clearValidity;
+                    && isClearWorkoutFocus == otherDescriptor.isClearWorkoutFocus
+                    && isClearRemark == otherDescriptor.isClearRemark
+                    && isClearValidity == otherDescriptor.isClearValidity;
         }
 
         @Override
