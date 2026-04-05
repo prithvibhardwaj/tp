@@ -3,6 +3,8 @@ layout: page
 title: User Guide
 ---
 
+<a id="top"></a>
+
 GymOps is a **desktop application for gym managers** to manage trainers and their clients. It is optimised for users who prefer a **Command Line Interface (CLI)** while still offering the benefits of a **Graphical User Interface (GUI)**.
 
 ---
@@ -31,33 +33,37 @@ This guide is written for **gym managers and administrators** who want a fast, k
   - [How to use this guide](#how-to-use-this-guide)
 - [Quick Start](#quick-start)
 - [Features](#features)
-  - [Viewing help](#viewing-help-help)
-  - [Adding a trainer](#adding-a-trainer-add-trainer)
-  - [Editing a trainer](#editing-a-trainer-edit-trainer)
-  - [Adding a client](#adding-a-client-add-client)
-  - [Editing a client](#editing-a-client-edit-client)
-  - [Reassigning a client](#reassigning-a-client-reassign-client)
-  - [Listing all persons](#listing-all-persons-list)
-  - [Listing all trainers](#listing-all-trainers-list-trainers)
-  - [Listing clients](#listing-clients-list-clients)
-  - [Viewing trainer statistics](#viewing-trainer-statistics-stats)
-  - [Finding persons](#finding-persons-find)
-  - [Finding trainers](#finding-trainers-find-trainers)
-  - [Finding clients](#finding-clients-find-clients)
-  - [Setting a calorie target](#setting-a-calorie-target-set-calorie-target)
-  - [Logging calorie intake](#logging-calorie-intake-log-calorie)
-  - [Setting a workout focus](#setting-a-workout-focus-set-focus)
-  - [Adding a remark](#adding-a-remark-remark)
-  - [Setting a membership validity](#setting-a-membership-validity-set-validity)
-  - [Deleting a person](#deleting-a-person-delete)
-  - [Deleting a client](#deleting-a-client-delete-client)
-  - [Deleting a trainer](#deleting-a-trainer-delete-trainer)
-  - [Exporting data](#exporting-data-export)
-  - [Importing data](#importing-data-import)
-  - [Clearing all data](#clearing-all-data-clear)
-  - [Exiting GymOps](#exiting-gymops-exit)
-  - [Saving data](#saving-data)
-  - [Editing the data file](#editing-the-data-file)
+  - [General](#general)
+    - [Viewing help](#viewing-help-help)
+    - [Listing all persons](#listing-all-persons-list)
+    - [Finding persons](#finding-persons-find)
+    - [Deleting a person](#deleting-a-person-delete)
+    - [Clearing all data](#clearing-all-data-clear)
+    - [Exporting data](#exporting-data-export)
+    - [Importing data](#importing-data-import)
+    - [Exiting GymOps](#exiting-gymops-exit)
+    - [Saving data](#saving-data)
+    - [Editing the data file](#editing-the-data-file)
+  - [Trainer Management](#trainer-management)
+    - [Adding a trainer](#adding-a-trainer-add-trainer)
+    - [Editing a trainer](#editing-a-trainer-edit-trainer)
+    - [Listing all trainers](#listing-all-trainers-list-trainers)
+    - [Finding trainers](#finding-trainers-find-trainers)
+    - [Viewing trainer statistics](#viewing-trainer-statistics-stats)
+    - [Deleting a trainer](#deleting-a-trainer-delete-trainer)
+  - [Client Management](#client-management)
+    - [Adding a client](#adding-a-client-add-client)
+    - [Editing a client](#editing-a-client-edit-client)
+    - [Reassigning a client](#reassigning-a-client-reassign-client)
+    - [Listing clients](#listing-clients-list-clients)
+    - [Finding clients](#finding-clients-find-clients)
+    - [Deleting a client](#deleting-a-client-delete-client)
+  - [Health Tracking](#health-tracking)
+    - [Setting a calorie target](#setting-a-calorie-target-set-calorie-target)
+    - [Logging calorie intake](#logging-calorie-intake-log-calorie)
+    - [Setting a workout focus](#setting-a-workout-focus-set-focus)
+    - [Adding a remark](#adding-a-remark-remark)
+    - [Setting a membership validity](#setting-a-membership-validity-set-validity)
 - [FAQ](#faq)
 - [Known Issues](#known-issues)
 - [Command Summary](#command-summary)
@@ -70,7 +76,7 @@ This guide is written for **gym managers and administrators** who want a fast, k
 
    **Mac users:** Install the precise JDK version prescribed [here](https://se-education.org/guides/tutorials/javaInstallationMac.html).
 
-1. Download the latest `.jar` file from the project's release page.
+1. Download the latest `.jar` file from the [project's release page](https://github.com/AY2526S2-CS2103T-T17-1/tp/releases).
 
 1. Copy the file to the folder you want to use as the _home folder_ for GymOps.
 
@@ -121,7 +127,9 @@ This guide is written for **gym managers and administrators** who want a fast, k
 
 </div>
 
-### Viewing help: `help`
+### General
+
+#### Viewing help: `help`
 
 Opens the **Help Window**.
 
@@ -137,114 +145,11 @@ Format: `help`
 
 **Expected outcome:** The Help Window opens or comes to the front, displaying a link to the User Guide and a command summary.
 
-[⬆ Back to top](#table-of-contents)
+[⬆ Back to top](#top)
 
 ---
 
-### Adding a trainer: `add-trainer`
-
-Adds a new trainer to GymOps.
-
-Format: `add-trainer n/NAME p/PHONE_NUMBER e/EMAIL`
-
-Examples:
-* `add-trainer n/John Doe p/98765432 e/johndoe@example.com`
-
-![add trainer](images/addTrainer.png)
-**Expected outcome:** The new trainer is added to the **Trainers** panel, and a success message is displayed.
-
-[⬆ Back to top](#table-of-contents)
-
----
-
-### Editing a trainer: `edit-trainer`
-
-Edits the details of an existing trainer in GymOps. Use this command to update a trainer's name, phone number, or email address.
-
-Format: `edit-trainer INDEX [n/NAME] [p/PHONE] [e/EMAIL]`
-
-* `INDEX` must be a positive integer.
-* At least one optional field must be provided.
-* Existing values will be overwritten by the input values.
-
-<div markdown="span" class="alert alert-info">:bulb: **Tip:** Run `list-trainers` to confirm the correct trainer index before editing.</div>
-
-Examples:
-* `edit-trainer 1 e/johndoe@gym.com` — updates the 1st trainer's email.
-* `edit-trainer 2 n/Jane Doe p/92222222` — updates the 2nd trainer's name and phone.
-
-[⬆ Back to top](#table-of-contents)
-
----
-
-### Adding a client: `add-client`
-
-Adds a new client and assigns them to an existing trainer.
-
-Format: `add-client n/NAME p/PHONE_NUMBER t/TRAINER_INDEX [v/VALIDITY]`
-
-* `TRAINER_INDEX` must refer to a trainer visible in the **current trainer list**.
-* `VALIDITY` is an optional field that must be a valid date in the format `YYYY-MM-DD`.
-
-<div markdown="span" class="alert alert-warning">:exclamation: **Caution:** If the trainer list is filtered (e.g. after a `find-trainers` command), `TRAINER_INDEX` refers to the filtered results. Run `list-trainers` first to assign by the full list.</div>
-
-<div markdown="span" class="alert alert-info">:bulb: **Tip:** Run `list-trainers` to confirm the correct trainer index before adding a client.</div>
-
-Examples:
-* `add-client n/Alice Lim p/81234567 t/1` — adds Alice Lim and assigns her to the 1st trainer in the list.
-* `add-client n/Alice Lim p/81234567 t/1 v/2028-09-09` — adds Alice Lim, assigns her to the 1st trainer, and sets her membership validity to 2028-09-09.
-
-![add client](images/addClient.png)
-**Expected outcome:** The new client is assigned to the specified trainer, added to the **Clients** panel, and a success message is displayed.
-
-[⬆ Back to top](#table-of-contents)
-
----
-
-### Editing a client: `edit-client`
-
-Edits the details of an existing client in GymOps. Use this command to update a client's name, phone number, assigned trainer, calorie target, workout focus, remark, or membership validity.
-
-Format: `edit-client INDEX [n/NAME] [p/PHONE] [t/TRAINER_INDEX] [cal/CALORIE_TARGET] [f/FOCUS] [r/REMARK] [v/VALIDITY]`
-
-* `INDEX` must be a positive integer.
-* At least one optional field must be provided.
-* Existing values will be overwritten by the input values.
-* When editing the trainer assignment, `TRAINER_INDEX` must refer to a valid trainer.
-
-<div markdown="span" class="alert alert-info">:bulb: **Tip:** Run `list-clients` to confirm the correct client index before editing.</div>
-
-Examples:
-* `edit-client 1 n/Alice Tan` — updates the 1st client's name to Alice Tan.
-* `edit-client 2 p/91234567 cal/2000` — updates the 2nd client's phone and calorie target.
-* `edit-client 1 t/2 f/Arms` — reassigns the 1st client to trainer #2 and sets focus to Arms.
-
-[⬆ Back to top](#table-of-contents)
-
----
-
-### Reassigning a client: `reassign-client`
-
-Reassigns an existing client to a different trainer. All client data (calorie target, intake, workout focus, remark) is preserved.
-
-Format: `reassign-client CLIENT_INDEX t/TRAINER_INDEX`
-
-* `CLIENT_INDEX` must refer to a client in the **client list**.
-* `TRAINER_INDEX` must refer to a trainer visible in the **current trainer list**.
-
-<div markdown="span" class="alert alert-warning">:exclamation: **Caution:** If either list is filtered, indexes refer to the filtered results. Run `list` first to reassign using the full lists.</div>
-
-Examples:
-* `reassign-client 2 t/1` — reassigns the 2nd client to the 1st trainer.
-
-![reassign client](images/reassignClient.png)
-**Expected outcome:** The client's assigned trainer is updated while preserving all other data. A success message is displayed.
-
-[⬆ Back to top](#table-of-contents)
-
----
-
-### Listing all persons: `list`
+#### Listing all persons: `list`
 
 Shows all trainers and all clients.
 
@@ -256,59 +161,11 @@ Format: `list`
 
 **Expected outcome:** Both the trainers and clients lists are refreshed to show all entries, and a success message is displayed.
 
-[⬆ Back to top](#table-of-contents)
+[⬆ Back to top](#top)
 
 ---
 
-### Listing all trainers: `list-trainers`
-
-Shows all trainers in GymOps. Clears any active trainer filter.
-
-Format: `list-trainers`
-
-**Expected outcome:** The trainers list is refreshed to show all trainers, and a success message is displayed.
-
-[⬆ Back to top](#table-of-contents)
-
----
-
-### Listing clients: `list-clients`
-
-Shows all clients in GymOps, or only clients assigned to a specific trainer.
-
-Format: `list-clients [TRAINER_INDEX]`
-
-* If `TRAINER_INDEX` is omitted, shows all clients and clears any active trainer filter.
-* If `TRAINER_INDEX` is provided, shows only clients assigned to the trainer at that index in the **current trainer list**.
-
-<div markdown="span" class="alert alert-info">:bulb: **Tip:** After filtering clients by trainer (via the GUI or by using an index), run `list-clients` without an index to return to the full client list.</div>
-
-Examples:
-* `list-clients` — shows all clients.
-* `list-clients 1` — shows only clients assigned to the 1st trainer in the current list.
-
-**Expected outcome:** The clients list is refreshed to show either all clients or the specified trainer's clients, and a success message is displayed.
-
-[⬆ Back to top](#table-of-contents)
-
-
----
-
-### Viewing trainer statistics: `stats`
-
-Shows all trainers in GymOps, sorted by the number of clients they have in descending order. Trainers with the same number of clients will be sorted alphabetically by name.
-
-Format: `stats`
-
-![stats message](images/stats.png)
-
-**Expected outcome:** The trainer list is sorted by client count (descending), and a summary is shown.
-
-[⬆ Back to top](#table-of-contents)
-
----
-
-### Finding persons: `find`
+#### Finding persons: `find`
 
 Finds trainers and clients whose names contain any of the given keywords.
 
@@ -331,11 +188,164 @@ Examples:
 
 **Expected outcome:** Both lists are filtered to show only persons whose names contain the given keywords. A message showing the number of persons listed is displayed.
 
-[⬆ Back to top](#table-of-contents)
+[⬆ Back to top](#top)
 
 ---
 
-### Finding trainers: `find-trainers`
+#### Deleting a person: `delete`
+
+Deletes a trainer or client using a typed prefix to specify the list.
+
+Format: `delete t/TRAINER_INDEX` or `delete c/CLIENT_INDEX`
+
+* `t/TRAINER_INDEX` refers to the index in the **trainer list**.
+* `c/CLIENT_INDEX` refers to the index in the **client list**.
+
+<div markdown="span" class="alert alert-warning">:exclamation: **Caution:** A trainer cannot be deleted if they still have active clients. Remove their clients first using `delete-client` or `delete c/...`.</div>
+
+Examples:
+* `delete t/2` — deletes the 2nd trainer.
+* `delete c/1` — deletes the 1st client.
+
+**Expected outcome:** The specified person is permanently removed from the application, and a success message is displayed.
+
+[⬆ Back to top](#top)
+
+---
+
+#### Clearing all data: `clear`
+
+Deletes all trainers and clients from GymOps.
+
+Format: `clear`
+
+<div markdown="span" class="alert alert-warning">:exclamation: **Caution:** This action is irreversible. All data will be permanently deleted.</div>
+
+After clearing, GymOps will immediately save the empty data set to disk.
+
+**Expected outcome:** All trainers and clients are removed from the application, the UI panels are cleared, and a success message is displayed.
+
+[⬆ Back to top](#top)
+
+---
+
+#### Exporting data: `export`
+
+Exports the current GymOps data to a JSON file at the specified location.
+
+Format: `export FILE_PATH`
+
+* `FILE_PATH` can be an absolute path (e.g., `C:/data/export.json` on Windows or `/Users/name/export.json` on macOS/Linux) or a relative path (e.g., `data/export.json` or `export.json`).
+* If a relative path is provided, it is resolved relative to the folder where GymOps is executed.
+* The file must have a `.json` extension, and the parent directory must exist.
+
+Examples:
+* `export data/my_export.json` — exports the current data to a file named `my_export.json` inside the `data` folder.
+
+**Expected outcome:** The current data is successfully exported to the specified file, and a success message is displayed.
+
+[⬆ Back to top](#top)
+
+---
+
+#### Importing data: `import`
+
+Imports GymOps data from a specified JSON file, replacing the current application data.
+
+Format: `import FILE_PATH`
+
+* `FILE_PATH` works exactly the same as in the `export` command (both absolute and relative paths are supported).
+
+<div markdown="span" class="alert alert-warning">:exclamation: **Caution:** This action overwrites your existing data. Unsaved changes to the current session will be lost, and any data existing in the specified file will take their place.</div>
+
+Examples:
+* `import data/my_export.json` — imports the data from `my_export.json` into the application.
+
+**Expected outcome:** The application's data is entirely replaced by the contents of the imported file. The UI refreshes to show the new data, and a success message is displayed.
+
+[⬆ Back to top](#top)
+
+---
+
+#### Exiting GymOps: `exit`
+
+Exits the application.
+
+GymOps saves automatically, so you do not need to run any additional command before exiting.
+
+Format: `exit`
+
+**Expected outcome:** The application window safely closes and the program terminates.
+
+[⬆ Back to top](#top)
+
+---
+
+#### Saving data
+
+GymOps saves data automatically after every command that modifies it. No manual saving is needed.
+
+---
+
+#### Editing the data file
+
+Data is saved as a JSON file at `[JAR file location]/data/GymOps.json`. Advanced users may edit this file directly.
+
+<div markdown="span" class="alert alert-warning">:exclamation: **Caution:** If the file format becomes invalid, GymOps will discard all data and start fresh on the next run. Back up the file before editing it. Certain edits may also cause GymOps to behave unexpectedly if values fall outside acceptable ranges.</div>
+
+---
+
+### Trainer Management
+
+#### Adding a trainer: `add-trainer`
+
+Adds a new trainer to GymOps.
+
+Format: `add-trainer n/NAME p/PHONE_NUMBER e/EMAIL`
+
+Examples:
+* `add-trainer n/John Doe p/98765432 e/johndoe@example.com`
+
+![add trainer](images/addTrainer.png)
+**Expected outcome:** The new trainer is added to the **Trainers** panel, and a success message is displayed.
+
+[⬆ Back to top](#top)
+
+---
+
+#### Editing a trainer: `edit-trainer`
+
+Edits the details of an existing trainer in GymOps. Use this command to update a trainer's name, phone number, or email address.
+
+Format: `edit-trainer INDEX [n/NAME] [p/PHONE] [e/EMAIL]`
+
+* `INDEX` must be a positive integer.
+* At least one optional field must be provided.
+* Existing values will be overwritten by the input values.
+
+<div markdown="span" class="alert alert-info">:bulb: **Tip:** Run `list-trainers` to confirm the correct trainer index before editing.</div>
+
+Examples:
+* `edit-trainer 1 e/johndoe@gym.com` — updates the 1st trainer's email.
+* `edit-trainer 2 n/Jane Doe p/92222222` — updates the 2nd trainer's name and phone.
+
+[⬆ Back to top](#top)
+
+---
+
+#### Listing all trainers: `list-trainers`
+
+Shows all trainers in GymOps. Clears any active trainer filter.
+
+Format: `list-trainers`
+
+**Expected outcome:** The trainers list is refreshed to show all trainers, and a success message is displayed.
+
+[⬆ Back to top](#top)
+
+---
+
+#### Finding trainers: `find-trainers`
 
 Finds trainers whose names contain any of the given keywords.
 
@@ -354,11 +364,134 @@ Examples:
 ![find trainers](images/findTrainers.png)
 **Expected outcome:** The trainers list is filtered to show only trainers whose names contain the given keywords. A message showing the number of trainers listed is displayed.
 
-[⬆ Back to top](#table-of-contents)
+[⬆ Back to top](#top)
 
 ---
 
-### Finding clients: `find-clients`
+#### Viewing trainer statistics: `stats`
+
+Shows all trainers in GymOps, sorted by the number of clients they have in descending order. Trainers with the same number of clients will be sorted alphabetically by name.
+
+Format: `stats`
+
+![stats message](images/stats.png)
+
+**Expected outcome:** The trainer list is sorted by client count (descending), and a summary is shown.
+
+[⬆ Back to top](#top)
+
+---
+
+#### Deleting a trainer: `delete-trainer`
+
+Deletes a trainer from GymOps.
+
+Format: `delete-trainer INDEX`
+
+* `INDEX` must refer to a trainer in the **trainer list**.
+
+<div markdown="span" class="alert alert-warning">:exclamation: **Caution:** A trainer cannot be deleted if they still have active clients. Use `delete-client` to remove their clients first.</div>
+
+Examples:
+* `delete-trainer 1` — deletes the 1st trainer.
+
+**Expected outcome:** The trainer is permanently removed from the application, and a success message is displayed.
+
+[⬆ Back to top](#top)
+
+---
+
+### Client Management
+
+#### Adding a client: `add-client`
+
+Adds a new client and assigns them to an existing trainer.
+
+Format: `add-client n/NAME p/PHONE_NUMBER t/TRAINER_INDEX [v/VALIDITY]`
+
+* `TRAINER_INDEX` must refer to a trainer visible in the **current trainer list**.
+* `VALIDITY` is an optional field that must be a valid date in the format `YYYY-MM-DD`. e.g. `v/2028-09-09`. Using a wrong format such as `v/09-09-2028` will show: `Validity should be a valid date in the format YYYY-MM-DD.`
+
+<div markdown="span" class="alert alert-warning">:exclamation: **Caution:** If the trainer list is filtered (e.g. after a `find-trainers` command), `TRAINER_INDEX` refers to the filtered results. Run `list-trainers` first to assign by the full list.</div>
+
+<div markdown="span" class="alert alert-info">:bulb: **Tip:** Run `list-trainers` to confirm the correct trainer index before adding a client.</div>
+
+Examples:
+* `add-client n/Alice Lim p/81234567 t/1` — adds Alice Lim and assigns her to the 1st trainer in the list.
+* `add-client n/Alice Lim p/81234567 t/1 v/2028-09-09` — adds Alice Lim, assigns her to the 1st trainer, and sets her membership validity to 2028-09-09.
+
+![add client](images/addClient.png)
+**Expected outcome:** The new client is assigned to the specified trainer, added to the **Clients** panel, and a success message is displayed.
+
+[⬆ Back to top](#top)
+
+---
+
+#### Editing a client: `edit-client`
+
+Edits the details of an existing client in GymOps. Use this command to update a client's name, phone number, assigned trainer, calorie target, workout focus, remark, or membership validity.
+
+Format: `edit-client INDEX [n/NAME] [p/PHONE] [t/TRAINER_INDEX] [cal/CALORIE_TARGET] [f/FOCUS] [r/REMARK] [v/VALIDITY]`
+
+* `INDEX` must be a positive integer.
+* At least one optional field must be provided.
+* Existing values will be overwritten by the input values.
+* When editing the trainer assignment, `TRAINER_INDEX` must refer to a valid trainer.
+
+<div markdown="span" class="alert alert-info">:bulb: **Tip:** Run `list-clients` to confirm the correct client index before editing.</div>
+
+Examples:
+* `edit-client 1 n/Alice Tan` — updates the 1st client's name to Alice Tan.
+* `edit-client 2 p/91234567 cal/2000` — updates the 2nd client's phone and calorie target.
+* `edit-client 1 t/2 f/Arms` — reassigns the 1st client to trainer #2 and sets focus to Arms.
+
+[⬆ Back to top](#top)
+
+---
+
+#### Reassigning a client: `reassign-client`
+
+Reassigns an existing client to a different trainer. All client data (calorie target, intake, workout focus, remark) is preserved.
+
+Format: `reassign-client CLIENT_INDEX t/TRAINER_INDEX`
+
+* `CLIENT_INDEX` must refer to a client in the **client list**.
+* `TRAINER_INDEX` must refer to a trainer visible in the **current trainer list**.
+
+<div markdown="span" class="alert alert-warning">:exclamation: **Caution:** If either list is filtered, indexes refer to the filtered results. Run `list` first to reassign using the full lists.</div>
+
+Examples:
+* `reassign-client 2 t/1` — reassigns the 2nd client to the 1st trainer.
+
+![reassign client](images/reassignClient.png)
+**Expected outcome:** The client's assigned trainer is updated while preserving all other data. A success message is displayed.
+
+[⬆ Back to top](#top)
+
+---
+
+#### Listing clients: `list-clients`
+
+Shows all clients in GymOps, or only clients assigned to a specific trainer.
+
+Format: `list-clients [TRAINER_INDEX]`
+
+* If `TRAINER_INDEX` is omitted, shows all clients and clears any active trainer filter.
+* If `TRAINER_INDEX` is provided, shows only clients assigned to the trainer at that index in the **current trainer list**.
+
+<div markdown="span" class="alert alert-info">:bulb: **Tip:** After filtering clients by trainer (via the GUI or by using an index), run `list-clients` without an index to return to the full client list.</div>
+
+Examples:
+* `list-clients` — shows all clients.
+* `list-clients 1` — shows only clients assigned to the 1st trainer in the current list.
+
+**Expected outcome:** The clients list is refreshed to show either all clients or the specified trainer's clients, and a success message is displayed.
+
+[⬆ Back to top](#top)
+
+---
+
+#### Finding clients: `find-clients`
 
 Finds clients whose names contain any of the given keywords.
 
@@ -378,11 +511,32 @@ Examples:
 ![find clients](images/findClients.png)
 **Expected outcome:** The clients list is filtered to show only clients whose names contain the given keywords. A message showing the number of clients listed is displayed.
 
-[⬆ Back to top](#table-of-contents)
+[⬆ Back to top](#top)
 
 ---
 
-### Setting a calorie target: `set-calorie-target`
+#### Deleting a client: `delete-client`
+
+Deletes a client from GymOps. The client is permanently removed and unassigned from their trainer.
+
+Format: `delete-client INDEX`
+
+* `INDEX` must refer to a client in the **client list**.
+
+<div markdown="span" class="alert alert-info">:bulb: **Tip:** Run `find-clients NAME` first to locate the client, then use the index shown in the filtered list.</div>
+
+Examples:
+* `delete-client 1` — deletes the 1st client in the current list.
+
+**Expected outcome:** The client is permanently removed from the application, their assigned trainer's client count is updated, and a success message is displayed.
+
+[⬆ Back to top](#top)
+
+---
+
+### Health Tracking
+
+#### Setting a calorie target: `set-calorie-target`
 
 Sets the daily calorie target for a client.
 
@@ -398,11 +552,11 @@ Examples:
 
 **Expected outcome:** The client's calorie target is updated and displayed on their card. A success message is displayed.
 
-[⬆ Back to top](#table-of-contents)
+[⬆ Back to top](#top)
 
 ---
 
-### Logging calorie intake: `log-calorie`
+#### Logging calorie intake: `log-calorie`
 
 Logs calorie intake for a client. Calories are added to the client's existing daily intake.
 
@@ -418,11 +572,11 @@ Examples:
 
 **Expected outcome:** The client's calorie intake is accumulated and displayed on their card. A success message is displayed.
 
-[⬆ Back to top](#table-of-contents)
+[⬆ Back to top](#top)
 
 ---
 
-### Setting a workout focus: `set-focus`
+#### Setting a workout focus: `set-focus`
 
 Sets the primary workout focus for a client. Overwrites any existing focus.
 
@@ -437,11 +591,11 @@ Examples:
 ![set focus](images/setFocus.png)
 **Expected outcome:** The client's workout focus is updated and displayed as a tag on their card. A success message is displayed.
 
-[⬆ Back to top](#table-of-contents)
+[⬆ Back to top](#top)
 
 ---
 
-### Adding a remark: `remark`
+#### Adding a remark: `remark`
 
 Adds a remark to a client. Overwrites any existing remark.
 
@@ -456,18 +610,18 @@ Examples:
 ![remark](images/remark.png)
 **Expected outcome:** The client's remark is updated and displayed on their card. A success message is displayed.
 
-[⬆ Back to top](#table-of-contents)
+[⬆ Back to top](#top)
 
 ---
 
-### Setting a membership validity: `set-validity`
+#### Setting a membership validity: `set-validity`
 
 Sets the membership validity date for a client. Overwrites any existing validity.
 
 Format: `set-validity INDEX v/VALIDITY`
 
 * `INDEX` must refer to a client in the **client list**.
-* `VALIDITY` must be a valid date in the format `YYYY-MM-DD`.
+* `VALIDITY` must be a valid date in the format `YYYY-MM-DD`. e.g. `v/2028-09-09`. Using a wrong format such as `v/09-09-2028` will show: `Validity should be a valid date in the format YYYY-MM-DD.`
 * GymOps currently displays the validity date but does not automatically enforce expiry or visually highlight expired memberships.
 
 Examples:
@@ -477,148 +631,7 @@ Examples:
 
 **Expected outcome:** The client's membership validity is updated and displayed on their card. A success message is displayed.
 
-[⬆ Back to top](#table-of-contents)
-
----
-
-### Deleting a person: `delete`
-
-Deletes a trainer or client using a typed prefix to specify the list.
-
-Format: `delete t/TRAINER_INDEX` or `delete c/CLIENT_INDEX`
-
-* `t/TRAINER_INDEX` refers to the index in the **trainer list**.
-* `c/CLIENT_INDEX` refers to the index in the **client list**.
-
-<div markdown="span" class="alert alert-warning">:exclamation: **Caution:** A trainer cannot be deleted if they still have active clients. Remove their clients first using `delete-client` or `delete c/...`.</div>
-
-Examples:
-* `delete t/2` — deletes the 2nd trainer.
-* `delete c/1` — deletes the 1st client.
-
-**Expected outcome:** The specified person is permanently removed from the application, and a success message is displayed.
-
-[⬆ Back to top](#table-of-contents)
-
----
-
-### Deleting a client: `delete-client`
-
-Deletes a client from GymOps. The client is permanently removed and unassigned from their trainer.
-
-Format: `delete-client INDEX`
-
-* `INDEX` must refer to a client in the **client list**.
-
-<div markdown="span" class="alert alert-info">:bulb: **Tip:** Run `find-clients NAME` first to locate the client, then use the index shown in the filtered list.</div>
-
-Examples:
-* `delete-client 1` — deletes the 1st client in the current list.
-
-**Expected outcome:** The client is permanently removed from the application, their assigned trainer's client count is updated, and a success message is displayed.
-
-[⬆ Back to top](#table-of-contents)
-
----
-
-### Deleting a trainer: `delete-trainer`
-
-Deletes a trainer from GymOps.
-
-Format: `delete-trainer INDEX`
-
-* `INDEX` must refer to a trainer in the **trainer list**.
-
-<div markdown="span" class="alert alert-warning">:exclamation: **Caution:** A trainer cannot be deleted if they still have active clients. Use `delete-client` to remove their clients first.</div>
-
-Examples:
-* `delete-trainer 1` — deletes the 1st trainer.
-
-**Expected outcome:** The trainer is permanently removed from the application, and a success message is displayed.
-
-[⬆ Back to top](#table-of-contents)
-
----
-
-### Exporting data: `export`
-
-Exports the current GymOps data to a JSON file at the specified location.
-
-Format: `export FILE_PATH`
-
-* `FILE_PATH` can be an absolute path (e.g., `C:/data/export.json` on Windows or `/Users/name/export.json` on macOS/Linux) or a relative path (e.g., `data/export.json` or `export.json`).
-* If a relative path is provided, it is resolved relative to the folder where GymOps is executed.
-* The file must have a `.json` extension, and the parent directory must exist.
-
-Examples:
-* `export data/my_export.json` — exports the current data to a file named `my_export.json` inside the `data` folder.
-
-**Expected outcome:** The current data is successfully exported to the specified file, and a success message is displayed.
-
-[⬆ Back to top](#table-of-contents)
-
----
-
-### Importing data: `import`
-
-Imports GymOps data from a specified JSON file, replacing the current application data.
-
-Format: `import FILE_PATH`
-
-* `FILE_PATH` works exactly the same as in the `export` command (both absolute and relative paths are supported).
-
-<div markdown="span" class="alert alert-warning">:exclamation: **Caution:** This action overwrites your existing data. Unsaved changes to the current session will be lost, and any data existing in the specified file will take their place.</div>
-
-Examples:
-* `import data/my_export.json` — imports the data from `my_export.json` into the application.
-
-**Expected outcome:** The application's data is entirely replaced by the contents of the imported file. The UI refreshes to show the new data, and a success message is displayed.
-
-[⬆ Back to top](#table-of-contents)
-
----
-
-### Clearing all data: `clear`
-
-Deletes all trainers and clients from GymOps.
-
-Format: `clear`
-
-<div markdown="span" class="alert alert-warning">:exclamation: **Caution:** This action is irreversible. All data will be permanently deleted.</div>
-
-After clearing, GymOps will immediately save the empty data set to disk.
-
-**Expected outcome:** All trainers and clients are removed from the application, the UI panels are cleared, and a success message is displayed.
-
-[⬆ Back to top](#table-of-contents)
-
----
-
-### Exiting GymOps: `exit`
-
-Exits the application.
-
-GymOps saves automatically, so you do not need to run any additional command before exiting.
-
-Format: `exit`
-
-**Expected outcome:** The application window safely closes and the program terminates.
-
-[⬆ Back to top](#table-of-contents)
-
----
-
-### Saving data
-
-GymOps saves data automatically after every command that modifies it. No manual saving is needed.
-
----
-
-### Editing the data file
-
-Data is saved as a JSON file at `[JAR file location]/data/GymOps.json`. Advanced users may edit this file directly.
-
-<div markdown="span" class="alert alert-warning">:exclamation: **Caution:** If the file format becomes invalid, GymOps will discard all data and start fresh on the next run. Back up the file before editing it. Certain edits may also cause GymOps to behave unexpectedly if values fall outside acceptable ranges.</div>
+[⬆ Back to top](#top)
 
 ---
 
@@ -632,7 +645,7 @@ Install GymOps on the other computer and replace the empty data file it creates 
 
 ## Known Issues
 
-1. **Multiple screens:** If you move the app to a secondary screen and later use only the primary screen, the GUI may open off-screen. Fix: delete `preferences.json` before restarting the app.
+1. **Multiple screens:** If you move the app to a secondary screen and later use only the primary screen, the GUI may open off-screen. Fix: delete `preferences.json` (found in the same folder as the `.jar` file) before restarting the app.
 2. **Minimised Help Window:** Running `help` again while the Help Window is minimised will not open a new window. Fix: manually restore the minimised window.
 3. **Double-clicking the JAR:** On some systems, double-clicking the `.jar` may not start the app. Fix: run using `java -jar YOUR_FILE_NAME.jar` from a terminal.
 4. **Write-protected folders:** If GymOps is placed in a write-protected folder, it may fail to save changes. Fix: move the `.jar` to a writable folder (e.g., your user directory) and run it from there.
@@ -644,28 +657,28 @@ Install GymOps on the other computer and replace the empty data file it creates 
 
 | Action | Format | Example |
 |--------|--------|---------|
-| **Help** | `help` | — |
-| **Add trainer** | `add-trainer n/NAME p/PHONE_NUMBER e/EMAIL` | `add-trainer n/John Doe p/98765432 e/johndoe@example.com` |
-| **Edit trainer** | `edit-trainer INDEX [n/NAME] [p/PHONE] [e/EMAIL]` | `edit-trainer 1 n/Jane Doe e/jane@example.com` |
-| **Add client** | `add-client n/NAME p/PHONE_NUMBER t/TRAINER_INDEX [v/VALIDITY]` | `add-client n/Alice Lim p/81234567 t/1 v/2028-09-09` |
-| **Edit client** | `edit-client INDEX [n/NAME] [p/PHONE] [t/TRAINER_INDEX] [cal/CALORIE_TARGET] [f/FOCUS] [r/REMARK] [v/VALIDITY]` | `edit-client 1 n/Alice Tan p/91234567` |
-| **Reassign client** | `reassign-client CLIENT_INDEX t/TRAINER_INDEX` | `reassign-client 2 t/1` |
-| **List all** | `list` | — |
-| **List trainers** | `list-trainers` | — |
-| **List clients** | `list-clients [TRAINER_INDEX]` | `list-clients`, `list-clients 1` |
-| **Stats** | `stats` | — |
-| **Find (both lists)** | `find KEYWORD [MORE_KEYWORDS]` | `find James Jake` |
-| **Find trainers** | `find-trainers KEYWORD [MORE_KEYWORDS]` | `find-trainers John` |
-| **Find clients** | `find-clients KEYWORD [MORE_KEYWORDS]` | `find-clients Alice` |
-| **Set calorie target** | `set-calorie-target INDEX cal/CALORIES` | `set-calorie-target 1 cal/2400` |
-| **Log calorie intake** | `log-calorie INDEX cal/CALORIES` | `log-calorie 1 cal/1500` |
-| **Set workout focus** | `set-focus c/CLIENT_INDEX f/FOCUS` | `set-focus c/1 f/Chest` |
-| **Remark** | `remark INDEX r/REMARK` | `remark 1 r/Recovering from ACL surgery` |
-| **Set validity** | `set-validity INDEX v/VALIDITY` | `set-validity 1 v/2028-09-09` |
-| **Delete (typed)** | `delete t/TRAINER_INDEX` or `delete c/CLIENT_INDEX` | `delete t/2`, `delete c/1` |
-| **Delete client** | `delete-client INDEX` | `delete-client 1` |
-| **Delete trainer** | `delete-trainer INDEX` | `delete-trainer 1` |
-| **Export** | `export FILE_PATH` | `export data/export.json` |
-| **Import** | `import FILE_PATH` | `import data/import.json` |
-| **Clear** | `clear` | — |
-| **Exit** | `exit` | — |
+| [**Help**](#viewing-help-help) | `help` | — |
+| [**Add trainer**](#adding-a-trainer-add-trainer) | `add-trainer n/NAME p/PHONE_NUMBER e/EMAIL` | `add-trainer n/John Doe p/98765432 e/johndoe@example.com` |
+| [**Edit trainer**](#editing-a-trainer-edit-trainer) | `edit-trainer INDEX [n/NAME] [p/PHONE] [e/EMAIL]` | `edit-trainer 1 n/Jane Doe e/jane@example.com` |
+| [**Add client**](#adding-a-client-add-client) | `add-client n/NAME p/PHONE_NUMBER t/TRAINER_INDEX [v/VALIDITY]` | `add-client n/Alice Lim p/81234567 t/1 v/2028-09-09` |
+| [**Edit client**](#editing-a-client-edit-client) | `edit-client INDEX [n/NAME] [p/PHONE] [t/TRAINER_INDEX] [cal/CALORIE_TARGET] [f/FOCUS] [r/REMARK] [v/VALIDITY]` | `edit-client 1 n/Alice Tan p/91234567` |
+| [**Reassign client**](#reassigning-a-client-reassign-client) | `reassign-client CLIENT_INDEX t/TRAINER_INDEX` | `reassign-client 2 t/1` |
+| [**List all**](#listing-all-persons-list) | `list` | — |
+| [**List trainers**](#listing-all-trainers-list-trainers) | `list-trainers` | — |
+| [**List clients**](#listing-clients-list-clients) | `list-clients [TRAINER_INDEX]` | `list-clients`, `list-clients 1` |
+| [**Stats**](#viewing-trainer-statistics-stats) | `stats` | — |
+| [**Find (both lists)**](#finding-persons-find) | `find KEYWORD [MORE_KEYWORDS]` | `find James Jake` |
+| [**Find trainers**](#finding-trainers-find-trainers) | `find-trainers KEYWORD [MORE_KEYWORDS]` | `find-trainers John` |
+| [**Find clients**](#finding-clients-find-clients) | `find-clients KEYWORD [MORE_KEYWORDS]` | `find-clients Alice` |
+| [**Set calorie target**](#setting-a-calorie-target-set-calorie-target) | `set-calorie-target INDEX cal/CALORIES` | `set-calorie-target 1 cal/2400` |
+| [**Log calorie intake**](#logging-calorie-intake-log-calorie) | `log-calorie INDEX cal/CALORIES` | `log-calorie 1 cal/1500` |
+| [**Set workout focus**](#setting-a-workout-focus-set-focus) | `set-focus c/CLIENT_INDEX f/FOCUS` | `set-focus c/1 f/Chest` |
+| [**Remark**](#adding-a-remark-remark) | `remark INDEX r/REMARK` | `remark 1 r/Recovering from ACL surgery` |
+| [**Set validity**](#setting-a-membership-validity-set-validity) | `set-validity INDEX v/VALIDITY` | `set-validity 1 v/2028-09-09` |
+| [**Delete (typed)**](#deleting-a-person-delete) | `delete t/TRAINER_INDEX` or `delete c/CLIENT_INDEX` | `delete t/2`, `delete c/1` |
+| [**Delete client**](#deleting-a-client-delete-client) | `delete-client INDEX` | `delete-client 1` |
+| [**Delete trainer**](#deleting-a-trainer-delete-trainer) | `delete-trainer INDEX` | `delete-trainer 1` |
+| [**Export**](#exporting-data-export) | `export FILE_PATH` | `export data/export.json` |
+| [**Import**](#importing-data-import) | `import FILE_PATH` | `import data/import.json` |
+| [**Clear**](#clearing-all-data-clear) | `clear` | — |
+| [**Exit**](#exiting-gymops-exit) | `exit` | — |
