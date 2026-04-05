@@ -41,6 +41,14 @@ public class Validity {
         }
     }
 
+    /**
+     * Returns true if the given validity date string is today or in the future.
+     * Must only be called after {@link #isValidValidity(String)} confirms the format is correct.
+     */
+    public static boolean isNotPastDate(String test) {
+        return !LocalDate.parse(test, DateTimeFormatter.ISO_LOCAL_DATE).isBefore(LocalDate.now());
+    }
+
     @Override
     public String toString() {
         return value;
