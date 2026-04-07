@@ -20,6 +20,9 @@ title: Developer Guide
 
 Refer to the guide [_Setting up and getting started_](SettingUp.md).
 
+<div markdown="span" class="alert alert-info">:information_source: **Note:** This Developer Guide focuses on GymOps internals (architecture, design, and implementation). Complete the setup guide first if you need build/run instructions.
+</div>
+
 --------------------------------------------------------------------------------------------------------------------
 
 ## **Design**
@@ -52,6 +55,9 @@ The bulk of the app's work is done by the following four components:
 
 [**`Commons`**](#common-classes) represents a collection of classes used by multiple other components.
 
+<div markdown="span" class="alert alert-primary">:bulb: **Tip:** When adding a new feature, keep `UI` as a thin presenter. Put parsing in `logic.parser`, business rules/state changes in `logic`/`model`, and persistence concerns in `storage`.
+</div>
+
 **How the architecture components interact with each other**
 
 The *Sequence Diagram* below shows how the components interact with each other for the scenario where the user issues the command `delete c/1`.
@@ -78,6 +84,9 @@ The **API** of this component is specified in [src/main/java/seedu/address/ui/Ui
 The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `ResultDisplay`, `PersonListPanel`, `StatusBarFooter` etc. All these, including the `MainWindow`, inherit from the abstract `UiPart` class which captures the commonalities between classes that represent parts of the visible GUI.
 
 The `UI` component uses the JavaFx UI framework. The layout of these UI parts are defined in matching `.fxml` files that are in the `src/main/resources/view` folder. For example, the layout of the [src/main/java/seedu/address/ui/MainWindow.java](../src/main/java/seedu/address/ui/MainWindow.java) is specified in [src/main/resources/view/MainWindow.fxml](../src/main/resources/view/MainWindow.fxml)
+
+<div markdown="span" class="alert alert-warning">:warning: **Warning:** JavaFX UI state should be mutated on the JavaFX Application Thread. Avoid updating observable lists or UI-bound properties from background threads.
+</div>
 
 The `UI` component,
 
@@ -117,6 +126,17 @@ How the parsing works:
 * When called upon to parse a user command, the `AddressBookParser` class creates an `XYZCommandParser` (`XYZ` is a placeholder for the specific command name e.g., `AddCommandParser`) which uses the other classes shown above to parse the user command and create a `XYZCommand` object (e.g., `AddCommand`) which the `AddressBookParser` returns back as a `Command` object.
 * All `XYZCommandParser` classes (e.g., `AddCommandParser`, `DeleteCommandParser`, ...) inherit from the `Parser` interface so that they can be treated similarly where possible e.g, during testing.
 
+<div markdown="block" class="alert alert-primary">
+
+:bulb: **Tip:** Adding a new CLI command typically involves:
+
+1. Adding a new `XYZCommand` (plus `MESSAGE_USAGE`) under `logic.commands`.
+2. Adding a corresponding `XYZCommandParser` under `logic.parser` (prefer reusing `ArgumentTokenizer` + `ParserUtil`).
+3. Registering the command word in `AddressBookParser`.
+4. Adding tests for the parser + command execution.
+
+</div>
+
 ### Model component
 **API** : [src/main/java/seedu/address/model/Model.java](../src/main/java/seedu/address/model/Model.java)
 
@@ -135,6 +155,9 @@ The `Model` component,
 * stores a `UserPrefs` object that represents the user’s preferences. This is exposed to the outside as a `ReadOnlyUserPrefs` object.
 * does not depend on any of the other three components (as the `Model` represents data entities of the domain, they should make sense on their own without depending on other components)
 
+<div markdown="span" class="alert alert-warning">:warning: **Warning:** Index-based commands must resolve indices from the correct *currently displayed* filtered list (trainer vs client). When implementing/editing commands, be explicit about which `Model#getFiltered...List()` the index refers to.
+</div>
+
 <div markdown="span" class="alert alert-info">:information_source: **Note:** An alternative (arguably, a more OOP) model is given below. It has a `Tag` list in the `AddressBook`, which `Person` references. This allows `AddressBook` to only require one `Tag` object per unique tag, instead of each `Person` needing their own `Tag` objects.<br>
 
 <img src="images/BetterModelClassDiagram.png" width="450" />
@@ -152,6 +175,9 @@ The `Storage` component,
 * can save both address book data and user preference data in JSON format, and read them back into corresponding objects.
 * inherits from both `AddressBookStorage` and `UserPrefsStorage`, which means it can be treated as either one (if only the functionality of only one is needed).
 * depends on some classes in the `Model` component (because the `Storage` component's job is to save/retrieve objects that belong to the `Model`)
+
+<div markdown="span" class="alert alert-warning">:warning: **Warning:** Changes to the JSON format are user-data-impacting. If you modify storage/schema (e.g., `JsonAdaptedPerson`), keep backwards-compatibility in mind and update the related tests and documentation.
+</div>
 
 ### Common classes
 
@@ -210,6 +236,9 @@ Each `Client` stores its assigned trainer as a value pair:
 
 GymOps does not store a direct object reference from `Client` to a `Trainer` instance. This choice keeps the model simple and makes client cards renderable without extra lookups, but requires explicit consistency handling when trainers change.
 
+<div markdown="span" class="alert alert-info">:information_source: **Note:** Because assignment is stored as duplicated trainer fields, any future change to trainer identity/assignment representation must also update the consistency rules (load cleanup, edit propagation, and delete constraints) to avoid “dangling assignment” bugs.
+</div>
+
 #### Keeping the two-entity system consistent
 
 GymOps maintains referential consistency between `Client` and `Trainer` in a few key places:
@@ -260,6 +289,9 @@ To keep `Client` immutable, each client-only update is implemented using a copy-
 * `Client#withWorkoutFocus(...)`
 * `Client#withRemark(...)`
 * `Client#withValidity(...)`
+
+<div markdown="span" class="alert alert-primary">:bulb: **Tip:** When adding a new client-only attribute, prefer extending the same pattern (`Optional<ValueObject>` in `Client` + `Client#withX(...)` + `ParserUtil.parseX(...)` + `JsonAdaptedPerson` field) so updates remain localised and testable.
+</div>
 
 All client-attribute commands follow the same high-level pattern:
 
@@ -319,6 +351,9 @@ As a result, the same client can have different indices depending on:
 
 For `reassign-client`, the `CLIENT_INDEX` is resolved from the displayed client list and the `t/TRAINER_INDEX` is resolved from the displayed trainer list.
 
+<div markdown="span" class="alert alert-warning">:warning: **Warning:** Filtering/selection means indices are *contextual*. A command that looks correct against the full list can target the wrong record if a `find-*` filter or selected-trainer filter is active.
+</div>
+
 #### Error Handling
 
 GymOps defends at both parsing and execution layers:
@@ -327,6 +362,9 @@ GymOps defends at both parsing and execution layers:
 * Invalid attribute values are rejected by their value objects (e.g., `WorkoutFocus` rejects non-letter input and disallows multiple consecutive spaces; `Remark` rejects blank remarks).
 * Invalid validity dates are rejected by `Validity` (must be a valid date in `YYYY-MM-DD` format and must not be in the past).
 * Invalid indices (out of bounds, or pointing at a non-client in the client list) cause the command to throw a `CommandException`.
+
+<div markdown="span" class="alert alert-info">:information_source: **Note:** Use `ParseException` for malformed input (parser stage) and `CommandException` for domain/semantic failures (execution stage). This keeps error messages consistent and makes testing easier.
+</div>
 
 #### Usage Scenario
 
@@ -344,7 +382,10 @@ Step 4. The supervisor sets a daily calorie target using `set-calorie-target 1 c
 GymOps updates the target and persists the change.
 
 Step 5. The supervisor logs calorie intake throughout the day using `log-calorie 1 cal/500`.
-GymOps adds the new amount to the existing intake total (note: the current version does not automatically reset intake totals by date).
+GymOps adds the new amount to the existing intake total.
+
+<div markdown="span" class="alert alert-info">:information_source: **Note:** The current version does not automatically reset intake totals by date.
+</div>
 
 #### Design Considerations
 
@@ -452,12 +493,19 @@ GymOps supports exporting and importing data as JSON.
 * If the JSON is invalid or contains invalid values, storage throws a `DataLoadingException` and the command fails with a corresponding message.
 * On success, the imported address book replaces the current in-memory address book via `Model#setAddressBook(...)`.
 
-Note: GymOps persists changes after successful commands (see the next section), so a successful import is also saved into the app’s configured data file immediately after the command completes.
+<div markdown="span" class="alert alert-info">:information_source: **Note:** GymOps persists changes after successful commands (see the next section), so a successful import is also saved into the app’s configured data file immediately after the command completes.
+</div>
+
+<div markdown="span" class="alert alert-warning">:warning: **Warning:** `import` replaces the in-memory address book. If you want to preserve current data, `export` first.
+</div>
 
 ### Automatic persistence
 
 GymOps follows an “auto-save” approach: after every successful command, `LogicManager` saves the updated address book via `Storage#saveAddressBook(...)`.
 This keeps the data file up-to-date without requiring an explicit `save` command.
+
+<div markdown="span" class="alert alert-info">:information_source: **Note:** Failed commands should not trigger a save. When implementing new commands, ensure you do not mutate model state before validation passes.
+</div>
 
 ### Data file migration and resilience
 
@@ -658,6 +706,86 @@ The use case diagram below provides a high-level overview of the main user goals
 
 <img src="images/UseCaseDiagram.png" width="450" />
 
+The use cases below cover the user stories in the table above. Use cases that are planned but not implemented in the current version are explicitly labelled.
+
+**Use case: View help**
+
+**MSS**
+
+1. Supervisor requests to view help.
+2. GymOps displays a help window with the command summary.
+
+   Use case ends.
+
+**Extensions**
+
+* 2a. The help window is already open.
+
+  * 2a1. GymOps brings the help window to the front.
+
+    Use case ends.
+
+
+**Use case: Add a trainer**
+
+**MSS**
+
+1. Supervisor issues the command to add a trainer.
+2. GymOps validates the input.
+3. GymOps creates the trainer and shows it in the trainer list.
+
+   Use case ends.
+
+**Extensions**
+
+* 2a. The input format is invalid (e.g., missing required fields).
+
+  * 2a1. GymOps shows an error message and the correct usage.
+
+    Use case resumes at step 1.
+
+* 2b. The trainer is a duplicate (based on the trainer identity rules).
+
+  * 2b1. GymOps rejects the command and shows an error message.
+
+    Use case resumes at step 1.
+
+
+**Use case: List all trainers**
+
+**MSS**
+
+1. Supervisor requests to list trainers.
+2. GymOps shows the full trainer list.
+
+   Use case ends.
+
+
+**Use case: Find trainers and/or clients by name**
+
+**MSS**
+
+1. Supervisor issues a find command with one or more keywords.
+2. GymOps validates the keywords.
+3. GymOps filters the relevant list(s) and shows the results.
+
+   Use case ends.
+
+**Extensions**
+
+* 2a. No keywords are provided.
+
+  * 2a1. GymOps shows an error message and the correct usage.
+
+    Use case resumes at step 1.
+
+* 3a. No entries match the keywords.
+
+  * 3a1. GymOps shows an empty results message.
+
+    Use case ends.
+
+
 **Use case: Add a client to a trainer**
 
 **MSS**
@@ -683,11 +811,36 @@ The use case diagram below provides a high-level overview of the main user goals
 
       Use case resumes at step 2.
 
-* 3b. The client’s phone number already exists in the system.
+* 3b. The client’s phone number already exists in the system (based on the client identity rules).
 
    * 3b1. GymOps rejects the command and shows an error message.
 
       Use case resumes at step 2.
+
+
+**Use case: List all clients (optionally by trainer)**
+
+**MSS**
+
+1. Supervisor requests to list clients.
+2. GymOps shows the full client list.
+
+   Use case ends.
+
+**Extensions**
+
+* 1a. Supervisor requests to list clients for a specific trainer (by providing a trainer index).
+
+  * 1a1. GymOps selects the specified trainer (based on the currently displayed trainer list).
+  * 1a2. GymOps shows only clients assigned to that trainer.
+
+    Use case ends.
+
+* 1b. The trainer index is invalid.
+
+  * 1b1. GymOps shows an error message.
+
+    Use case resumes at step 1.
 
 
 **Use case: Reassign a client to another trainer**
@@ -724,6 +877,59 @@ The use case diagram below provides a high-level overview of the main user goals
       Use case resumes at step 4.
 
 
+**Use case: Edit a trainer**
+
+**MSS**
+
+1. Supervisor requests to list trainers.
+2. GymOps shows a list of trainers with index numbers.
+3. Supervisor issues the command to edit a trainer’s fields.
+4. GymOps validates the input and updates the trainer.
+5. GymOps propagates changes to any affected client assignments (where applicable).
+
+   Use case ends.
+
+**Extensions**
+
+* 3a. The trainer index is invalid.
+
+  * 3a1. GymOps shows an error message.
+
+    Use case resumes at step 2.
+
+* 4a. The edit results in a duplicate trainer identity.
+
+  * 4a1. GymOps rejects the edit and shows an error message.
+
+    Use case resumes at step 2.
+
+
+**Use case: Edit a client (including client-only fields)**
+
+**MSS**
+
+1. Supervisor requests to list clients (or filters clients).
+2. GymOps shows a list of clients with index numbers.
+3. Supervisor issues the command to edit a client’s fields (including optional client-only fields).
+4. GymOps validates the input and updates the client.
+
+   Use case ends.
+
+**Extensions**
+
+* 3a. The client index is invalid for the currently displayed client list.
+
+  * 3a1. GymOps shows an error message.
+
+    Use case resumes at step 2.
+
+* 4a. Any edited value is invalid (e.g., invalid date format, invalid workout focus format, empty remark).
+
+  * 4a1. GymOps rejects the edit and shows an error message.
+
+    Use case resumes at step 2.
+
+
 **Use case: Update a client’s daily calories (target + intake)**
 
 **MSS**
@@ -758,6 +964,112 @@ The use case diagram below provides a high-level overview of the main user goals
       Use case resumes at step 2.
 
 
+**Use case: Set a client’s workout focus**
+
+**MSS**
+
+1. Supervisor requests to list clients (or filters clients).
+2. GymOps shows a list of clients with index numbers.
+3. Supervisor issues the command to set the client’s workout focus.
+4. GymOps validates the focus string and updates the client.
+
+   Use case ends.
+
+**Extensions**
+
+* 3a. The client index is invalid.
+
+  * 3a1. GymOps shows an error message.
+
+    Use case resumes at step 2.
+
+* 4a. The focus string is invalid.
+
+  * 4a1. GymOps rejects the command and shows an error message.
+
+    Use case resumes at step 2.
+
+
+**Use case: Add a remark to a client**
+
+**MSS**
+
+1. Supervisor requests to list clients (or filters clients).
+2. GymOps shows a list of clients with index numbers.
+3. Supervisor issues the command to set the client’s remark.
+4. GymOps validates the remark and updates the client.
+
+   Use case ends.
+
+**Extensions**
+
+* 4a. The remark is empty.
+
+  * 4a1. GymOps rejects the command and shows an error message.
+
+    Use case resumes at step 2.
+
+
+**Use case: Set a client’s membership validity date**
+
+**MSS**
+
+1. Supervisor requests to list clients (or filters clients).
+2. GymOps shows a list of clients with index numbers.
+3. Supervisor issues the command to set the client’s validity date.
+4. GymOps validates the date and updates the client.
+
+   Use case ends.
+
+**Extensions**
+
+* 4a. The date is invalid or is in the past.
+
+  * 4a1. GymOps rejects the command and shows an error message.
+
+    Use case resumes at step 2.
+
+
+**Use case: View a client’s progress summary**
+
+**MSS**
+
+1. Supervisor requests to list clients (or filters clients).
+2. GymOps shows the client list.
+3. Supervisor views a client card.
+4. GymOps displays the client’s current calorie target/intake (if present) and workout focus (if present).
+
+   Use case ends.
+
+**Extensions**
+
+* 4a. The client has no calorie target set.
+
+  * 4a1. GymOps shows the intake without a target progress indicator (or omits the progress bar).
+
+    Use case ends.
+
+
+**Use case: Delete a client**
+
+**MSS**
+
+1. Supervisor requests to list clients (or filters clients).
+2. GymOps shows a list of clients with index numbers.
+3. Supervisor issues the command to delete a client by index.
+4. GymOps deletes the client.
+
+   Use case ends.
+
+**Extensions**
+
+* 3a. The client index is invalid.
+
+  * 3a1. GymOps shows an error message.
+
+    Use case resumes at step 2.
+
+
 **Use case: Delete a trainer**
 
 **MSS**
@@ -782,6 +1094,105 @@ The use case diagram below provides a high-level overview of the main user goals
    * 4a1. GymOps rejects the deletion and informs the supervisor to reassign or delete those clients first.
 
       Use case resumes at step 2.
+
+
+**Use case: Export data**
+
+**MSS**
+
+1. Supervisor issues the command to export data to a file path.
+2. GymOps validates the file path.
+3. GymOps writes the current data to the specified JSON file.
+
+   Use case ends.
+
+**Extensions**
+
+* 2a. The file path is invalid.
+
+  * 2a1. GymOps shows an error message.
+
+    Use case resumes at step 1.
+
+* 3a. The file cannot be written (e.g., permission issues).
+
+  * 3a1. GymOps shows an error message.
+
+    Use case resumes at step 1.
+
+
+**Use case: Import data**
+
+**MSS**
+
+1. Supervisor issues the command to import data from a file path.
+2. GymOps validates the file path and attempts to read the file.
+3. GymOps validates the JSON content.
+4. GymOps replaces the current in-memory data with the imported data.
+
+   Use case ends.
+
+**Extensions**
+
+* 2a. The file does not exist or cannot be read.
+
+  * 2a1. GymOps shows an error message.
+
+    Use case resumes at step 1.
+
+* 3a. The JSON is invalid or contains invalid values.
+
+  * 3a1. GymOps shows an error message.
+
+    Use case resumes at step 1.
+
+
+**Use case: Clear all entries**
+
+**MSS**
+
+1. Supervisor issues the command to clear all data.
+2. GymOps clears all trainers and clients.
+
+   Use case ends.
+
+
+**Use case: Exit GymOps**
+
+**MSS**
+
+1. Supervisor issues the command to exit.
+2. GymOps closes the application.
+
+   Use case ends.
+
+
+**Use case (planned): Undo the last command**
+
+**MSS**
+
+1. Supervisor issues the command to undo the previous successful command.
+2. GymOps restores the application state to what it was before that command.
+
+   Use case ends.
+
+**Extensions**
+
+* 1a. There is no command to undo.
+
+  * 1a1. GymOps shows an error message.
+
+    Use case ends.
+
+
+**Use case (planned): View a time/day-based handover view**
+
+**MSS**
+
+1. Supervisor requests to view a time/day-based handover overview.
+2. GymOps shows a view that surfaces the most time-relevant client requirements.
+
+   Use case ends.
 
 ### Non-Functional Requirements
 
@@ -846,9 +1257,18 @@ testers are expected to do more *exploratory* testing.
    1. Double-click the jar file.
       Expected: Shows the GUI with a set of sample trainers and clients. The window size may not be optimum.
 
-      Notes for testers:
+      <div markdown="block" class="alert alert-info">
+
+      :information_source: **Note for testers:**
       * If double-clicking the `.jar` does not launch the app, run it using `java -jar GymOps.jar` from a terminal.
-      * Do not place the app in a write-protected folder (it may fail to save changes).
+
+      </div>
+
+      <div markdown="block" class="alert alert-warning">
+
+      :warning: **Warning:** Do not place the app in a write-protected folder (it may fail to save changes).
+
+      </div>
 
 1. Saving window preferences
 
@@ -916,9 +1336,13 @@ testers are expected to do more *exploratory* testing.
 
    1. Prerequisites: List entries using `list-trainers` and/or `list-clients`. Ensure there are multiple entries in the list.
 
-   Notes for testers:
+   <div markdown="block" class="alert alert-warning">
+
+   :warning: **Warning (trainer deletion constraint):**
    * GymOps will reject deleting a trainer who still has assigned clients.
    * For the “successful delete trainer” test case below, pick a trainer with no assigned clients.
+
+   </div>
 
    1. Test case: `delete t/1`<br>
       Expected: Trainer at index 1 is deleted from the trainer list. Details of the deleted trainer shown in the status message.
