@@ -329,6 +329,8 @@ Examples:
 * `edit-trainer 1 e/johndoe@gym.com` — updates the 1st trainer's email.
 * `edit-trainer 2 n/Jane Doe p/92222222` — updates the 2nd trainer's name and phone.
 
+![edit trainer](images/editTrainer.png)
+
 **Expected outcome:** The trainer's details are updated in the list, and a success message is displayed.
 
 [⬆ Back to top](#top)
