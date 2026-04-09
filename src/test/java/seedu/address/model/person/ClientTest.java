@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 
 import seedu.address.model.tag.Tag;
 
+//@@author TheSputnikSpacecraft
 public class ClientTest {
 
     private static final Name NAME = new Name("Alice");

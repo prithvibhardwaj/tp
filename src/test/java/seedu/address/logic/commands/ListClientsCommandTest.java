@@ -26,6 +26,7 @@ import seedu.address.model.person.NameContainsKeywordsPredicate;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.Trainer;
 
+//@@author TheSputnikSpacecraft
 public class ListClientsCommandTest {
 
     private AddressBook ab;

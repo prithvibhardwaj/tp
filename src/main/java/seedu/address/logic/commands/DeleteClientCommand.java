@@ -12,6 +12,7 @@ import seedu.address.model.Model;
 import seedu.address.model.person.Client;
 import seedu.address.model.person.Person;
 
+//@@author TheSputnikSpacecraft
 /**
  * Deletes a client identified using its displayed index from the address book.
  */
