@@ -26,6 +26,7 @@ import seedu.address.model.person.Remark;
 import seedu.address.model.person.Trainer;
 import seedu.address.model.person.Validity;
 import seedu.address.model.person.WorkoutFocus;
+import seedu.address.model.person.exceptions.DuplicatePersonException;
 
 /**
  * Edits the details of an existing client in GymOps.
@@ -98,14 +99,11 @@ public class EditClientCommand extends Command {
         Client editedClient = createEditedClient(
                 clientToEdit, editClientDescriptor, model);
 
-        boolean editedClientWouldDuplicateAnother = model.getAddressBook().getPersonList().stream()
-                .filter(person -> person != clientToEdit)
-                .anyMatch(editedClient::isSamePerson);
-        if (editedClientWouldDuplicateAnother) {
+        try {
+            model.setPerson(clientToEdit, editedClient);
+        } catch (DuplicatePersonException e) {
             throw new CommandException(MESSAGE_DUPLICATE_CLIENT);
         }
-
-        model.setPerson(clientToEdit, editedClient);
         return new CommandResult(
                 String.format(MESSAGE_EDIT_CLIENT_SUCCESS,
                         Messages.format(editedClient)));
