@@ -4,23 +4,23 @@ skinparam arrowThickness 1.1
 skinparam arrowColor MODEL_COLOR
 skinparam classBackgroundColor MODEL_COLOR
 
-show Client members
-
-Class "{abstract}\nPerson" as Person
-Class Trainer
-Class Client {
+abstract class Person
+class Trainer
+class Client {
   trainerPhone : Phone
   trainerName : Name
   calorieTarget : int
   calorieIntake : int
 }
-Class Name
-Class Phone
-Class Email
-Class Tag
-Class WorkoutFocus
-Class Remark
-Class Validity
+class Name
+class Phone
+class Email
+class Tag
+class WorkoutFocus
+class Remark
+class Validity
+
+show Client members
 
 Trainer -up-|> Person
 Client -up-|> Person
