@@ -245,18 +245,16 @@ public class Client extends Person {
     }
 
     /**
-     * Returns true if both persons are Clients and have the same phone.
-     * A Client and a Trainer sharing a phone number are NOT considered duplicates.
+     * Returns true if both persons have the same phone.
+     * Phone numbers are globally unique across all persons.
      */
     @Override
     public boolean isSamePerson(Person otherPerson) {
         if (otherPerson == this) {
             return true;
         }
-        if (!(otherPerson instanceof Client)) {
-            return false;
-        }
-        return getPhone().equals(otherPerson.getPhone());
+        return otherPerson != null
+                && getPhone().equals(otherPerson.getPhone());
     }
 
     @Override

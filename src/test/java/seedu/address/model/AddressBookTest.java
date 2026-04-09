@@ -17,7 +17,9 @@ import org.junit.jupiter.api.Test;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import seedu.address.model.person.Client;
 import seedu.address.model.person.Person;
+import seedu.address.model.person.Trainer;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.testutil.PersonBuilder;
 
@@ -50,6 +52,19 @@ public class AddressBookTest {
         List<Person> newPersons = Arrays.asList(ALICE, editedAlice);
         AddressBookStub newData = new AddressBookStub(newPersons);
 
+        assertThrows(DuplicatePersonException.class, () -> addressBook.resetData(newData));
+    }
+
+    @Test
+    public void resetData_withTrainerAndClientSamePhone_throwsDuplicatePersonException() {
+        Trainer trainer = (Trainer) new PersonBuilder().withName("Psyops").withPhone("1234")
+                .withEmail("psyops@example.com")
+                .build();
+        Client client = (Client) new PersonBuilder().withName("gay").withPhone("1234")
+                .withTrainerPhone("1234").withTrainerName("Psyops")
+                .build();
+
+        AddressBookStub newData = new AddressBookStub(Arrays.asList(trainer, client));
         assertThrows(DuplicatePersonException.class, () -> addressBook.resetData(newData));
     }
 

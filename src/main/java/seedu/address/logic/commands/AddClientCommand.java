@@ -41,7 +41,7 @@ public class AddClientCommand extends Command {
             + PREFIX_VALIDITY + "2026-12-31";
 
     public static final String MESSAGE_SUCCESS = "New client added: %1$s. Assigned to Trainer: %2$s";
-    public static final String MESSAGE_DUPLICATE_CLIENT = "Client with this phone number already exists.";
+    public static final String MESSAGE_DUPLICATE_CLIENT = "This phone number is already in use.";
     public static final String MESSAGE_INVALID_TRAINER = "The provided index does not correspond to a Trainer.";
 
     private final Name name;

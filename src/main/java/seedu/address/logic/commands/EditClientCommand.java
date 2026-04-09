@@ -54,7 +54,7 @@ public class EditClientCommand extends Command {
     public static final String MESSAGE_NOT_EDITED =
             "At least one field to edit must be provided.";
     public static final String MESSAGE_DUPLICATE_CLIENT =
-            "This client already exists in GymOps.";
+            "This phone number is already in use.";
     public static final String MESSAGE_NOT_A_CLIENT =
             "The person at the specified index is not a Client.";
     public static final String MESSAGE_INVALID_TRAINER =

@@ -37,12 +37,18 @@ public class Trainer extends Person {
         if (otherPerson == this) {
             return true;
         }
+        if (otherPerson == null) {
+            return false;
+        }
+        if (otherPerson.getPhone().equals(getPhone())) {
+            return true;
+        }
         if (!(otherPerson instanceof Trainer)) {
-            return super.isSamePerson(otherPerson);
+            return false;
         }
 
         Trainer otherTrainer = (Trainer) otherPerson;
-        return otherTrainer.getPhone().equals(getPhone()) || otherTrainer.getEmail().equals(getEmail());
+        return otherTrainer.getEmail().equals(getEmail());
     }
 
     @Override
