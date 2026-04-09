@@ -1,17 +1,25 @@
 @startuml
 start
 :Model#setPerson(target, editedPerson);
-if (target and editedPerson are Trainer?) then ([yes])
+
+:Check whether target and editedPerson are Trainer;
+if () then ([yes])
   :Update trainer in AddressBook;
-  if (Phone or name changed?) then ([yes])
+
+  :Check whether phone or name changed;
+  if () then ([yes])
     :Find all Clients whose
     trainerPhone == originalTrainerPhone;
     :Replace each Client with
     client.withTrainer(newPhone, newName);
+  else ([no])
   endif
-  if (Edited trainer was selected?) then ([yes])
+
+  :Check whether edited trainer was selected;
+  if () then ([yes])
     :Update selectedTrainerPhone;
     :Refresh client predicate;
+  else ([no])
   endif
 else ([no])
   :Update person normally;
