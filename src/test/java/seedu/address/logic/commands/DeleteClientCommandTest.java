@@ -30,6 +30,7 @@ import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.Trainer;
 
+//@@author TheSputnikSpacecraft
 /**
  * Contains integration tests (interaction with the Model) and unit tests for
  * {@code DeleteClientCommand}.

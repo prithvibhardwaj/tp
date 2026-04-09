@@ -12,6 +12,7 @@ import seedu.address.model.Model;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Trainer;
 
+//@@author TheSputnikSpacecraft
 /**
  * Deletes a trainer identified using its displayed index from the address book.
  * Deletion is blocked if the trainer still has active clients.
