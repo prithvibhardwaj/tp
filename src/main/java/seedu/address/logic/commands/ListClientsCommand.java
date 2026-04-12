@@ -20,7 +20,7 @@ import seedu.address.model.person.Trainer;
  */
 public class ListClientsCommand extends Command {
 
-    public static final String COMMAND_WORD = "list-clients";
+    public static final String COMMAND_WORD = "list-c";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Lists clients. Without an index, shows all clients and clears trainer selection.\n"

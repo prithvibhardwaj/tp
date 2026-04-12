@@ -11,7 +11,7 @@ import seedu.address.model.person.NameContainsKeywordsPredicate;
  */
 public class FindTrainersCommand extends Command {
 
-    public static final String COMMAND_WORD = "find-trainers";
+    public static final String COMMAND_WORD = "find-t";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Finds all trainers whose names contain any of the specified keywords "
