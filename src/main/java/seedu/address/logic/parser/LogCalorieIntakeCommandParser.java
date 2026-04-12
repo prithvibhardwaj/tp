@@ -41,7 +41,7 @@ public class LogCalorieIntakeCommandParser implements Parser<LogCalorieIntakeCom
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, LogCalorieIntakeCommand.MESSAGE_USAGE), pe);
         }
 
-        int calories = ParserUtil.parseCalories(argMultimap.getValue(PREFIX_CALORIE).get());
+        int calories = ParserUtil.parseCalorieIntakeTotal(argMultimap.getValue(PREFIX_CALORIE).get());
 
         return new LogCalorieIntakeCommand(index, calories);
     }

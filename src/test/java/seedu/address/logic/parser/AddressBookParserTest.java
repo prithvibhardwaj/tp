@@ -16,9 +16,7 @@ import org.junit.jupiter.api.Test;
 import seedu.address.logic.commands.AddClientCommand;
 import seedu.address.logic.commands.AddTrainerCommand;
 import seedu.address.logic.commands.ClearCommand;
-import seedu.address.logic.commands.DeleteClientCommand;
 import seedu.address.logic.commands.DeleteCommand;
-import seedu.address.logic.commands.DeleteTrainerCommand;
 import seedu.address.logic.commands.EditClientCommand;
 import seedu.address.logic.commands.EditClientCommand.EditClientDescriptor;
 import seedu.address.logic.commands.EditTrainerCommand;
@@ -95,20 +93,6 @@ public class AddressBookParserTest {
         DeleteCommand command = (DeleteCommand) parser.parseCommand(
                 DeleteCommand.COMMAND_WORD + " t/" + INDEX_FIRST_PERSON.getOneBased());
         assertEquals(new DeleteCommand(DeleteCommand.TargetType.TRAINER, INDEX_FIRST_PERSON), command);
-    }
-
-    @Test
-    public void parseCommand_deleteClient() throws Exception {
-        DeleteClientCommand command = (DeleteClientCommand) parser.parseCommand(
-                DeleteClientCommand.COMMAND_WORD + " " + INDEX_FIRST_PERSON.getOneBased());
-        assertEquals(new DeleteClientCommand(INDEX_FIRST_PERSON), command);
-    }
-
-    @Test
-    public void parseCommand_deleteTrainer() throws Exception {
-        DeleteTrainerCommand command = (DeleteTrainerCommand) parser.parseCommand(
-                DeleteTrainerCommand.COMMAND_WORD + " " + INDEX_FIRST_PERSON.getOneBased());
-        assertEquals(new DeleteTrainerCommand(INDEX_FIRST_PERSON), command);
     }
 
     @Test

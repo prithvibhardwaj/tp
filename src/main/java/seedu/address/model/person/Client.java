@@ -12,7 +12,7 @@ import seedu.address.model.tag.Tag;
 /**
  * Represents a Client in the address book.
  * A Client is associated with a Trainer identified by {@code trainerPhone} and {@code trainerName}.
- * Optionally tracks a calorie target and accumulated daily calorie intake.
+ * Optionally tracks a calorie target and recorded daily calorie intake total.
  * Guarantees: details are present and not null, field values are validated, immutable.
  */
 public class Client extends Person {
@@ -35,7 +35,7 @@ public class Client extends Person {
      * @param trainerName   The name of the client's assigned trainer.
      * @param tags          The set of tags associated with the client.
      * @param calorieTarget The daily calorie target (0 means not set).
-     * @param calorieIntake The accumulated daily calorie intake.
+    * @param calorieIntake The recorded daily calorie intake total.
      */
     public Client(Name name, Phone phone, Phone trainerPhone, Name trainerName, Set<Tag> tags,
                   int calorieTarget, int calorieIntake) {
@@ -238,7 +238,7 @@ public class Client extends Person {
     }
 
     /**
-     * Returns the client's accumulated daily calorie intake.
+     * Returns the client's recorded daily calorie intake total.
      */
     public int getCalorieIntake() {
         return calorieIntake;

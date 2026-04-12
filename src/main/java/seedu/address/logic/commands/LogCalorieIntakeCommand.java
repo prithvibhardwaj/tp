@@ -16,7 +16,7 @@ import seedu.address.model.person.Person;
 
 /**
  * Logs a calorie intake amount for a client identified by the displayed index.
- * The logged calories are accumulated into the client's existing daily intake total,
+ * The logged calories overwrite the client's existing daily intake total,
  * without overwriting the client's calorie target.
  */
 public class LogCalorieIntakeCommand extends Command {
@@ -26,18 +26,14 @@ public class LogCalorieIntakeCommand extends Command {
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Logs calorie intake for the client identified by the index"
             + " number used in the displayed client list."
-            + " The calories are added to the client's existing daily intake.\n"
+            + " The calories overwrite the client's existing daily intake.\n"
             + "Parameters: "
             + PREFIX_CLIENT + "CLIENT_INDEX "
-            + PREFIX_CALORIE + "CALORIES (must be a positive integer)\n"
+            + PREFIX_CALORIE + "CALORIES (must be a non-negative integer; use 0 to reset)\n"
             + "Example: " + COMMAND_WORD + " " + PREFIX_CLIENT + "1 " + PREFIX_CALORIE + "500";
 
-    public static final String MESSAGE_LOG_CALORIE_SUCCESS =
-            "Logged %2$d kcal for %1$s. Total intake: %3$d kcal";
-    public static final String MESSAGE_NOT_A_CLIENT =
-            "The person at the specified index is not a Client.";
-    public static final String MESSAGE_CALORIE_OVERFLOW =
-            "Cannot log calories: that amount is too much — are you sure this is humanly possible?";
+    public static final String MESSAGE_LOG_CALORIE_SUCCESS = "Set calorie intake for %1$s: %2$d kcal";
+    public static final String MESSAGE_NOT_A_CLIENT = "The person at the specified index is not a Client.";
 
     private final Index targetIndex;
     private final int calories;
@@ -46,7 +42,7 @@ public class LogCalorieIntakeCommand extends Command {
      * Constructs a {@code LogCalorieIntakeCommand}.
      *
      * @param targetIndex The 1-based index of the client in the displayed list.
-     * @param calories    The calorie amount to add to the client's daily intake (must be a positive integer).
+     * @param calories    The calorie intake total to set (must be a positive integer).
      */
     public LogCalorieIntakeCommand(Index targetIndex, int calories) {
         requireNonNull(targetIndex);
@@ -70,16 +66,11 @@ public class LogCalorieIntakeCommand extends Command {
         }
 
         Client clientToEdit = (Client) personAtIndex;
-        long newIntakeLong = (long) clientToEdit.getCalorieIntake() + calories;
-        if (newIntakeLong > Integer.MAX_VALUE) {
-            throw new CommandException(MESSAGE_CALORIE_OVERFLOW);
-        }
-        int newIntake = (int) newIntakeLong;
-        Client updatedClient = clientToEdit.withCalorieIntake(newIntake);
+        Client updatedClient = clientToEdit.withCalorieIntake(calories);
 
         model.setPerson(clientToEdit, updatedClient);
         return new CommandResult(String.format(MESSAGE_LOG_CALORIE_SUCCESS,
-                updatedClient.getName(), calories, newIntake));
+                updatedClient.getName(), calories));
     }
 
     @Override

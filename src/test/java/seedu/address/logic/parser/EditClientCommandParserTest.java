@@ -119,6 +119,26 @@ public class EditClientCommandParserTest {
     }
 
     @Test
+    public void parse_calorieTargetZero_success() {
+        Index targetIndex = Index.fromOneBased(1);
+        String userInput = "1 cal/0";
+
+        EditClientDescriptor descriptor = new EditClientDescriptor();
+        descriptor.setCalorieTarget(0);
+
+        EditClientCommand expectedCommand =
+                new EditClientCommand(targetIndex, descriptor);
+        assertParseSuccess(parser, userInput, expectedCommand);
+    }
+
+    @Test
+    public void parse_calorieTargetOverflow_failure() {
+        String tooLarge = Long.toString((long) Integer.MAX_VALUE + 1);
+        assertParseFailure(parser, "1 cal/" + tooLarge,
+                "That is too many calories. Please enter a smaller value.");
+    }
+
+    @Test
     public void parse_workoutFocusOnly_success() {
         Index targetIndex = Index.fromOneBased(1);
         String userInput = "1 f/Chest";

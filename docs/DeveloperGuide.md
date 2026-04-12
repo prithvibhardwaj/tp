@@ -245,7 +245,9 @@ GymOps does not store a direct object reference from `Client` to a `Trainer` ins
 GymOps maintains referential consistency between `Client` and `Trainer` in a few key places:
 
 * **On load (storage)**: after JSON is converted into model objects, GymOps removes any `Client` whose `trainerPhone` does not match any existing `Trainer` phone in the loaded dataset.
-   This prevents the app from starting with inconsistent state if the JSON file is manually edited.
+   This prevents the app from starting with inconsistent state if the data file is corrupted or manually edited.
+
+<div markdown="span" class="alert alert-warning">:exclamation: **Data file note:** For end-users, do **not** manually edit the data file. The JSON format is an internal persistence detail and is **not** a supported interface; manual edits can corrupt data and may be overwritten by auto-save. For developers, manual edits may be useful for controlled debugging/testing, but there are no compatibility guarantees (schema/constraints may change). If you do edit it, do so only while the app is closed and keep a backup first.</div>
 * **On trainer edits (model)**: when `Model#setPerson(target, editedPerson)` edits a trainer, `ModelManager` propagates changes by updating every client whose `trainerPhone` matches the original trainer.
    This keeps client assignment labels correct even if the trainer’s phone/name changes.
 * **On trainer deletion (logic)**: deleting a trainer is blocked if any client is still assigned to them.
@@ -338,7 +340,7 @@ Other client attribute commands follow the same flow, with small differences:
    * For `f/`, `r/`, and `v/`, providing an empty value (e.g., `f/`) clears the corresponding optional field.
 * `remark INDEX r/REMARK` updates `Client#remark`.
 * `set-cal c/INDEX cal/CALORIES` updates `Client#calorieTarget`. Use `cal/0` to clear the target.
-* `log-cal c/INDEX cal/CALORIES` adds to `Client#calorieIntake` rather than overwriting it.
+* `log-cal c/INDEX cal/CALORIES` overwrites `Client#calorieIntake` with the given total.
 * `reassign-c CLIENT_INDEX t/TRAINER_INDEX` reads both the filtered client list and filtered trainer list and updates `trainerPhone` + `trainerName`.
 * `set-validity INDEX v/YYYY-MM-DD` updates `Client#validity`.
 
@@ -383,7 +385,7 @@ Step 4. The supervisor sets a daily calorie target using `set-cal c/1 cal/2000`.
 GymOps updates the target and persists the change. To clear the target later, run `set-cal c/1 cal/0`.
 
 Step 5. The supervisor logs calorie intake throughout the day using `log-cal c/1 cal/500`.
-GymOps adds the new amount to the existing intake total.
+GymOps overwrites the client's intake total with the given value.
 
 <div markdown="span" class="alert alert-info">:information_source: **Note:** The current version does not automatically reset intake totals by date.
 </div>
@@ -1039,7 +1041,7 @@ The use cases below cover the user stories in the table above. Use cases that ar
 1. Supervisor requests to list clients (or filters clients).
 2. GymOps shows the client list.
 3. Supervisor views a client card.
-4. GymOps displays the client’s current calorie target/intake (if present) and workout focus (if present).
+4. GymOps displays the client’s calorie intake/target summary and workout focus (if present).
 
    Use case ends.
 
@@ -1047,7 +1049,7 @@ The use cases below cover the user stories in the table above. Use cases that ar
 
 * 4a. The client has no calorie target set.
 
-  * 4a1. GymOps shows the intake without a target progress indicator (or omits the progress bar).
+   * 4a1. GymOps shows the calories section without a target progress indicator.
 
     Use case ends.
 
@@ -1368,13 +1370,13 @@ testers are expected to do more *exploratory* testing.
    1. Test case: `delete t/1`<br>
       Expected: Trainer at index 1 is deleted from the trainer list. Details of the deleted trainer shown in the status message.
 
-   1. Test case: `delete-trainer 1`<br>
+   1. Test case: `delete t/1`<br>
       Expected: Same as `delete t/1`.
 
    1. Test case: `delete c/1`<br>
       Expected: Client at index 1 is deleted from the client list. Details of the deleted client shown in the status message.
 
-   1. Test case: `delete-client 1`<br>
+   1. Test case: `delete c/1`<br>
       Expected: Same as `delete c/1`.
 
    1. Test case: `delete t/1` (where trainer at index 1 still has active clients)<br>
@@ -1457,6 +1459,9 @@ testers are expected to do more *exploratory* testing.
 
    1. Test case: `log-cal c/1 cal/500`<br>
       Expected: The client card shows an updated calorie intake total.
+
+   1. Test case: `log-cal c/1 cal/0`<br>
+      Expected: The client card shows a calorie intake total of 0.
 
 ### Setting workout focus
 
@@ -1551,6 +1556,8 @@ testers are expected to do more *exploratory* testing.
 
 1. Dealing with missing/corrupted data files
 
+   <div markdown="span" class="alert alert-warning">:exclamation: **Note (testing only):** The steps below intentionally modify/delete the data file to simulate failure scenarios. They are meant for developer testing and should not be recommended to end users.</div>
+
    1. Missing file
 
       1. Prerequisites: Close the app.
@@ -1612,4 +1619,4 @@ Team size: 5
 7. Improve `stats` output to explicitly display the computed client counts per trainer in the command result message (in addition to sorting the list).
 8. Improve calorie tracking by optionally resetting calorie intake totals by date (while preserving a simple “today’s total” UX).
 9. Improve robustness of list-scoped commands under dynamic list changes by providing clearer guidance when indices become invalid after filtering.
-10. Improve error messages and data validation strictness for direct data file editing before boot.
+10. Improve error messages and data validation strictness for corrupted/externally modified data files on startup.

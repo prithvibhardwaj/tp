@@ -20,6 +20,7 @@ public class SetCalorieTargetCommandParserTest {
 
     private static final String VALID_CALORIES = "2000";
     private static final String INVALID_CALORIES = "abc";
+    private static final String TOO_LARGE_CALORIES = Long.toString((long) Integer.MAX_VALUE + 1);
 
     private final SetCalorieTargetCommandParser parser = new SetCalorieTargetCommandParser();
 
@@ -51,6 +52,12 @@ public class SetCalorieTargetCommandParserTest {
     public void parse_invalidCalories_throwsParseException() {
         assertParseFailure(parser, " " + PREFIX_CLIENT + "1 " + PREFIX_CALORIE + INVALID_CALORIES,
                 "Calorie target must be a non-negative integer (use 0 to clear).");
+    }
+
+    @Test
+    public void parse_overflowCalories_throwsParseException() {
+        assertParseFailure(parser, " " + PREFIX_CLIENT + "1 " + PREFIX_CALORIE + TOO_LARGE_CALORIES,
+                "That is too many calories. Please enter a smaller value.");
     }
 
     @Test

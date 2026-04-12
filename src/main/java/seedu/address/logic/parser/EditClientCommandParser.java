@@ -64,7 +64,7 @@ public class EditClientCommandParser implements Parser<EditClientCommand> {
                     argMultimap.getValue(PREFIX_TRAINER).get()));
         }
         if (argMultimap.getValue(PREFIX_CALORIE).isPresent()) {
-            descriptor.setCalorieTarget(ParserUtil.parseCalories(
+            descriptor.setCalorieTarget(ParserUtil.parseCalorieTarget(
                     argMultimap.getValue(PREFIX_CALORIE).get()));
         }
         if (argMultimap.getValue(PREFIX_FOCUS).isPresent()) {

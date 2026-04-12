@@ -43,21 +43,19 @@ This guide is written for **gym managers and administrators** who want a fast, k
     - [Importing data](#importing-data-import)
     - [Exiting GymOps](#exiting-gymops-exit)
     - [Saving data](#saving-data)
-    - [Editing the data file](#editing-the-data-file)
+    - [Do not edit the data file](#do-not-edit-the-data-file)
   - [Trainer Management](#trainer-management)
     - [Adding a trainer](#adding-a-trainer-add-t)
     - [Editing a trainer](#editing-a-trainer-edit-t)
     - [Listing all trainers](#listing-all-trainers-list-trainers)
     - [Finding trainers](#finding-trainers-find-trainers)
     - [Viewing trainer statistics](#viewing-trainer-statistics-stats)
-    - [Deleting a trainer](#deleting-a-trainer-delete-trainer)
   - [Client Management](#client-management)
     - [Adding a client](#adding-a-client-add-c)
     - [Editing a client](#editing-a-client-edit-c)
     - [Reassigning a client](#reassigning-a-client-reassign-c)
     - [Listing clients](#listing-clients-list-clients)
     - [Finding clients](#finding-clients-find-clients)
-    - [Deleting a client](#deleting-a-client-delete-client)
   - [Health Tracking](#health-tracking)
     - [Setting a calorie target](#setting-a-calorie-target-set-cal)
     - [Logging calorie intake](#logging-calorie-intake-log-cal)
@@ -103,7 +101,7 @@ This guide is written for **gym managers and administrators** who want a fast, k
    | 3 | `list-trainers` | Confirm the trainer was added |
    | 4 | `add-c n/Alice Lim p/81234567 t/1 v/2028-09-09` | Assign a client to trainer #1 |
    | 5 | `find-clients Alice` | Search for the client you just added |
-   | 6 | `delete-client 1` | Delete the 1st client in the current list |
+  | 6 | `delete c/1` | Delete the 1st client in the current list |
    | 7 | `clear` | Delete all data |
    | 8 | `exit` | Exit the app |
 
@@ -201,7 +199,7 @@ Format: `delete t/TRAINER_INDEX` or `delete c/CLIENT_INDEX`
 * `t/TRAINER_INDEX` refers to the index in the **trainer list**.
 * `c/CLIENT_INDEX` refers to the index in the **client list**.
 
-<div markdown="span" class="alert alert-warning">:exclamation: **Caution:** A trainer cannot be deleted if they still have active clients. Remove their clients first using `delete-client` or `delete c/...`.</div>
+<div markdown="span" class="alert alert-warning">:exclamation: **Caution:** A trainer cannot be deleted if they still have active clients. Remove their clients first using `delete c/...`.</div>
 
 Examples:
 * `delete t/2` — deletes the 2nd trainer.
@@ -287,13 +285,12 @@ GymOps saves data automatically after every command that modifies it. No manual 
 
 ---
 
-#### Editing the data file
+#### Do not edit the data file
 
-Data is saved as a JSON file at `[JAR file location]/data/GymOps.json`. Advanced users may edit this file directly.
+Data is saved as a JSON file at `[JAR file location]/data/GymOps.json`.
+This file is **managed by GymOps** and is **not meant to be edited by hand**.
 
-<div markdown="span" class="alert alert-warning">:exclamation: **Caution:** If the file format becomes invalid, GymOps will start with an empty dataset on the next run. Back up the file before editing it. Certain edits may also cause GymOps to behave unexpectedly if values fall outside acceptable ranges.</div>
-
-<div markdown="span" class="alert alert-warning">:exclamation: **Caution (continued):** GymOps also treats some "valid JSON" as invalid data (e.g., duplicate entries such as a repeated phone number, or other constraint violations). In such cases, GymOps will start with an empty dataset for that run. The JSON file is not deleted automatically, but because GymOps auto-saves after successful commands, continuing to use the app may overwrite the data file. To preserve the data, fix/restore the JSON file while GymOps is closed, then restart.</div>
+<div markdown="span" class="alert alert-warning">:exclamation: **Warning:** Do **not** edit `GymOps.json` manually. This is **unsupported** and may corrupt your data (or violate data constraints), causing GymOps to drop records or start with an empty dataset. GymOps also auto-saves after successful commands, so any manual changes may be overwritten. Use `export`/`import` for backups and transfers. If you need to move data by copying files, replace the whole file only while GymOps is **closed**.</div>
 
 ---
 
@@ -378,25 +375,6 @@ Format: `stats`
 ![stats message](images/stats.png)
 
 **Expected outcome:** The trainer list is sorted by client count (descending), and a summary is shown.
-
-[⬆ Back to top](#top)
-
----
-
-#### Deleting a trainer: `delete-trainer`
-
-Deletes the trainer at the given index from GymOps. Shorthand for `delete t/INDEX`.
-
-Format: `delete-trainer INDEX`
-
-* `INDEX` must refer to a trainer in the **trainer list**.
-
-<div markdown="span" class="alert alert-warning">:exclamation: **Caution:** A trainer cannot be deleted if they still have active clients. Use `delete-client` to remove their clients first.</div>
-
-Examples:
-* `delete-trainer 1` — deletes the 1st trainer (same as `delete t/1`).
-
-**Expected outcome:** The trainer is permanently removed from the application, and a success message is displayed.
 
 [⬆ Back to top](#top)
 
@@ -511,25 +489,6 @@ Examples:
 
 ---
 
-#### Deleting a client: `delete-client`
-
-Deletes the client at the given index from GymOps. Shorthand for `delete c/INDEX`.
-
-Format: `delete-client INDEX`
-
-* `INDEX` must refer to a client in the **client list**.
-
-<div markdown="span" class="alert alert-info">:bulb: **Tip:** Run `find-clients NAME` first to locate the client, then use the index shown in the filtered list.</div>
-
-Examples:
-* `delete-client 1` — deletes the 1st client in the current list (same as `delete c/1`).
-
-**Expected outcome:** The client is permanently removed from the application, their assigned trainer's client count is updated, and a success message is displayed.
-
-[⬆ Back to top](#top)
-
----
-
 ### Health Tracking
 
 #### Setting a calorie target: `set-cal`
@@ -555,19 +514,22 @@ Examples:
 
 #### Logging calorie intake: `log-cal`
 
-Logs calorie intake for a client. Calories are added to the client's existing daily intake.
+Logs calorie intake for a client. The input overwrites the client's existing daily intake total.
 
 Format: `log-cal c/CLIENT_INDEX cal/CALORIES`
 
 * `CLIENT_INDEX` must refer to a client in the **client list**.
-* `CALORIES` must be a positive integer.
+* `CALORIES` must be a non-negative integer. Use `0` to reset the client's intake total.
 
 Examples:
-* `log-cal c/1 cal/1500` — adds 1500 calories to the 1st client's daily intake.
+* `log-cal c/1 cal/1500` — sets the 1st client's daily intake total to 1500 calories.
+* `log-cal c/1 cal/0` — resets the 1st client's daily intake total to 0.
 
 ![log calorie](images/logCalorie.png)
 
-**Expected outcome:** The client's calorie intake is accumulated and displayed on their card. A success message is displayed.
+**Expected outcome:** The client's calorie intake total is updated. A success message is displayed.
+
+If the client has a calorie target set, their card will also show their intake progress.
 
 [⬆ Back to top](#top)
 
@@ -635,13 +597,38 @@ Examples:
 
 **Q: How do I transfer my data to another computer?**
 
-Install GymOps on the other computer and replace the empty data file it creates with your existing data file from `[JAR file location]/data/GymOps.json`.
+Use `export` on the old computer and `import` on the new computer (recommended).
+
+If you prefer copying files directly, install GymOps on the other computer and replace the empty data file it creates with your existing `[JAR file location]/data/GymOps.json` **while GymOps is closed**. Do not edit the contents of the file.
+
+---
+
+**Q: I opened `GymOps.json` and saw a `tags` section. Can I edit it?**
+
+GymOps may contain fields in the data file that are **not exposed through the app’s UI/CLI** (e.g., legacy/internal fields such as `tags`).
+
+No. Do **not** edit the data file contents. Manual edits are **unsupported** and a small mistake can prevent GymOps from loading your data (or cause it to load with missing data).
+
+If your goal is to label or categorise people, use the supported in-app commands instead. If you are trying to move/backup data, use `export`/`import` (recommended) or replace the entire file while GymOps is closed.
 
 ---
 
 **Q: Why can't I delete a trainer?**
 
-A trainer cannot be deleted if they still have active clients. Use `delete-client` or `delete c/` to remove all of the trainer's clients first, then delete the trainer.
+A trainer cannot be deleted if they still have active clients. Use `delete c/` to remove all of the trainer's clients first, then delete the trainer.
+
+---
+
+**Q: How do I delete a trainer who is far down the list?**
+
+Use a `find` command to filter the trainer list, then delete using the filtered index.
+
+Example:
+1. Run `find-trainers NAME` (or `find NAME`) to narrow down the trainer list.
+1. Confirm the trainer’s index in the filtered **Trainers** list.
+1. Run `delete t/TRAINER_INDEX` (e.g., `delete t/1`).
+
+If you need to return to the full trainer list, run `list-trainers`.
 
 ---
 
@@ -653,7 +640,11 @@ GymOps does not currently support an undo command. Before running destructive co
 
 **Q: Why does my calorie intake not reset to zero each day?**
 
-GymOps does not automatically reset daily calorie intake. You can reset a client's intake by running `log-cal` with a corrected cumulative total, or by editing the data file directly while GymOps is closed.
+GymOps does not automatically reset daily calorie intake.
+
+To correct a client's displayed intake total, use `log-cal` with the desired total.
+
+To reset a client's intake total to 0, run `log-cal c/CLIENT_INDEX cal/0`.
 
 ---
 
@@ -690,8 +681,6 @@ GymOps does not automatically reset daily calorie intake. You can reset a client
 | [**Remark**](#adding-a-remark-remark) | `remark c/CLIENT_INDEX r/REMARK` | `remark c/1 r/Recovering from ACL surgery` |
 | [**Set validity**](#setting-a-membership-validity-set-validity) | `set-validity INDEX v/VALIDITY` | `set-validity 1 v/2028-09-09` |
 | [**Delete (typed)**](#deleting-a-person-delete) | `delete t/TRAINER_INDEX` or `delete c/CLIENT_INDEX` | `delete t/2`, `delete c/1` |
-| [**Delete client**](#deleting-a-client-delete-client) | `delete-client INDEX` | `delete-client 1` |
-| [**Delete trainer**](#deleting-a-trainer-delete-trainer) | `delete-trainer INDEX` | `delete-trainer 1` |
 | [**Export**](#exporting-data-export) | `export FILE_PATH` | `export data/export.json` |
 | [**Import**](#importing-data-import) | `import FILE_PATH` | `import data/import.json` |
 | [**Clear**](#clearing-all-data-clear) | `clear` | — |

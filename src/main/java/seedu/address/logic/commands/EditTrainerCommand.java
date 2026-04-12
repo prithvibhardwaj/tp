@@ -45,7 +45,7 @@ public class EditTrainerCommand extends Command {
     public static final String MESSAGE_NOT_EDITED =
             "At least one field to edit must be provided.";
     public static final String MESSAGE_DUPLICATE_TRAINER =
-            "This phone number is already in use, or this email is already used by another trainer.";
+            "This phone number is already in use, or this email is already used by another person.";
     public static final String MESSAGE_NOT_A_TRAINER =
             "The person at the specified index is not a Trainer.";
 

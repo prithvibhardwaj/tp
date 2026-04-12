@@ -107,10 +107,30 @@ public class ParserUtil {
     public static int parseCalories(String calories) throws ParseException {
         requireNonNull(calories);
         String trimmedCalories = calories.trim();
-        if (!StringUtil.isNonZeroUnsignedInteger(trimmedCalories)) {
+        if (trimmedCalories.equals("0")) {
             throw new ParseException("Calories must be a positive integer.");
         }
-        return Integer.parseInt(trimmedCalories);
+        if (!trimmedCalories.matches("[1-9]\\d*")) {
+            throw new ParseException("Calories must be a positive integer.");
+        }
+        try {
+            return Integer.parseInt(trimmedCalories);
+        } catch (NumberFormatException e) {
+            throw new ParseException("That is too many calories. Please enter a smaller value.");
+        }
+    }
+
+    /**
+     * Parses a {@code String calories} into a non-negative {@code int} calorie intake total.
+     * Accepts 0.
+     */
+    public static int parseCalorieIntakeTotal(String calories) throws ParseException {
+        requireNonNull(calories);
+        String trimmedCalories = calories.trim();
+        if (trimmedCalories.equals("0")) {
+            return 0;
+        }
+        return parseCalories(trimmedCalories);
     }
 
     /**
@@ -122,10 +142,17 @@ public class ParserUtil {
     public static int parseCalorieTarget(String calories) throws ParseException {
         requireNonNull(calories);
         String trimmed = calories.trim();
-        if (!trimmed.equals("0") && !StringUtil.isNonZeroUnsignedInteger(trimmed)) {
+        if (trimmed.equals("0")) {
+            return 0;
+        }
+        if (!trimmed.matches("[1-9]\\d*")) {
             throw new ParseException("Calorie target must be a non-negative integer (use 0 to clear).");
         }
-        return Integer.parseInt(trimmed);
+        try {
+            return Integer.parseInt(trimmed);
+        } catch (NumberFormatException e) {
+            throw new ParseException("That is too many calories. Please enter a smaller value.");
+        }
     }
 
     /**

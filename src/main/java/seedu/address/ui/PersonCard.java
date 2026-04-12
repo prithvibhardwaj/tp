@@ -173,9 +173,8 @@ public class PersonCard extends UiPart<Region> {
     /**
      * Sets the calorie info label text, progress bar, and visibility
      * based on the client's calorie data.
-     * Shows intake vs target with a progress bar if a target is set,
-     * or just the intake if only intake is logged.
-     * Hides both label and bar if no calorie data has been recorded.
+     * Shows intake vs target with a progress bar if a target is set.
+     * Shows an empty progress bar if no calorie target has been set.
      */
     private void setCalorieInfoLabel(Client client) {
         int target = client.getCalorieTarget();
@@ -200,17 +199,15 @@ public class PersonCard extends UiPart<Region> {
             if (intake > target) {
                 calorieProgressBar.getStyleClass().add("calorie-bar-exceeded");
             }
-        } else if (intake > 0) {
+        } else {
             calorieInfo.setText(String.format("Calories consumed: %d kcal", intake));
             calorieInfo.setManaged(true);
             calorieInfo.setVisible(true);
-            calorieProgressBar.setManaged(false);
-            calorieProgressBar.setVisible(false);
-        } else {
-            calorieInfo.setManaged(false);
-            calorieInfo.setVisible(false);
-            calorieProgressBar.setManaged(false);
-            calorieProgressBar.setVisible(false);
+
+            calorieProgressBar.setProgress(0);
+            calorieProgressBar.setManaged(true);
+            calorieProgressBar.setVisible(true);
+            calorieProgressBar.getStyleClass().removeAll("calorie-bar-exceeded");
         }
     }
 }

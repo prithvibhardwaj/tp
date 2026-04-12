@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Optional;
 
 import seedu.address.commons.core.index.Index;
-import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.person.Client;
@@ -42,6 +41,7 @@ public class AddClientCommand extends Command {
 
     public static final String MESSAGE_SUCCESS = "New client added: %1$s. Assigned to Trainer: %2$s";
     public static final String MESSAGE_DUPLICATE_CLIENT = "This phone number is already in use.";
+    public static final String MESSAGE_INVALID_TRAINER_INDEX = "The trainer index provided is invalid.";
     public static final String MESSAGE_INVALID_TRAINER = "The provided index does not correspond to a Trainer.";
 
     private final Name name;
@@ -78,7 +78,7 @@ public class AddClientCommand extends Command {
         List<Person> lastShownList = model.getFilteredTrainerList();
 
         if (trainerIndex.getZeroBased() >= lastShownList.size()) {
-            throw new CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
+            throw new CommandException(MESSAGE_INVALID_TRAINER_INDEX);
         }
 
         Person targetPerson = lastShownList.get(trainerIndex.getZeroBased());

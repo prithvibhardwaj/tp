@@ -54,8 +54,8 @@ public class LogCalorieIntakeCommandParserTest {
     }
 
     @Test
-    public void parse_zeroCalories_throwsParseException() {
-        assertParseFailure(parser, " " + PREFIX_CLIENT + "1 " + PREFIX_CALORIE + "0",
-                "Calories must be a positive integer.");
+    public void parse_zeroCalories_returnsLogCalorieIntakeCommand() {
+        assertParseSuccess(parser, " " + PREFIX_CLIENT + "1 " + PREFIX_CALORIE + "0",
+                new LogCalorieIntakeCommand(INDEX_FIRST_PERSON, 0));
     }
 }

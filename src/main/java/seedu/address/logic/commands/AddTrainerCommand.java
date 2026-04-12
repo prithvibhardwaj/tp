@@ -28,7 +28,7 @@ public class AddTrainerCommand extends Command {
 
     public static final String MESSAGE_SUCCESS = "New trainer added: %1$s. Phone: %2$s, Email: %3$s";
     public static final String MESSAGE_DUPLICATE_TRAINER = "This number is already in use, "
-            + "or this email is already used by another trainer.";
+            + "or this email is already used by another person.";
 
     private final Trainer toAdd;
 
