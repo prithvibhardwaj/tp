@@ -13,6 +13,7 @@ import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.Trainer;
 
+//@@author AdibShifas
 /**
  * Lists all trainers in the address book sorted by the number of clients they have in descending order.
  */

@@ -20,6 +20,7 @@ import seedu.address.model.person.Phone;
 import seedu.address.model.person.Trainer;
 import seedu.address.model.person.Validity;
 
+//@@author AdibShifas
 /**
  * Adds a client to the system and assigns them to a trainer.
  */

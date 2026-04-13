@@ -14,6 +14,7 @@ import seedu.address.model.person.Client;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Validity;
 
+//@@author AdibShifas
 /**
  * Changes the membership validity of an existing client in the address book.
  */

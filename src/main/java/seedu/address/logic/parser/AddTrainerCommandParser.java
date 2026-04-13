@@ -15,6 +15,7 @@ import seedu.address.model.person.Name;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.Trainer;
 
+//@@author AdibShifas
 /**
  * Parses input arguments and creates a new AddTrainerCommand object
  */
