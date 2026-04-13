@@ -63,7 +63,7 @@ public class FindCommandTest {
         NameContainsKeywordsPredicate predicate = preparePredicate(" ");
         FindCommand command = new FindCommand(predicate);
         expectedModel.updateFilteredPersonList(predicate);
-        assertCommandSuccess(command, model, expectedMessage, expectedModel);
+        assertCommandSuccess(command, model, new CommandResult(expectedMessage, false, false, true), expectedModel);
         assertEquals(Collections.emptyList(), model.getFilteredPersonList());
     }
 
@@ -73,12 +73,12 @@ public class FindCommandTest {
         NameContainsKeywordsPredicate predicate = preparePredicate("Alice Pauline");
         FindCommand command = new FindCommand(predicate);
         expectedModel.updateFilteredPersonList(predicate);
-        assertCommandSuccess(command, model, expectedMessage, expectedModel);
+        assertCommandSuccess(command, model, new CommandResult(expectedMessage, false, false, true), expectedModel);
         assertEquals(Arrays.asList(seedu.address.testutil.TypicalPersons.ALICE), model.getFilteredPersonList());
     }
 
     @Test
-    public void execute_preservesSelectedTrainer() throws Exception {
+    public void execute_clearsSelectedTrainer() throws Exception {
         AddressBook ab = new AddressBook();
         Trainer trainer = new Trainer(new Name("John"), new Phone("91234567"),
                 new Email("john@example.com"), new HashSet<>());
@@ -92,9 +92,8 @@ public class FindCommandTest {
         // Run find with a keyword that matches nothing
         new FindCommand(preparePredicate("Nonexistent")).execute(model);
 
-        // Trainer selection must still be present
-        assertTrue(model.getSelectedTrainer().isPresent());
-        assertEquals(trainer, model.getSelectedTrainer().get());
+        // Trainer selection must be cleared so client list can show filtered results
+        assertTrue(model.getSelectedTrainer().isEmpty());
     }
 
     @Test
